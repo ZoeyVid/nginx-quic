@@ -1,8 +1,5 @@
 FROM debian:bullseye-slim
 
-ARG GEOIP2_ACCOUNT_ID=123456
-ARG GEOIP2_LICENSE_KEY=AbcD1EfGHI2JKLmN
-
 ENV DEBIAN_FRONTEND=noninteractive \
 # Versions
     OPENRESTY_VERSION=openresty-1.21.4.1rc3 \
