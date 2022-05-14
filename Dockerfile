@@ -31,7 +31,7 @@ RUN rm /etc/apt/sources.list && \
     apt autoremove -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y python3 python-is-python3 python3-pip certbot git nodejs sqlite3 tar unzip jq perl geoipupdate \
     logrotate knot-dnsutils redis-tools redis-server mercurial ninja-build patch && \ 
-    npm i -g yarn && \
+    npm i -g npm yarn && \
 
 # Openresty Install
     curl -L https://openresty.org/download/${OPENRESTY_VERSION}.tar.gz | tar zx && \
