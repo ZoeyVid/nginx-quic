@@ -29,7 +29,7 @@ RUN rm /etc/apt/sources.list && \
     apt upgrade -y --allow-downgrades && \
     apt dist-upgrade -y --allow-downgrades && \
     apt autoremove -y && \
-    apt -o DPkg::Options::="--force-confnew" -y install -y git tar unzip jq geoipupdate mercurial ninja-build patch libtool autoconf automake \
+    apt -o DPkg::Options::="--force-confnew" -y install -y git tar unzip jq geoipupdate mercurial ninja-build patch libtool autoconf automake cmake \
     libmodsecurity3 \
     python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl && \ 
     npm i -g npm yarn && \
@@ -111,10 +111,10 @@ RUN rm /etc/apt/sources.list && \
     curl -L https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -o tcp-tls.patch && \
     patch -p1 <tcp-tls.patch && \
     curl -L https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -o nginx_http2_hpack.patch && \
-    patch -p1 <nginx_http2_hpack.patch; exit 0
+    patch -p1 <nginx_http2_hpack.patch && \
 
 # openresty-nginx-quic patch
-RUN cd /src && \
+    cd /src && \
     curl -L https://raw.githubusercontent.com/2020Sanoj/nginx-quic/develop/configure.patch -o configure.patch && \
     patch < configure.patch && \
 
