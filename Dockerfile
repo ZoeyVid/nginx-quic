@@ -30,7 +30,7 @@ RUN rm /etc/apt/sources.list && \
     apt dist-upgrade -y --allow-downgrades && \
     apt autoremove -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
-    git tar unzip jq geoipupdate mercurial ninja-build patch libtool autoconf automake cmake golang \
+    git tar unzip jq geoipupdate mercurial ninja-build patch libtool autoconf automake cmake golang coreutils \
     libmodsecurity3 \
     python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl && \ 
     npm i -g npm yarn && \
@@ -44,7 +44,7 @@ RUN rm /etc/apt/sources.list && \
     rm -r ${NGINX_VERSION} && \
     hg clone https://hg.nginx.org/nginx-quic -r "quic" ${NGINX_VER} && \
     hg clone http://hg.nginx.org/njs && \
-    cd /src/bundle/nginx-${NGINX_VER} && \
+    cd /src/bundle/${NGINX_VER} && \
     hg pull && \
     hg update quic && \
 
@@ -68,9 +68,19 @@ RUN rm /etc/apt/sources.list && \
     ldconfig && \
     cd /src && \
     curl -L https://github.com/leev/ngx_http_geoip2_module/archive/${GEOIP2_VER}.tar.gz | tar zx && \
+    mkdir /opt/geoip && \
     mkdir /src/geoip-db && \
     cd /src/geoip-db && \
     
+    curl -L "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&license_key="$GEOIP2_LICENSE_KEY"&suffix=tar.gz" | tar zx && \
+    mv /src/geoip-db/GeoLite2-ASN_*/GeoLite2-ASN.mmdb /opt/geoip/GeoLite2-ASN.mmdb && \
+    
+    curl -L "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key="$GEOIP2_LICENSE_KEY"&suffix=tar.gz" | tar zx && \
+    mv /src/geoip-db/GeoLite2-City_*/GeoLite2-City.mmdb /opt/geoip/GeoLite2-City.mmdb && \
+
+    curl -L "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key="$GEOIP2_LICENSE_KEY"&suffix=tar.gz" | tar zx && \
+    mv /src/geoip-db/GeoLite2-Country_*/GeoLite2-Country.mmdb /opt/geoip/GeoLite2-Country.mmdb && \
+
 # Cache Purge
     cd /src && \
     git clone --recursive https://github.com/FRiCKLE/ngx_cache_purge && \
