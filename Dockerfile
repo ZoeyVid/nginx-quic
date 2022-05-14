@@ -39,7 +39,7 @@ RUN rm /etc/apt/sources.list && \
 
 # Nginx Install
     cd /src/bundle && \
-    rm -r nginx-${NGINX_VERSION} && \
+    rm -r ${NGINX_VERSION} && \
     hg clone https://hg.nginx.org/nginx-quic -r "quic" nginx-${NGINX_VER} && \
     hg clone http://hg.nginx.org/njs && \
     cd /src/bundle/nginx-${NGINX_VER} && \
