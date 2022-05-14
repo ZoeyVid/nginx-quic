@@ -110,11 +110,11 @@ RUN rm /etc/apt/sources.list && \
     cd /src/bundle/nginx-${NGINX_VER} && \
     curl -L https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -o tcp-tls.patch && \
     patch -p1 <tcp-tls.patch && \
-    curl -L https://raw.githubusercontent.com/hakasenyang/openssl-patch/master/nginx_hpack_push_1.15.3.patch -o nginx_http2_hpack.patch && \
-    patch -p1 <nginx_http2_hpack.patch && \
+    curl -L https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -o nginx_http2_hpack.patch && \
+    patch -p1 <nginx_http2_hpack.patch; exit 0
 
-# nginx-quic patch
-    cd /src && \
+# openresty-nginx-quic patch
+RUN cd /src && \
     curl -L https://raw.githubusercontent.com/2020Sanoj/nginx-quic/develop/configure.patch -o configure.patch && \
     patch < configure.patch && \
 
