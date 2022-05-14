@@ -49,7 +49,7 @@ RUN rm /etc/apt/sources.list && \
 # Pagespeed
     cd /src && \
     git clone https://github.com/apache/incubator-pagespeed-ngx && \
-    cd /src/incubator-pagespeed-ngx-master && \
+    cd /src/incubator-pagespeed-ngx && \
     curl -L https://dist.apache.org/repos/dist/release/incubator/pagespeed/${PAGESPEED_INCUBATOR_VERSION}/x64/psol-${PAGESPEED_INCUBATOR_VERSION}-apache-incubating-x64.tar.gz | tar zx && \
 
 # Brotli
