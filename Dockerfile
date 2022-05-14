@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     OPENRESTY_VERSION=openresty-1.21.4.1rc3 \
     NGINX_VERSION=nginx-1.21.4 \
     PAGESPEED_INCUBATOR_VERSION=1.14.36.1 \
-    LIBMAXMINDDB_VER=1.4.3 \
+    LIBMAXMINDDB_VER=1.6.0 \
     GEOIP2_VER=3.3 \
     HTTPREDIS_VER=0.3.9
 
@@ -42,7 +42,7 @@ RUN rm /etc/apt/sources.list && \
 # Nginx Install
     cd /src/bundle && \
     rm -r ${NGINX_VERSION} && \
-    hg clone https://hg.nginx.org/nginx-quic -r "quic" nginx-${NGINX_VER} && \
+    hg clone https://hg.nginx.org/nginx-quic -r "quic" ${NGINX_VER} && \
     hg clone http://hg.nginx.org/njs && \
     cd /src/bundle/nginx-${NGINX_VER} && \
     hg pull && \
