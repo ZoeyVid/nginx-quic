@@ -30,7 +30,6 @@ jobs:
 
          http {
              server {
-                 # Listen.
                  listen 127.0.0.1:443 ssl http2 http3 reuseport;
  
                  ssl_certificate      /etc/ssl/certs/fullchain.pem;
@@ -83,12 +82,9 @@ jobs:
           platforms: linux/amd64 #,linux/arm64 #,linux/arm/v7
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
-          build-args: |
-                "GEOIP2_ACCOUNT_ID=${{ secrets.MAXMIND_ID }}"
-                "GEOIP2_LICENSE_KEY=${{ secrets.MAXMIND_KEY }}"
 
       - name: Show Nginx version
-        run: docker run --rm nginx-http3:latest /usr/sbin/nginx -V
+        run: docker run --rm ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} /usr/sbin/nginx -V
         
       - name: Run HTTP/3 server
         run: |
@@ -96,7 +92,7 @@ jobs:
             -v $PWD/nginx.conf:/usr/local/nginx/conf/nginx.conf \
             -v $PWD/docker_volumes/ssl_certs/fullchain.pem:/etc/ssl/certs/fullchain.pem \
             -v $PWD/docker_volumes/ssl_certs/privkey.pem:/etc/ssl/private/privkey.pem \
-            nginx-http3
+            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
       
       - name: HTTP/3 connection test
         run: |
