@@ -34,7 +34,7 @@ RUN rm /etc/apt/sources.list && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
     git tar jq mercurial ninja-build patch libtool autoconf automake cmake golang coreutils \
-    libpcre3 libpcre3-dev libxml2-dev libcurl4-openssl-dev build-essential uuid-dev \
+    libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev build-essential uuid-dev \
     python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
