@@ -30,10 +30,10 @@ RUN rm /etc/apt/sources.list && \
     apt autoclean -y && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
-    git tar jq mercurial ninja-build patch libtool autoconf automake cmake golang coreutils build-essential curl gnupg \
+    git tar jq mercurial patch libtool autoconf automake golang coreutils build-essential curl gnupg \
     libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libgd-dev libatomic-ops-dev \
     libgeoip-dev libgeoip1 libmaxminddb-dev libmaxminddb0 mmdb-bin\
-    python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl unzip && \
+    python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl unzip apt-utils && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y && \
@@ -126,17 +126,13 @@ RUN rm /etc/apt/sources.list && \
     cd /src && \
     git clone --recursive https://github.com/Dead2/zlib-ng && \
 
-# Boringssl
-    cd /src && \
-    git clone --recursive https://boringssl.googlesource.com/boringssl && \
-    mkdir /src/boringssl/build && \
-    cd /src/boringssl/build && \
-    cmake -GNinja .. && \
-    ninja && \
-
 # Openssl
     cd /src && \
     git clone https://github.com/quictls/openssl && \
+    cd /src/openssl && \
+    ./Configure && \
+    make && \
+    make install && \
 
 # Configure
     cd /src && \
@@ -210,8 +206,8 @@ RUN rm /etc/apt/sources.list && \
     --add-module=/src/ngx_http_substitutions_filter_module \
     --with-zlib="/src/zlib-ng" \
     --with-openssl="/src/openssl" \
-    --with-cc-opt="-I/src/boringssl/include" \
-    --with-ld-opt="-L/src/boringssl/build/ssl -L/src/boringssl/build/crypto" && \
+    --with-cc-opt="-I/src/openssl/build/include" \
+                   -with-ld-opt="-L/src/openssl/build/lib" && \
     
 # Build & Install    
     make -j "$(nproc)" && \
@@ -240,7 +236,7 @@ RUN rm /etc/apt/sources.list && \
 # Clean
     rm -rf /src && \
     apt purge -y \
-    git tar jq mercurial ninja-build patch libtool autoconf automake cmake golang coreutils build-essential curl gnupg && \
+    git tar jq mercurial patch libtool autoconf automake golang coreutils build-essential curl gnupg && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y
