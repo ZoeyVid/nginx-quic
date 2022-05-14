@@ -10,7 +10,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PAGESPEED_INCUBATOR_VERSION=1.14.36.1 \
     LIBMAXMINDDB_VER=1.6.0 \
     GEOIP2_VER=3.3 \
-    HTTPREDIS_VER=0.3.9
+    HTTPREDIS_VER=0.3.9 \
+    mod_pagespeed_dir=/src/incubator-pagespeed-ngx/psol/include
 
 # Requirements
 RUN rm /etc/apt/sources.list && \
@@ -160,56 +161,56 @@ RUN rm /etc/apt/sources.list && \
     --group=nginx \
     --with-cc-opt=-Wno-deprecated-declarations \
     --with-cc-opt=-Wno-ignored-qualifiers \
-    --with-pcre-jit \
     --with-ipv6 \
     --with-compat \
     --with-threads \
     --with-file-aio \
-    --with-http_addition_module \
-    --with-http_auth_request_module \
-    --with-http_dav_module \
-    --with-http_flv_module \
-    --with-http_gunzip_module \
-    --with-http_gzip_static_module \
-    --with-http_mp4_module \
-    --with-http_random_index_module \
-    --with-http_realip_module \
-    --with-http_secure_link_module \
-    --with-http_slice_module \
-    --with-http_ssl_module \
-    --with-http_stub_status_module \
-    --with-http_sub_module \
-    --with-http_v2_module \
-    --with-http_v2_hpack_enc \
-    --with-http_v3_module \
-    --with-http_geoip_module \
-    --with-http_xslt_module \
-    --with-http_image_filter_module \
-    --with-http_degradation_module \
-    --with-http_perl_module \
-    --with-stream \
-    --with-stream_realip_module \
-    --with-stream_ssl_module \
-    --with-stream_ssl_preread_module \
-    --with-stream_geoip_module \
-    --with-stream_quic_module \
+    --with-pcre-jit \
+    --with-libatomic \
+    --with-cpp_test_module \
     --with-mail \
     --with-mail_ssl_module \
-    --with-cpp_test_module \
-    --with-libatomic \
+    --with-stream \
+    --with-stream_ssl_module \
+    --with-stream_quic_module \
+    --with-stream_geoip_module \
+    --with-stream_realip_module \
+    --with-stream_ssl_preread_module \
+    --with-http_v2_module \
+    --with-http_v3_module \
+    --with-http_ssl_module \
+    --with-http_v2_hpack_enc \
+    --with-http_mp4_module \
+    --with-http_sub_module \
+    --with-http_dav_module \
+    --with-http_flv_module \
+    --with-http_perl_module \
+    --with-http_xslt_module \
+    --with-http_geoip_module \
+    --with-http_slice_module \
+    --with-http_realip_module \
+    --with-http_gunzip_module \
+    --with-http_addition_module \
+    --with-http_degradation_module \
+    --with-http_stub_status_module \
+    --with-http_gzip_static_module \
+    --with-http_secure_link_module \
+    --with-http_image_filter_module \
+    --with-http_auth_request_module \
+    --with-http_random_index_module \
     --with-debug \
-    --add-module=/src/incubator-pagespeed-ngx \
     --add-module=/src/ngx_brotli \
-    --add-module=/src/ngx_http_geoip2_module-${GEOIP2_VER} \
-    --add-module=/src/ngx_cache_purge \
-    --add-module=/src/ngx_http_substitutions_filter_module \
-    --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
     --add-module=/src/fancyindex \
-    --add-module=/src/nginx-dav-ext-module \
+    --add-module=/src/ngx_cache_purge \
     --add-module=/src/nginx-module-vts \
-    --add-module=/src/nginx-rtmp-module \
-    --add-module=/src/testcookie-nginx-module \
     --add-module=/src/ModSecurity-nginx \
+    --add-module=/src/nginx-rtmp-module \
+    --add-module=/src/nginx-dav-ext-module \
+    --add-module=/src/testcookie-nginx-module \
+    --add-module=/src/incubator-pagespeed-ngx \
+    --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
+    --add-module=/src/ngx_http_geoip2_module-${GEOIP2_VER} \
+    --add-module=/src/ngx_http_substitutions_filter_module \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/boringssl/include" \
     --with-ld-opt="-L/src/boringssl/build/ssl -L/src/boringssl/build/crypto" && \
@@ -219,11 +220,6 @@ RUN rm /etc/apt/sources.list && \
     make install && \
     
     strip -s /usr/sbin/nginx && \
-    
-	mkdir -p /var/cache/nginx && \
-	mkdir -p /etc/nginx/sites-available && \
-	mkdir -p /etc/nginx/sites-enabled && \
-	mkdir -p /etc/nginx/conf.d && \
     
     cd /etc/apt/preferences.d && \
     echo -e 'Package: nginx*\nPin: release *\nPin-Priority: -1' >nginx-block && \
