@@ -124,7 +124,6 @@ RUN rm /etc/apt/sources.list && \
     cd /src/openssl && \
     ./Configure && \
     gmake -j "$(nproc)" && \
-    gmake -j "$(nproc)" install && \
 
 # Configure
     cd /src && \
