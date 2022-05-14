@@ -82,6 +82,8 @@ jobs:
           platforms: linux/amd64 #,linux/arm64 #,linux/arm/v7
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
+          build-args: |
+           "BUILD=${{ github.event.repository.name }}"
 
       - name: Show Nginx version
         run: docker run --rm ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} /usr/sbin/nginx -V
