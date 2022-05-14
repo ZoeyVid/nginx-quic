@@ -129,6 +129,7 @@ RUN rm /etc/apt/sources.list && \
     make -j "$(nproc)" && \
     make install && \
 
+    cd /src && \
     git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx && \
 
 # openresty-nginx-quic patch
@@ -142,6 +143,10 @@ RUN rm /etc/apt/sources.list && \
     patch -p1 <tcp-tls.patch && \
     curl -L https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -o nginx_http2_hpack.patch && \
     patch -p1 <nginx_http2_hpack.patch && \
+
+# zlib
+    cd /src && \
+    git clone --recursive https://github.com/Dead2/zlib-ng && \
 
 # Boringssl
     cd /src && \
@@ -225,6 +230,7 @@ RUN rm /etc/apt/sources.list && \
     --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
     --add-module=/src/ngx_http_geoip2_module \
     --add-module=/src/ngx_http_substitutions_filter_module \
+    --with-zlib="/src/zlib-ng" \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/boringssl/include" \
     --with-ld-opt="-L/src/boringssl/build/ssl -L/src/boringssl/build/crypto" && \
