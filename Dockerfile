@@ -117,7 +117,7 @@ RUN rm /etc/apt/sources.list && \
     git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx && \
 
 # Cloudflare's TLS Dynamic Record Resizing patch & full HPACK encoding patch
-    cd /src/bundle/nginx-${NGINX_VER} && \
+    cd /src/bundle/nginx-${NGINX_VERSION} && \
     curl -L https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -o tcp-tls.patch && \
     patch -p1 <tcp-tls.patch && \
     curl -L https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -o nginx_http2_hpack.patch && \
