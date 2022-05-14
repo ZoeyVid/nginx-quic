@@ -58,14 +58,14 @@ RUN rm /etc/apt/sources.list && \
     
 # GeoIP
     cd /src && \
-    curl -L https://github.com/maxmind/libmaxminddb/releases/download/${LIBMAXMINDDB_VER}/libmaxminddb-${LIBMAXMINDDB_VER}.tar.gz | tar xaf && \
+    curl -L https://github.com/maxmind/libmaxminddb/releases/download/${LIBMAXMINDDB_VER}/libmaxminddb-${LIBMAXMINDDB_VER}.tar.gz | tar zx && \
     cd libmaxminddb-${LIBMAXMINDDB_VER} && \
     ./configure && \
     make -j "$(nproc)" && \
     make install && \
     ldconfig && \
     cd /src && \
-    curl -L https://github.com/leev/ngx_http_geoip2_module/archive/${GEOIP2_VER}.tar.gz | tar xaf && \
+    curl -L https://github.com/leev/ngx_http_geoip2_module/archive/${GEOIP2_VER}.tar.gz | tar zx && \
     mkdir /src/geoip-db && \
     cd /src/geoip-db && \
     
@@ -88,7 +88,7 @@ RUN rm /etc/apt/sources.list && \
 
 # ngx_http_redis
     cd /src && \
-    curl -L https://people.freebsd.org/~osa/ngx_http_redis-${HTTPREDIS_VER}.tar.gz | tar xaf && \
+    curl -L https://people.freebsd.org/~osa/ngx_http_redis-${HTTPREDIS_VER}.tar.gz | tar zx && \
 
 # fancyindex
     cd /src && \
