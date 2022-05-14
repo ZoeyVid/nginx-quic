@@ -1,6 +1,8 @@
---- configure	2022-05-14 12:40:05.560991100 +0200
-+++ configure.new	2022-05-14 12:39:47.518152300 +0200
-@@ -414,7 +414,7 @@
+diff --git a/configure b/configure
+index d461294..5726399 100644
+--- a/configure
++++ b/configure
+@@ -414,7 +414,7 @@ if (@ngx_ld_opts) {
      $ld_opts = " \\\n  --with-ld-opt='@ngx_ld_opts'";
  }
  
