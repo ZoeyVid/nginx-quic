@@ -80,7 +80,7 @@ RUN rm /etc/apt/sources.list && \
 # ModSecurity
     cd /src && \
     git clone --recursive https://github.com/SpiderLabs/ModSecurity && \
-    cd ModSecurit && \
+    cd ModSecurity && \
     ./build.sh && \
     ./configure && \
     make -j "$(nproc)" && \
