@@ -6,7 +6,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     NGINX_VERSION=nginx-1.21.4 \
     PAGESPEED_INCUBATOR_VERSION=1.14.36.1 \
     LIBMAXMINDDB_VER=1.6.0 \
-    HTTPREDIS_VER=0.3.9
+    HTTPREDIS_VER=0.3.9 \
+    BUILD=openresty-quic
 
 # Requirements
 RUN rm /etc/apt/sources.list && \
@@ -129,7 +130,7 @@ RUN rm /etc/apt/sources.list && \
     cd /src && \
     ./configure \
 #    --with-debug \
-    --build=openresty-quic
+    --build=${BUILD} \
     --prefix=/etc/nginx \
     --sbin-path=/usr/sbin/nginx \
     --modules-path=/usr/lib/nginx/modules \
@@ -233,5 +234,4 @@ RUN rm /etc/apt/sources.list && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y
-    
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
