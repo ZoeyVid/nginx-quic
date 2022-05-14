@@ -33,8 +33,8 @@ RUN rm /etc/apt/sources.list && \
     apt autoclean -y && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
-    git tar jq mercurial ninja-build patch libtool autoconf automake cmake golang coreutils \
-    libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev build-essential uuid-dev libgd-dev libgeoip-dev libgeoip libmaxminddb-dev libmaxminddb0 \
+    git tar jq mercurial ninja-build patch libtool autoconf automake cmake golang coreutils build-essential \
+    libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev libgd-dev libgeoip-dev libgeoip1 libmaxminddb-dev libmaxminddb0 \
     python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
@@ -250,7 +250,7 @@ RUN rm /etc/apt/sources.list && \
 # Clean
     rm -rf /src && \
     apt purge -y \
-    git tar jq geoipupdate mercurial ninja-build patch libtool autoconf automake cmake golang coreutils && \
+    git tar jq mercurial ninja-build patch libtool autoconf automake cmake golang coreutils build-essential && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y
