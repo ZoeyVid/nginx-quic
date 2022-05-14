@@ -122,7 +122,7 @@ RUN rm /etc/apt/sources.list && \
     cd /src && \
     git clone --recursive https://github.com/quictls/openssl && \
     cd /src/openssl && \
-    ./Configure -j"$(nproc)" && \
+    ./Configure && \
     gmake -j "$(nproc)" && \
     gmake -j "$(nproc)" install && \
 
