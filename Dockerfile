@@ -130,28 +130,28 @@ RUN rm /etc/apt/sources.list && \
 
 # Openssl
     cd /src && \
-	git clone https://github.com/quictls/openssl && \
+    git clone https://github.com/quictls/openssl && \
 
 # Configure
     cd /src && \
     ./configure \
     --prefix=/etc/nginx \
-	--sbin-path=/usr/sbin/nginx \
-	--modules-path=/usr/lib/nginx/modules \
-	--conf-path=/etc/nginx/nginx.conf \
-	--error-log-path=/var/log/nginx/error.log \
-	--http-log-path=/var/log/nginx/access.log \
-	--pid-path=/var/run/nginx.pid \
-	--lock-path=/var/run/nginx.lock \
-	--http-client-body-temp-path=/var/cache/nginx/client_temp \
-	--http-proxy-temp-path=/var/cache/nginx/proxy_temp \
-	--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
-	--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
-	--http-scgi-temp-path=/var/cache/nginx/scgi_temp \
-	--user=nginx \
-	--group=nginx \
-	--with-cc-opt=-Wno-deprecated-declarations \
-	--with-cc-opt=-Wno-ignored-qualifiers \
+    --sbin-path=/usr/sbin/nginx \
+    --modules-path=/usr/lib/nginx/modules \
+    --conf-path=/etc/nginx/nginx.conf \
+    --error-log-path=/var/log/nginx/error.log \
+    --http-log-path=/var/log/nginx/access.log \
+    --pid-path=/var/run/nginx.pid \
+    --lock-path=/var/run/nginx.lock \
+    --http-client-body-temp-path=/var/cache/nginx/client_temp \
+    --http-proxy-temp-path=/var/cache/nginx/proxy_temp \
+    --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
+    --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
+    --http-scgi-temp-path=/var/cache/nginx/scgi_temp \
+    --user=nginx \
+    --group=nginx \
+    --with-cc-opt=-Wno-deprecated-declarations \
+    --with-cc-opt=-Wno-ignored-qualifiers \
     --with-pcre-jit \
     --with-ipv6 \
     --with-compat \
@@ -172,6 +172,7 @@ RUN rm /etc/apt/sources.list && \
     --with-http_stub_status_module \
     --with-http_sub_module \
     --with-http_v2_module \
+    --with-http_v3_module \
     --with-http_mp4_module \
     --with-mail \
     --with-mail_ssl_module \
@@ -180,6 +181,7 @@ RUN rm /etc/apt/sources.list && \
     --with-stream_ssl_module \
     --with-stream_ssl_preread_module \
     --with-stream_geoip_module \
+    --with-stream_quic_module \
     --with-http_geoip_module \
     --with-http_xslt_module \
     --with-http_image_filter_module \
@@ -203,7 +205,10 @@ RUN rm /etc/apt/sources.list && \
     --add-module=/src/nginx-rtmp-module \
     --add-module=/src/testcookie-nginx-module \
     --add-module=/src/ModSecurity-nginx \
-    --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} && \
+    --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
+    --with-openssl="/src/openssl" \
+    --with-cc-opt="-I/src/boringssl/include" \
+    --with-ld-opt="-L/src/boringssl/build/ssl -L/src/boringssl/build/crypto" && \
     
 # Build & Install    
     make -j "$(nproc)" && \
