@@ -9,7 +9,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
     NGINX_VERSION=nginx-1.21.4 \
     PAGESPEED_INCUBATOR_VERSION=1.14.36.1 \
     LIBMAXMINDDB_VER=1.6.0 \
-    GEOIP2_VER=3.3 \
     HTTPREDIS_VER=0.3.9 \
     mod_pagespeed_dir=/src/incubator-pagespeed-ngx/psol/include
 
@@ -66,8 +65,10 @@ RUN rm /etc/apt/sources.list && \
     make -j "$(nproc)" && \
     make install && \
     ldconfig && \
+    
     cd /src && \
-    curl -L https://github.com/leev/ngx_http_geoip2_module/archive/${GEOIP2_VER}.tar.gz | tar zx && \
+    git clone --recursive https://github.com/leev/ngx_http_geoip2_module && \
+    
     mkdir /opt/geoip && \
     mkdir /src/geoip-db && \
     cd /src/geoip-db && \
@@ -117,17 +118,17 @@ RUN rm /etc/apt/sources.list && \
     cd /src && \
     git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx && \
 
+# openresty-nginx-quic patch
+    cd /src && \
+    curl -L https://raw.githubusercontent.com/SanCraftDev/nginx-quic/develop/configure.patch -o configure.patch && \
+    patch < configure.patch && \
+
 # Cloudflare's TLS Dynamic Record Resizing patch & full HPACK encoding patch
     cd /src/bundle/${NGINX_VERSION} && \
     curl -L https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -o tcp-tls.patch && \
     patch -p1 <tcp-tls.patch && \
     curl -L https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -o nginx_http2_hpack.patch && \
     patch -p1 <nginx_http2_hpack.patch && \
-
-# openresty-nginx-quic patch
-    cd /src && \
-    curl -L https://raw.githubusercontent.com/2020Sanoj/nginx-quic/develop/configure.patch -o configure.patch && \
-    patch < configure.patch && \
 
 # Boringssl
     cd /src && \
@@ -144,6 +145,7 @@ RUN rm /etc/apt/sources.list && \
 # Configure
     cd /src && \
     ./configure \
+    --with-debug \
     --prefix=/etc/nginx \
     --sbin-path=/usr/sbin/nginx \
     --modules-path=/usr/lib/nginx/modules \
@@ -198,18 +200,17 @@ RUN rm /etc/apt/sources.list && \
     --with-http_image_filter_module \
     --with-http_auth_request_module \
     --with-http_random_index_module \
-    --with-debug \
     --add-module=/src/ngx_brotli \
-    --add-module=/src/fancyindex \
+    --add-module=/src/ngx-fancyindex \
     --add-module=/src/ngx_cache_purge \
     --add-module=/src/nginx-module-vts \
     --add-module=/src/ModSecurity-nginx \
     --add-module=/src/nginx-rtmp-module \
     --add-module=/src/nginx-dav-ext-module \
-    --add-module=/src/testcookie-nginx-module \
     --add-module=/src/incubator-pagespeed-ngx \
+    --add-module=/src/testcookie-nginx-module \
     --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
-    --add-module=/src/ngx_http_geoip2_module-${GEOIP2_VER} \
+    --add-module=/src/ngx_http_geoip2_module \
     --add-module=/src/ngx_http_substitutions_filter_module \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/boringssl/include" \
