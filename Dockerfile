@@ -37,13 +37,11 @@ RUN rm /etc/apt/sources.list && \
 
 # Openresty Install
     curl -L https://openresty.org/download/${OPENRESTY_VERSION}.tar.gz | tar zx && \
-    mv ${OPENRESTY_VERSION} src && \
+    mv ${OPENRESTY_VERSION} /src && \
 
 # Nginx Install
     rm -rf /src/bundle/${NGINX_VERSION} && \
-    mkdir /src/bundle/${NGINX_VERSION} && \
     hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/bundle/${NGINX_VER} && \
-    mkdir /src/bundle/njs && \
     hg clone http://hg.nginx.org/njs /src/bundle/njs && \
     cd /src/bundle/${NGINX_VER} && \
     hg pull && \
