@@ -34,9 +34,9 @@ RUN rm /etc/apt/sources.list && \
     apt autoclean -y && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
-    git tar unzip jq geoipupdate mercurial ninja-build patch libtool autoconf automake cmake golang coreutils \
+    git tar unzip jq mercurial ninja-build patch libtool autoconf automake cmake golang coreutils \
     libmodsecurity3 \
-    python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl && \
+    python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl cron && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y && \
@@ -71,23 +71,21 @@ RUN rm /etc/apt/sources.list && \
     ./configure && \
     make -j "$(nproc)" && \
     make install && \
+    
     ldconfig && \
-    
-    cd /src && \
-    git clone --recursive https://github.com/leev/ngx_http_geoip2_module && \
-    
     mkdir /opt/geoip && \
     mkdir /src/geoip-db && \
     cd /src/geoip-db && \
     
     curl -L "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&license_key="$GEOIP2_LICENSE_KEY"&suffix=tar.gz" | tar zx && \
     mv /src/geoip-db/GeoLite2-ASN_*/GeoLite2-ASN.mmdb /opt/geoip/GeoLite2-ASN.mmdb && \
-    
     curl -L "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key="$GEOIP2_LICENSE_KEY"&suffix=tar.gz" | tar zx && \
     mv /src/geoip-db/GeoLite2-City_*/GeoLite2-City.mmdb /opt/geoip/GeoLite2-City.mmdb && \
-
     curl -L "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key="$GEOIP2_LICENSE_KEY"&suffix=tar.gz" | tar zx && \
     mv /src/geoip-db/GeoLite2-Country_*/GeoLite2-Country.mmdb /opt/geoip/GeoLite2-Country.mmdb && \
+    
+    cd /src && \
+    git clone --recursive https://github.com/leev/ngx_http_geoip2_module && \
 
 # Cache Purge
     cd /src && \
@@ -123,6 +121,14 @@ RUN rm /etc/apt/sources.list && \
 
 # modsec
     cd /src && \
+
+    git clone --recursive https://github.com/SpiderLabs/ModSecurity && \
+    cd /src/ModSecurity && \
+    ./build.sh && \
+    ./configure && \
+    make -j "$(nproc)" && \
+    make install && \
+
     git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx && \
 
 # openresty-nginx-quic patch
