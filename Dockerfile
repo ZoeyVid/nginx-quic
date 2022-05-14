@@ -226,7 +226,7 @@ RUN rm /etc/apt/sources.list && \
     ./setup-ngxblocker -x -e conf && \
 
 # Clean
-    rm -rf /src && \
+#    rm -rf /src && \
     apt purge -y \
     git tar jq mercurial patch libtool autoconf automake golang coreutils build-essential curl wget gnupg && \
     apt autoremove --purge -y && \
