@@ -138,30 +138,30 @@ RUN rm /etc/apt/sources.list && \
     --modules-path=/usr/lib/nginx/modules \
     --error-log-path=/var/log/nginx/error.log \
     --http-log-path=/var/log/nginx/access.log \
-#    --http-scgi-temp-path=/var/cache/nginx/scgi_temp \
-#    --http-proxy-temp-path=/var/cache/nginx/proxy_temp \
-#    --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
-#    --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
-#    --http-client-body-temp-path=/var/cache/nginx/client_temp \
+    --http-scgi-temp-path=/var/cache/nginx/scgi_temp \
+    --http-proxy-temp-path=/var/cache/nginx/proxy_temp \
+    --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
+    --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
+    --http-client-body-temp-path=/var/cache/nginx/client_temp \
     --user=nginx \
     --group=nginx \
-#    --with-cc-opt=-Wno-deprecated-declarations \
-#    --with-cc-opt=-Wno-ignored-qualifiers \
-#    --with-ipv6 \
-#    --with-compat \
-#    --with-threads \
-#    --with-file-aio \
-#    --with-pcre-jit \
-#    --with-libatomic \
-#    --with-cpp_test_module \
-#    --with-mail \
-#    --with-mail_ssl_module \
+    --with-cc-opt=-Wno-deprecated-declarations \
+    --with-cc-opt=-Wno-ignored-qualifiers \
+    --with-ipv6 \
+    --with-compat \
+    --with-threads \
+    --with-file-aio \
+    --with-pcre-jit \
+    --with-libatomic \
+    --with-cpp_test_module \
+    --with-mail \
+    --with-mail_ssl_module \
     --with-stream \
     --with-stream_ssl_module \
     --with-stream_quic_module \
     --with-stream_geoip_module \
-#    --with-stream_realip_module \
-#    --with-stream_ssl_preread_module \
+    --with-stream_realip_module \
+    --with-stream_ssl_preread_module \
     --with-http_v2_module \
     --with-http_v3_module \
     --with-http_ssl_module \
@@ -186,17 +186,17 @@ RUN rm /etc/apt/sources.list && \
 #    --with-http_random_index_module \
     --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
-#    --add-module=/src/ngx_cache_purge \
-#    --add-module=/src/nginx-module-vts \
-#    --add-module=/src/ModSecurity-nginx \
-#    --add-module=/src/nginx-rtmp-module \
-#    --add-module=/src/nginx-dav-ext-module \
+    --add-module=/src/ngx_cache_purge \
+    --add-module=/src/nginx-module-vts \
+    --add-module=/src/ModSecurity-nginx \
+    --add-module=/src/nginx-rtmp-module \
+    --add-module=/src/nginx-dav-ext-module \
     --add-module=/src/ngx_http_geoip2_module \
-#    --add-module=/src/testcookie-nginx-module \
+    --add-module=/src/testcookie-nginx-module \
     --add-module=/src/incubator-pagespeed-ngx \
-#    --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
-#    --add-module=/src/ngx_http_substitutions_filter_module \
-#    --with-zlib="/src/zlib-ng" \
+    --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
+    --add-module=/src/ngx_http_substitutions_filter_module \
+    --with-zlib="/src/zlib-ng" \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
     --with-ld-opt="-L/src/openssl/build/lib" && \
