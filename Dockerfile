@@ -29,7 +29,8 @@ RUN rm /etc/apt/sources.list && \
     apt upgrade -y --allow-downgrades && \
     apt dist-upgrade -y --allow-downgrades && \
     apt autoremove -y && \
-    apt -o DPkg::Options::="--force-confnew" -y install -y git tar unzip jq geoipupdate mercurial ninja-build patch libtool autoconf automake cmake \
+    apt -o DPkg::Options::="--force-confnew" -y install -y \
+    git tar unzip jq geoipupdate mercurial ninja-build patch libtool autoconf automake cmake golang-bin \
     libmodsecurity3 \
     python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl && \ 
     npm i -g npm yarn && \
