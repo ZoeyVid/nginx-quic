@@ -5,9 +5,9 @@ ARG GEOIP2_LICENSE_KEY=AbcD1EfGHI2JKLmN
 
 ENV DEBIAN_FRONTEND=noninteractive \
 # Versions
-    mod_pagespeed_dir=/src/incubator-pagespeed-ngx/psol/include \
     OPENRESTY_VERSION=openresty-1.21.4.1rc3 \
     NGINX_VERSION=nginx-1.21.4 \
+    PAGESPEED_VERSION=v1.14.33.1-RC1 \
     PAGESPEED_INCUBATOR_VERSION=1.14.36.1 \
     LIBMAXMINDDB_VER=1.6.0 \
     HTTPREDIS_VER=0.3.9
@@ -34,7 +34,7 @@ RUN rm /etc/apt/sources.list && \
     apt autoclean -y && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
-    git tar unzip jq mercurial ninja-build patch libtool autoconf automake cmake golang coreutils \
+    git tar jq mercurial ninja-build patch libtool autoconf automake cmake golang coreutils \
     libpcre3-dev libxml2-dev libcurl4-openssl-dev \
     python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl && \
     apt autoremove --purge -y && \
@@ -56,8 +56,8 @@ RUN rm /etc/apt/sources.list && \
 
 # Pagespeed
     cd /src && \
-    git clone https://github.com/apache/incubator-pagespeed-ngx && \
-    cd /src/incubator-pagespeed-ngx && \
+    curl https://github.com/apache/incubator-pagespeed-ngx/archive/refs/heads/master.tar.gz | tar zx && \
+    cd /src/incubator-pagespeed-ngx-master && \
     curl -L https://dist.apache.org/repos/dist/release/incubator/pagespeed/${PAGESPEED_INCUBATOR_VERSION}/x64/psol-${PAGESPEED_INCUBATOR_VERSION}-apache-incubating-x64.tar.gz | tar zx && \
 
 # Brotli
@@ -225,10 +225,10 @@ RUN rm /etc/apt/sources.list && \
     --add-module=/src/ModSecurity-nginx \
     --add-module=/src/nginx-rtmp-module \
     --add-module=/src/nginx-dav-ext-module \
-    --add-module=/src/incubator-pagespeed-ngx \
-    --add-module=/src/testcookie-nginx-module \
-    --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
     --add-module=/src/ngx_http_geoip2_module \
+    --add-module=/src/testcookie-nginx-module \
+    --add-module=/src/incubator-pagespeed-ngx-master \
+    --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
     --add-module=/src/ngx_http_substitutions_filter_module \
     --with-zlib="/src/zlib-ng" \
     --with-openssl="/src/openssl" \
@@ -262,7 +262,7 @@ RUN rm /etc/apt/sources.list && \
 # Clean
     rm -rf /src && \
     apt purge -y \
-    git tar unzip jq geoipupdate mercurial ninja-build patch libtool autoconf automake cmake golang coreutils && \
+    git tar jq geoipupdate mercurial ninja-build patch libtool autoconf automake cmake golang coreutils && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y
