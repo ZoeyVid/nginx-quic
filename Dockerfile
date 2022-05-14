@@ -133,17 +133,17 @@ RUN rm /etc/apt/sources.list && \
     --build=${BUILD} \
     --prefix=/etc/nginx \
     --sbin-path=/usr/sbin/nginx \
-    --modules-path=/usr/lib/nginx/modules \
-    --conf-path=/etc/nginx/nginx.conf \
-    --error-log-path=/var/log/nginx/error.log \
-    --http-log-path=/var/log/nginx/access.log \
     --pid-path=/var/run/nginx.pid \
     --lock-path=/var/run/nginx.lock \
-    --http-client-body-temp-path=/var/cache/nginx/client_temp \
-    --http-proxy-temp-path=/var/cache/nginx/proxy_temp \
-    --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
-    --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
+    --conf-path=/etc/nginx/nginx.conf \
+    --modules-path=/usr/lib/nginx/modules \
+    --error-log-path=/var/log/nginx/error.log \
+    --http-log-path=/var/log/nginx/access.log \
     --http-scgi-temp-path=/var/cache/nginx/scgi_temp \
+    --http-proxy-temp-path=/var/cache/nginx/proxy_temp \
+    --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
+    --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
+    --http-client-body-temp-path=/var/cache/nginx/client_temp \
     --user=nginx \
     --group=nginx \
     --with-cc-opt=-Wno-deprecated-declarations \
@@ -201,7 +201,7 @@ RUN rm /etc/apt/sources.list && \
     --with-openssl="/src/boringssl" \
     --with-cc-opt="-I/src/boringssl/include" \
     --with-ld-opt="-L/src/boringssl/build/ssl \
-                   -L/src/boringssl/build/crypto && \
+                   -L/src/boringssl/build/crypto" && \
     
 # Build & Install    
     make -j "$(nproc)" && \
@@ -234,4 +234,5 @@ RUN rm /etc/apt/sources.list && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y
-CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
+
+ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]
