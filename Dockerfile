@@ -41,9 +41,9 @@ RUN rm /etc/apt/sources.list && \
 
 # Nginx Install
     cd /src/bundle && \
-    rm -r ${NGINX_VERSION} && \
-    hg clone https://hg.nginx.org/nginx-quic -r "quic" ${NGINX_VER} && \
-    hg clone http://hg.nginx.org/njs && \
+    rm -rf ${NGINX_VERSION} && \
+    hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/bundle/${NGINX_VER} && \
+    hg clone http://hg.nginx.org/njs /src/bundle/njs && \
     cd /src/bundle/${NGINX_VER} && \
     hg pull && \
     hg update quic && \
@@ -181,40 +181,36 @@ RUN rm /etc/apt/sources.list && \
     --with-http_stub_status_module \
     --with-http_sub_module \
     --with-http_v2_module \
+    --with-http_v2_hpack_enc \
     --with-http_v3_module \
-    --with-http_mp4_module \
-    --with-mail \
-    --with-mail_ssl_module \
+    --with-http_geoip_module \
+    --with-http_xslt_module \
+    --with-http_image_filter_module \
+    --with-http_degradation_module \
+    --with-http_perl_module \
     --with-stream \
     --with-stream_realip_module \
     --with-stream_ssl_module \
     --with-stream_ssl_preread_module \
     --with-stream_geoip_module \
     --with-stream_quic_module \
-    --with-http_geoip_module \
-    --with-http_xslt_module \
-    --with-http_image_filter_module \
-    --with-http_degradation_module \
-    --with-http_perl_module \
     --with-mail \
     --with-mail_ssl_module \
     --with-cpp_test_module \
-    --with-pcre-jit \
     --with-libatomic \
     --with-debug \
-    --with-http_v2_hpack_enc \
     --add-module=/src/incubator-pagespeed-ngx \
     --add-module=/src/ngx_brotli \
     --add-module=/src/ngx_http_geoip2_module-${GEOIP2_VER} \
     --add-module=/src/ngx_cache_purge \
     --add-module=/src/ngx_http_substitutions_filter_module \
+    --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
     --add-module=/src/fancyindex \
     --add-module=/src/nginx-dav-ext-module \
     --add-module=/src/nginx-module-vts \
     --add-module=/src/nginx-rtmp-module \
     --add-module=/src/testcookie-nginx-module \
     --add-module=/src/ModSecurity-nginx \
-    --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/boringssl/include" \
     --with-ld-opt="-L/src/boringssl/build/ssl -L/src/boringssl/build/crypto" && \
