@@ -14,9 +14,10 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 # Requirements
 RUN rm /etc/apt/sources.list && \
-    echo "deb http://deb.debian.org/debian bullseye main" >> /etc/apt/sources.list && \
-    echo "deb http://deb.debian.org/debian/ bullseye-updates main" >> /etc/apt/sources.list && \
-    echo "deb http://security.debian.org/debian-security bullseye-security main" >> /etc/apt/sources.list && \
+    echo "deb http://deb.debian.org/debian bullseye main contrib" >> /etc/apt/sources.list && \
+    echo "deb http://deb.debian.org/debian bullseye-updates main contrib" >> /etc/apt/sources.list && \
+    echo "deb http://ftp.debian.org/debian bullseye-backports main contrib" >> /etc/apt/sources.list && \
+    echo "deb http://security.debian.org/debian-security bullseye-security main contrib" >> /etc/apt/sources.list && \
     apt update -y && \
     apt upgrade -y --allow-downgrades && \
     apt dist-upgrade -y --allow-downgrades && \
@@ -119,7 +120,12 @@ RUN rm /etc/apt/sources.list && \
     patch -p1 <tcp-tls.patch && \
     curl -L https://raw.githubusercontent.com/hakasenyang/openssl-patch/master/nginx_hpack_push_1.15.3.patc -o nginx_http2_hpack.patch && \
     patch -p1 <nginx_http2_hpack.patch && \
-    
+
+# nginx-quic patch
+    cd /src && \
+    curl -L https://raw.githubusercontent.com/2020Sanoj/nginx-quic/develop/configure.patch -o configure.patch && \
+    patch < configure.patch && \
+
 # Boringssl
     cd /src && \
     git clone --recursive https://boringssl.googlesource.com/boringssl && \
