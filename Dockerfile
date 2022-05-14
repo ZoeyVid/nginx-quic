@@ -33,9 +33,10 @@ RUN rm /etc/apt/sources.list && \
     apt autoclean -y && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
-    git tar jq mercurial ninja-build patch libtool autoconf automake cmake golang coreutils build-essential \
-    libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev libgd-dev libgeoip-dev libgeoip1 libmaxminddb-dev libmaxminddb0 \
-    python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl && \
+    git tar jq mercurial ninja-build patch libtool autoconf automake cmake golang coreutils build-essential curl gnupg \
+    libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libgd-dev libatomic-ops-dev \
+    libgeoip-dev libgeoip1 libmaxminddb-dev libmaxminddb0 mmdb-bin\
+    python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl unzip && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y && \
@@ -64,14 +65,6 @@ RUN rm /etc/apt/sources.list && \
     git clone --recursive https://github.com/google/ngx_brotli && \
     
 # GeoIP
-#    cd /src && \
-#    curl -L https://github.com/maxmind/libmaxminddb/releases/download/${LIBMAXMINDDB_VER}/libmaxminddb-${LIBMAXMINDDB_VER}.tar.gz | tar zx && \
-#    cd libmaxminddb-${LIBMAXMINDDB_VER} && \
-#    ./configure && \
-#    make -j "$(nproc)" && \
-#    make install && \
-#    ldconfig && \
-    
     cd /src && \
     git clone --recursive https://github.com/leev/ngx_http_geoip2_module && \
 
@@ -250,7 +243,7 @@ RUN rm /etc/apt/sources.list && \
 # Clean
     rm -rf /src && \
     apt purge -y \
-    git tar jq mercurial ninja-build patch libtool autoconf automake cmake golang coreutils build-essential && \
+    git tar jq mercurial ninja-build patch libtool autoconf automake cmake golang coreutils build-essential curl gnupg && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y
