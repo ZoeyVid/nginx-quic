@@ -30,7 +30,7 @@ RUN rm /etc/apt/sources.list && \
     apt dist-upgrade -y --allow-downgrades && \
     apt autoremove -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y git tar unzip jq geoipupdate mercurial ninja-build patch libtool autoconf automake \
-    libpcre3-dev libxml2-dev libcurl4-openssl-dev \
+    libmodsecurity3 \
     python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl && \ 
     npm i -g npm yarn && \
 
@@ -78,15 +78,6 @@ RUN rm /etc/apt/sources.list && \
     cd /src && \
     git clone --recursive https://github.com/yaoweibin/ngx_http_substitutions_filter_module && \
 
-# ModSecurity
-    cd /src && \
-    git clone --recursive https://github.com/SpiderLabs/ModSecurity && \
-    cd ModSecurity && \
-    ./build.sh && \
-    ./configure && \
-    make -j "$(nproc)" && \
-    make install && \
-
 # ngx_http_redis
     cd /src && \
     curl -L https://people.freebsd.org/~osa/ngx_http_redis-${HTTPREDIS_VER}.tar.gz | tar zx && \
@@ -118,7 +109,7 @@ RUN rm /etc/apt/sources.list && \
 # Cloudflare's TLS Dynamic Record Resizing patch & full HPACK encoding patch
     cd /src/bundle/nginx-${NGINX_VER} && \
     curl -L https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -o tcp-tls.patch && \
-    patch -p1 <tcp-tls.patch && \
+#    patch -p1 <tcp-tls.patch && \
     curl -L https://raw.githubusercontent.com/hakasenyang/openssl-patch/master/nginx_hpack_push_1.15.3.patc -o nginx_http2_hpack.patch && \
     patch -p1 <nginx_http2_hpack.patch && \
 
