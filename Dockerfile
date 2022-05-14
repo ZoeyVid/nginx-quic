@@ -40,9 +40,10 @@ RUN rm /etc/apt/sources.list && \
     mv ${OPENRESTY_VERSION} src && \
 
 # Nginx Install
-    cd /src/bundle && \
-    rm -rf ${NGINX_VERSION} && \
+    rm -rf /src/bundle/${NGINX_VERSION} && \
+    mkdir /src/bundle/${NGINX_VERSION} && \
     hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/bundle/${NGINX_VER} && \
+    mkdir /src/bundle/njs && \
     hg clone http://hg.nginx.org/njs /src/bundle/njs && \
     cd /src/bundle/${NGINX_VER} && \
     hg pull && \
