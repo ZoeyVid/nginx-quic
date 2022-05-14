@@ -31,7 +31,7 @@ RUN rm /etc/apt/sources.list && \
     apt autoclean -y && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
-    git tar jq mercurial patch libtool autoconf automake golang coreutils build-essential curl gnupg cmake ninja-build \
+    git tar jq mercurial patch libtool autoconf automake golang coreutils build-essential curl gnupg \
     libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libgd-dev libatomic-ops-dev libgeoip-dev libgeoip1 \
     libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev \
     python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl unzip apt-utils && \
@@ -118,13 +118,13 @@ RUN rm /etc/apt/sources.list && \
     cd /src && \
     git clone --recursive https://github.com/Dead2/zlib-ng && \
 
-# Boringssl
+# Openssl
     cd /src && \
-    git clone --recursive https://boringssl.googlesource.com/boringssl && \
-    mkdir /src/boringssl/build && \
-    cd /src/boringssl/build && \
-    cmake -GNinja .. && \
-    ninja && \
+    git clone --recursive https://github.com/quictls/openssl && \
+    cd /src/openssl && \
+    ./Configure -j"$(nproc)" && \
+    gmake -j "$(nproc)" && \
+    gmake -j "$(nproc)" install && \
 
 # Configure
     cd /src && \
@@ -198,14 +198,13 @@ RUN rm /etc/apt/sources.list && \
     --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
     --add-module=/src/ngx_http_substitutions_filter_module \
     --with-zlib="/src/zlib-ng" \
-    --with-openssl="/src/boringssl" \
-    --with-cc-opt="-I/src/boringssl/include" \
-    --with-ld-opt="-L/src/boringssl/build/ssl \
-                   -L/src/boringssl/build/crypto" && \
+    --with-openssl="/src/openssl" \
+    --with-cc-opt="-I/src/openssl/build/include" \
+                   -with-ld-opt="-L/src/openssl/build/lib" && \
     
 # Build & Install    
-    make -j "$(nproc)" && \
-    make install && \
+    gmake -j "$(nproc)" && \
+    gmake -j "$(nproc)" install && \
     
     strip -s /usr/sbin/nginx && \
     
@@ -230,7 +229,7 @@ RUN rm /etc/apt/sources.list && \
 # Clean
     rm -rf /src && \
     apt purge -y \
-    git tar jq mercurial patch libtool autoconf automake golang coreutils build-essential curl gnupg cmake ninja-build && \
+    git tar jq mercurial patch libtool autoconf automake golang coreutils build-essential curl gnupg && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y
