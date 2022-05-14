@@ -36,7 +36,7 @@ RUN rm /etc/apt/sources.list && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
     git tar unzip jq mercurial ninja-build patch libtool autoconf automake cmake golang coreutils \
     libmodsecurity3 \
-    python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl cron && \
+    python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y && \
