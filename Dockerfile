@@ -34,7 +34,7 @@ RUN rm /etc/apt/sources.list && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
     git tar jq mercurial ninja-build patch libtool autoconf automake cmake golang coreutils \
-    libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev build-essential uuid-dev libgd-dev \
+    libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev build-essential uuid-dev libgd-dev libgeoip-dev libgeoip libmaxminddb-dev libmaxminddb0 \
     python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
@@ -64,22 +64,13 @@ RUN rm /etc/apt/sources.list && \
     git clone --recursive https://github.com/google/ngx_brotli && \
     
 # GeoIP
-    cd /src && \
-    curl -L https://github.com/maxmind/libmaxminddb/releases/download/${LIBMAXMINDDB_VER}/libmaxminddb-${LIBMAXMINDDB_VER}.tar.gz | tar zx && \
-    cd libmaxminddb-${LIBMAXMINDDB_VER} && \
-    ./configure && \
-    make -j "$(nproc)" && \
-    make install && \
-    ldconfig && \
-    
-#    mkdir /opt/geoip && \
-#    curl -L "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&license_key="$GEOIP2_LICENSE_KEY"&suffix=tar.gz" | tar zx && \
-#    mv /src/geoip-db/GeoLite2-ASN_*/GeoLite2-ASN.mmdb /opt/geoip/GeoLite2-ASN.mmdb && \
-#    curl -L "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key="$GEOIP2_LICENSE_KEY"&suffix=tar.gz" | tar zx && \
-#    mv /src/geoip-db/GeoLite2-City_*/GeoLite2-City.mmdb /opt/geoip/GeoLite2-City.mmdb && \
-#    curl -L "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key="$GEOIP2_LICENSE_KEY"&suffix=tar.gz" | tar zx && \
-#    mv /src/geoip-db/GeoLite2-Country_*/GeoLite2-Country.mmdb /opt/geoip/GeoLite2-Country.mmdb && \
-#    rm -rf /src/geoip-db/GeoLite2-* && \
+#    cd /src && \
+#    curl -L https://github.com/maxmind/libmaxminddb/releases/download/${LIBMAXMINDDB_VER}/libmaxminddb-${LIBMAXMINDDB_VER}.tar.gz | tar zx && \
+#    cd libmaxminddb-${LIBMAXMINDDB_VER} && \
+#    ./configure && \
+#    make -j "$(nproc)" && \
+#    make install && \
+#    ldconfig && \
     
     cd /src && \
     git clone --recursive https://github.com/leev/ngx_http_geoip2_module && \
