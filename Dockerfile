@@ -199,7 +199,7 @@ RUN rm /etc/apt/sources.list && \
     --with-zlib="/src/zlib-ng" \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
-                   -with-ld-opt="-L/src/openssl/build/lib" && \
+    --with-ld-opt="-L/src/openssl/build/lib" && \
     
 # Build & Install    
     gmake -j "$(nproc)" && \
