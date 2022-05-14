@@ -56,7 +56,7 @@ RUN rm /etc/apt/sources.list && \
 
 # Pagespeed
     cd /src && \
-    curl https://github.com/apache/incubator-pagespeed-ngx/archive/refs/heads/master.tar.gz | tar zx && \
+    curl -L https://github.com/apache/incubator-pagespeed-ngx/archive/refs/heads/master.tar.gz | tar zx && \
     cd /src/incubator-pagespeed-ngx-master && \
     curl -L https://dist.apache.org/repos/dist/release/incubator/pagespeed/${PAGESPEED_INCUBATOR_VERSION}/x64/psol-${PAGESPEED_INCUBATOR_VERSION}-apache-incubating-x64.tar.gz | tar zx && \
 
