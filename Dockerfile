@@ -41,9 +41,9 @@ RUN rm /etc/apt/sources.list && \
 
 # Nginx Install
     rm -rf /src/bundle/${NGINX_VERSION} && \
-    hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/bundle/${NGINX_VER} && \
+    hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/bundle/${NGINX_VERSION} && \
     hg clone http://hg.nginx.org/njs /src/bundle/njs && \
-    cd /src/bundle/${NGINX_VER} && \
+    cd /src/bundle/${NGINX_VERSION} && \
     hg pull && \
     hg update quic && \
 
