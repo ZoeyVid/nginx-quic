@@ -5,12 +5,12 @@ ARG GEOIP2_LICENSE_KEY=AbcD1EfGHI2JKLmN
 
 ENV DEBIAN_FRONTEND=noninteractive \
 # Versions
+    mod_pagespeed_dir=/src/incubator-pagespeed-ngx/psol/include \
     OPENRESTY_VERSION=openresty-1.21.4.1rc3 \
     NGINX_VERSION=nginx-1.21.4 \
     PAGESPEED_INCUBATOR_VERSION=1.14.36.1 \
     LIBMAXMINDDB_VER=1.6.0 \
-    HTTPREDIS_VER=0.3.9 \
-    mod_pagespeed_dir=/src/incubator-pagespeed-ngx/psol/include
+    HTTPREDIS_VER=0.3.9
 
 # Requirements
 RUN rm /etc/apt/sources.list && \
@@ -21,18 +21,25 @@ RUN rm /etc/apt/sources.list && \
     apt update -y && \
     apt upgrade -y --allow-downgrades && \
     apt dist-upgrade -y --allow-downgrades && \
-    apt autoremove -y && \
+    apt autoremove --purge -y && \
+    apt autoclean -y && \
+    apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install curl gnupg ca-certificates && \
     curl -Ls https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee /usr/share/keyrings/nodesource.gpg && \
     echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x bullseye main" >> /etc/apt/sources.list && \
     apt update -y && \
     apt upgrade -y --allow-downgrades && \
     apt dist-upgrade -y --allow-downgrades && \
-    apt autoremove -y && \
+    apt autoremove --purge -y && \
+    apt autoclean -y && \
+    apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
     git tar unzip jq geoipupdate mercurial ninja-build patch libtool autoconf automake cmake golang coreutils \
     libmodsecurity3 \
-    python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl && \ 
+    python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl && \
+    apt autoremove --purge -y && \
+    apt autoclean -y && \
+    apt clean -y && \
     npm i -g npm yarn && \
 
 # Openresty Install
@@ -238,6 +245,14 @@ RUN rm /etc/apt/sources.list && \
     chmod +x /usr/local/sbin/setup-ngxblocker && \
     chmod +x /usr/local/sbin/update-ngxblocker && \
     ./setup-ngxblocker -e conf && \
-    ./setup-ngxblocker -x -e conf
+    ./setup-ngxblocker -x -e conf && \
+
+# Clean
+    rm -rf /src && \
+    apt purge -y \
+    git tar unzip jq geoipupdate mercurial ninja-build patch libtool autoconf automake cmake golang coreutils && \
+    apt autoremove --purge -y && \
+    apt autoclean -y && \
+    apt clean -y
     
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
