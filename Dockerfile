@@ -5,12 +5,12 @@ ARG GEOIP2_LICENSE_KEY=AbcD1EfGHI2JKLmN
 
 ENV DEBIAN_FRONTEND=noninteractive \
 # Versions
-    NGINX_VERSION=nginx-1.21.4 \
     OPENRESTY_VERSION=openresty-1.21.4.1rc3 \
+    NGINX_VERSION=nginx-1.21.4 \
     PAGESPEED_INCUBATOR_VERSION=1.14.36.1 \
     LIBMAXMINDDB_VER=1.4.3 \
-    HTTPREDIS_VER=0.3.9 \
-    GEOIP2_VER=3.3
+    GEOIP2_VER=3.3 \
+    HTTPREDIS_VER=0.3.9
 
 # Requirements
 RUN rm /etc/apt/sources.list && \
