@@ -7,7 +7,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # Versions
     OPENRESTY_VERSION=openresty-1.21.4.1rc3 \
     NGINX_VERSION=nginx-1.21.4 \
-    PAGESPEED_VERSION=v1.14.33.1-RC1 \
     PAGESPEED_INCUBATOR_VERSION=1.14.36.1 \
     LIBMAXMINDDB_VER=1.6.0 \
     HTTPREDIS_VER=0.3.9
@@ -56,8 +55,8 @@ RUN rm /etc/apt/sources.list && \
 
 # Pagespeed
     cd /src && \
-    curl -L https://github.com/apache/incubator-pagespeed-ngx/archive/refs/heads/master.tar.gz | tar zx && \
-    cd /src/incubator-pagespeed-ngx-master && \
+    git clone https://github.com/apache/incubator-pagespeed-ngx && \
+    cd /src/incubator-pagespeed-ngx && \
     curl -L https://dist.apache.org/repos/dist/release/incubator/pagespeed/${PAGESPEED_INCUBATOR_VERSION}/x64/psol-${PAGESPEED_INCUBATOR_VERSION}-apache-incubating-x64.tar.gz | tar zx && \
 
 # Brotli
@@ -163,7 +162,6 @@ RUN rm /etc/apt/sources.list && \
 # Configure
     cd /src && \
     ./configure \
-    --with-debug \
     --prefix=/etc/nginx \
     --sbin-path=/usr/sbin/nginx \
     --modules-path=/usr/lib/nginx/modules \
@@ -227,7 +225,7 @@ RUN rm /etc/apt/sources.list && \
     --add-module=/src/nginx-dav-ext-module \
     --add-module=/src/ngx_http_geoip2_module \
     --add-module=/src/testcookie-nginx-module \
-    --add-module=/src/incubator-pagespeed-ngx-master \
+    --add-module=/src/incubator-pagespeed-ngx \
     --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
     --add-module=/src/ngx_http_substitutions_filter_module \
     --with-zlib="/src/zlib-ng" \
