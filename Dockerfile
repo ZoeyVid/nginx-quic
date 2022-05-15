@@ -37,10 +37,6 @@ RUN rm /etc/apt/sources.list && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y && \
-    npm i -g npm yarn && \
-    curl -L https://ftp.debian.org/debian/pool/main/l/luarocks/${LUAROCK_VERSION} -o /luarocks.deb && \
-    dpkg -i /luarocks.deb && \
-    rm /luarocks.deb && \
 
 # Openresty Install
     curl -L https://openresty.org/download/${OPENRESTY_VERSION}.tar.gz | tar zx && \
@@ -53,52 +49,57 @@ RUN rm /etc/apt/sources.list && \
     cd /src/bundle/${NGINX_VERSION} && \
     hg pull && \
     hg update quic && \
+    
+# luarocks & yarn install
+    npm i -g npm yarn && \
+    curl -L https://ftp.debian.org/debian/pool/main/l/luarocks/${LUAROCK_VERSION} -o /src/luarocks.deb && \
+    dpkg -i /src/luarocks.deb && \
 
 # Pagespeed
     cd /src && \
-    git clone https://github.com/apache/incubator-pagespeed-ngx && \
+    git clone https://github.com/apache/incubator-pagespeed-ngx /src/incubator-pagespeed-ngx && \
     cd /src/incubator-pagespeed-ngx && \
     curl -L https://dist.apache.org/repos/dist/release/incubator/pagespeed/${PAGESPEED_INCUBATOR_VERSION}/x64/psol-${PAGESPEED_INCUBATOR_VERSION}-apache-incubating-x64.tar.gz | tar zx && \
 
 # Brotli
     cd /src && \
-    git clone --recursive https://github.com/google/ngx_brotli && \
+    git clone --recursive https://github.com/google/ngx_brotli /src/ngx_brotli && \
     
 # GeoIP
     cd /src && \
-    git clone --recursive https://github.com/leev/ngx_http_geoip2_module && \
+    git clone --recursive https://github.com/leev/ngx_http_geoip2_module /src/ngx_http_geoip2_module && \
 
 # Cache Purge
     cd /src && \
-    git clone --recursive https://github.com/FRiCKLE/ngx_cache_purge && \
+    git clone --recursive https://github.com/FRiCKLE/ngx_cache_purge /src/ngx_cache_purge && \
     
 # Nginx Substitutions Filter
     cd /src && \
-    git clone --recursive https://github.com/yaoweibin/ngx_http_substitutions_filter_module && \
+    git clone --recursive https://github.com/yaoweibin/ngx_http_substitutions_filter_module /src/ngx_http_substitutions_filter_module && \
 
 # fancyindex
     cd /src && \
-    git clone --recursive https://github.com/aperezdc/ngx-fancyindex && \
+    git clone --recursive https://github.com/aperezdc/ngx-fancyindex /src/ngx-fancyindex && \
 
 # webdav
     cd /src && \
-    git clone --recursive https://github.com/arut/nginx-dav-ext-module && \
+    git clone --recursive https://github.com/arut/nginx-dav-ext-module /src/nginx-dav-ext-module && \
 
 # vts
     cd /src && \
-    git clone --recursive https://github.com/vozlt/nginx-module-vts && \
+    git clone --recursive https://github.com/vozlt/nginx-module-vts /src/nginx-module-vts && \
 
 # rtmp
     cd /src && \
-    git clone --recursive https://github.com/arut/nginx-rtmp-module && \
+    git clone --recursive https://github.com/arut/nginx-rtmp-module /src/nginx-rtmp-module && \
 
 # testcookie
     cd /src && \
-    git clone --recursive https://github.com/kyprizel/testcookie-nginx-module && \
+    git clone --recursive https://github.com/kyprizel/testcookie-nginx-module /src/testcookie-nginx-module && \
 
 # modsec
     cd /src && \
-    git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx && \
+    git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx /src/ModSecurity-nginx && \
 
 # openresty-nginx-quic patch
     cd /src && \
@@ -111,10 +112,14 @@ RUN rm /etc/apt/sources.list && \
     patch -p1 <tcp-tls.patch && \
     curl -L https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -o nginx_http2_hpack.patch && \
     patch -p1 <nginx_http2_hpack.patch && \
+    
+# zlib
+    cd /src && \
+    git clone --recursive https://github.com/cloudflare/zlib /src/zlib && \
 
 # Openssl
     cd /src && \
-    git clone --recursive https://github.com/quictls/openssl && \
+    git clone --recursive https://github.com/quictls/openssl /src/openssl && \
     cd /src/openssl && \
     ./Configure && \
     gmake -j "$(nproc)" && \
@@ -189,6 +194,7 @@ RUN rm /etc/apt/sources.list && \
     --add-module=/src/testcookie-nginx-module \
     --add-module=/src/incubator-pagespeed-ngx \
     --add-module=/src/ngx_http_substitutions_filter_module \
+    --with-zlib="/src/zlib" \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
     --with-ld-opt="-L/src/openssl/build/lib" && \
