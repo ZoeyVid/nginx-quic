@@ -116,13 +116,17 @@ RUN rm /etc/apt/sources.list && \
 # zlib
     cd /src && \
     git clone --recursive https://github.com/cloudflare/zlib /src/zlib && \
+    ./configure && \
+    gmake -j "$(nproc)" && \
+    
 
 # Openssl
     cd /src && \
     git clone --recursive https://github.com/quictls/openssl /src/openssl && \
     cd /src/openssl && \
-    ./Configure && \
+    ./configure && \
     gmake -j "$(nproc)" && \
+    gmake -j "$(nproc)" install && \
 
 # Configure
     cd /src && \
@@ -194,7 +198,6 @@ RUN rm /etc/apt/sources.list && \
     --add-module=/src/testcookie-nginx-module \
     --add-module=/src/incubator-pagespeed-ngx \
     --add-module=/src/ngx_http_substitutions_filter_module \
-    --with-zlib="/src/zlib" \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
     --with-ld-opt="-L/src/openssl/build/lib" && \
