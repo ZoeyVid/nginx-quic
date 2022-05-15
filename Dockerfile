@@ -109,10 +109,6 @@ RUN rm /etc/apt/sources.list && \
     curl -L https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -o nginx_http2_hpack.patch && \
     patch -p1 <nginx_http2_hpack.patch && \
 
-# zlib
-    cd /src && \
-    git clone --recursive https://github.com/Dead2/zlib-ng && \
-
 # Openssl
     cd /src && \
     git clone --recursive https://github.com/quictls/openssl && \
@@ -190,8 +186,6 @@ RUN rm /etc/apt/sources.list && \
     --add-module=/src/testcookie-nginx-module \
     --add-module=/src/incubator-pagespeed-ngx \
     --add-module=/src/ngx_http_substitutions_filter_module \
-    --with-zlib="/src/zlib-ng" \
-    --with-zlib-opt="--zlib-compat" \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
     --with-ld-opt="-L/src/openssl/build/lib" && \
