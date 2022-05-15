@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
 # Versions
@@ -10,10 +10,10 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 # Requirements
 RUN rm /etc/apt/sources.list && \
-    echo "deb http://deb.debian.org/debian bullseye main contrib" >> /etc/apt/sources.list && \
-    echo "deb http://deb.debian.org/debian bullseye-updates main contrib" >> /etc/apt/sources.list && \
-    echo "deb http://ftp.debian.org/debian bullseye-backports main contrib" >> /etc/apt/sources.list && \
-    echo "deb http://security.debian.org/debian-security bullseye-security main contrib" >> /etc/apt/sources.list && \
+    echo "deb http://deb.debian.org/debian bookworm main contrib" >> /etc/apt/sources.list && \
+    echo "deb http://deb.debian.org/debian bookworm-updates main contrib" >> /etc/apt/sources.list && \
+    echo "deb http://ftp.debian.org/debian bookworm-backports main contrib" >> /etc/apt/sources.list && \
+    echo "deb http://security.debian.org/debian-security bookworm-security main contrib" >> /etc/apt/sources.list && \
     apt update -y && \
     apt upgrade -y --allow-downgrades && \
     apt dist-upgrade -y --allow-downgrades && \
@@ -22,7 +22,7 @@ RUN rm /etc/apt/sources.list && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install curl gnupg ca-certificates apt-utils && \
     curl -Ls https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee /usr/share/keyrings/nodesource.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x bullseye main" >> /etc/apt/sources.list && \
+    echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x bookworm main" >> /etc/apt/sources.list && \
     apt update -y && \
     apt upgrade -y --allow-downgrades && \
     apt dist-upgrade -y --allow-downgrades && \
