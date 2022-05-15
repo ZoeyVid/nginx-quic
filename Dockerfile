@@ -6,7 +6,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
     NGINX_VERSION=nginx-1.21.4 \
     PAGESPEED_INCUBATOR_VERSION=1.14.36.1 \
     LIBMAXMINDDB_VER=1.6.0 \
-    HTTPREDIS_VER=0.3.9 \
     BUILD=openresty-quic
 
 # Requirements
@@ -73,10 +72,6 @@ RUN rm /etc/apt/sources.list && \
 # Nginx Substitutions Filter
     cd /src && \
     git clone --recursive https://github.com/yaoweibin/ngx_http_substitutions_filter_module && \
-
-# ngx_http_redis
-    cd /src && \
-    curl -L https://people.freebsd.org/~osa/ngx_http_redis-${HTTPREDIS_VER}.tar.gz | tar zx && \
 
 # fancyindex
     cd /src && \
@@ -198,7 +193,6 @@ RUN rm /etc/apt/sources.list && \
     --add-module=/src/ngx_http_geoip2_module \
     --add-module=/src/testcookie-nginx-module \
     --add-module=/src/incubator-pagespeed-ngx \
-    --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
     --add-module=/src/ngx_http_substitutions_filter_module \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
