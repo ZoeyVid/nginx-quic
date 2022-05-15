@@ -116,7 +116,8 @@ RUN rm /etc/apt/sources.list && \
 # zlib
     cd /src && \
     git clone --recursive https://github.com/cloudflare/zlib /src/zlib && \
-    ./configure && \
+    cd /src/zlib && \
+    /src/zlib/configure && \
     gmake -j "$(nproc)" && \
     gmake -j "$(nproc)" install && \
     
@@ -124,12 +125,12 @@ RUN rm /etc/apt/sources.list && \
     cd /src && \
     git clone --recursive https://github.com/quictls/openssl /src/openssl && \
     cd /src/openssl && \
-    ./Configure && \
+    /src/openssl/Configure && \
     gmake -j "$(nproc)" && \
 
 # Configure
     cd /src && \
-    ./configure \
+    /src/configure \
     --with-debug \
     --build=${BUILD} \
     --prefix=/etc/nginx \
@@ -232,12 +233,12 @@ RUN rm /etc/apt/sources.list && \
     curl -L https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/install-ngxblocker -o /usr/local/sbin/install-ngxblocker && \
     chmod +x /usr/local/sbin/install-ngxblocker && \
     cd /usr/local/sbin && \
-    ./install-ngxblocker && \
-    ./install-ngxblocker -x && \
+    /usr/local/sbin/install-ngxblocker && \
+    /usr/local/sbin/install-ngxblocker -x && \
     chmod +x /usr/local/sbin/setup-ngxblocker && \
     chmod +x /usr/local/sbin/update-ngxblocker && \
-    ./setup-ngxblocker -e conf && \
-    ./setup-ngxblocker -x -e conf && \
+    /usr/local/sbin/setup-ngxblocker -e conf && \
+    /usr/local/sbin/setup-ngxblocker -x -e conf && \
 
 # Clean
     mv /src/build/luajit-root /luajit-root && \
