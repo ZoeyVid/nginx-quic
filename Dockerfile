@@ -31,7 +31,7 @@ RUN rm /etc/apt/sources.list && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
     mercurial patch autoconf automake golang coreutils build-essential gnupg \
-    libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libgd-dev libatomic-ops-dev libgeoip-dev libgeoip1 \
+    libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libgd-dev libgd3 libatomic-ops-dev libgeoip-dev libgeoip1 \
     libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev libperl-dev lua5.1 liblua5.1-dev lua-any unzip zip wget libtool lua-sec gettext-base \
     python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl tar git jq curl && \
     apt autoremove --purge -y && \
