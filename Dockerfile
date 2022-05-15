@@ -155,8 +155,8 @@ RUN rm /etc/apt/sources.list && \
     --with-threads \
     --with-file-aio \
     --with-pcre-jit \
-#    --with-libatomic \
-#    --with-cpp_test_module \
+    --with-libatomic \
+    --with-cpp_test_module \
     --with-mail \
     --with-mail_ssl_module \
     --with-stream \
