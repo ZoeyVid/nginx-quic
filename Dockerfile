@@ -148,8 +148,8 @@ RUN rm /etc/apt/sources.list && \
     --http-client-body-temp-path=/var/cache/nginx/client_temp \
     --user=nginx \
     --group=nginx \
-    --with-cc-opt=-Wno-deprecated-declarations \
-    --with-cc-opt=-Wno-ignored-qualifiers \
+#    --with-cc-opt=-Wno-deprecated-declarations \
+#    --with-cc-opt=-Wno-ignored-qualifiers \
     --with-ipv6 \
     --with-compat \
     --with-threads \
