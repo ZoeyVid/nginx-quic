@@ -1,19 +1,19 @@
-FROM debian:bookworm-slim
+FROM debian:bullseye-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
 # Versions
+    LUAROCK_VERSION=luarocks_3.8.0+dfsg1-1_all.deb \
     OPENRESTY_VERSION=openresty-1.21.4.1rc3 \
-    NGINX_VERSION=nginx-1.21.4 \
     PAGESPEED_INCUBATOR_VERSION=1.14.36.1 \
-    LIBMAXMINDDB_VER=1.6.0 \
+    NGINX_VERSION=nginx-1.21.4 \
     BUILD=openresty-quic
 
 # Requirements
 RUN rm /etc/apt/sources.list && \
-    echo "deb http://deb.debian.org/debian bookworm main contrib" >> /etc/apt/sources.list && \
-    echo "deb http://deb.debian.org/debian bookworm-updates main contrib" >> /etc/apt/sources.list && \
-    echo "deb http://ftp.debian.org/debian bookworm-backports main contrib" >> /etc/apt/sources.list && \
-    echo "deb http://security.debian.org/debian-security bookworm-security main contrib" >> /etc/apt/sources.list && \
+    echo "deb http://deb.debian.org/debian bullseye main contrib" >> /etc/apt/sources.list && \
+    echo "deb http://deb.debian.org/debian bullseye-updates main contrib" >> /etc/apt/sources.list && \
+    echo "deb http://ftp.debian.org/debian bullseye-backports main contrib" >> /etc/apt/sources.list && \
+    echo "deb http://security.debian.org/debian-security bullseye-security main contrib" >> /etc/apt/sources.list && \
     apt update -y && \
     apt upgrade -y --allow-downgrades && \
     apt dist-upgrade -y --allow-downgrades && \
@@ -22,7 +22,7 @@ RUN rm /etc/apt/sources.list && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install curl gnupg ca-certificates apt-utils && \
     curl -Ls https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee /usr/share/keyrings/nodesource.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x bookworm main" >> /etc/apt/sources.list && \
+    echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x bullseye main" >> /etc/apt/sources.list && \
     apt update -y && \
     apt upgrade -y --allow-downgrades && \
     apt dist-upgrade -y --allow-downgrades && \
@@ -32,12 +32,15 @@ RUN rm /etc/apt/sources.list && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
     mercurial patch libtool autoconf automake golang coreutils build-essential wget gnupg \
     libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libgd-dev libatomic-ops-dev libgeoip-dev libgeoip1 \
-    libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev libperl-dev luarocks \
+    libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev libperl-dev \
     python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl unzip apt-utils tar git jq curl && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y && \
     npm i -g npm yarn && \
+    curl -L https://ftp.debian.org/debian/pool/main/l/luarocks/${LUAROCK_VERSION} -o /luarocks.deb && \
+    dpkg -i /luarocks.deb && \
+    rm /luarocks.deb && \
 
 # Openresty Install
     curl -L https://openresty.org/download/${OPENRESTY_VERSION}.tar.gz | tar zx && \
