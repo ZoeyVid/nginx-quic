@@ -117,6 +117,8 @@ RUN rm /etc/apt/sources.list && \
 # zlib
     cd /src && \
     git clone --recursive https://github.com/Dead2/zlib-ng && \
+    ./configure --zlib-compat && \
+    make && \
 
 # Openssl
     cd /src && \
@@ -145,17 +147,17 @@ RUN rm /etc/apt/sources.list && \
     --http-client-body-temp-path=/var/cache/nginx/client_temp \
     --user=nginx \
     --group=nginx \
- #   --with-cc-opt=-Wno-deprecated-declarations \
- #   --with-cc-opt=-Wno-ignored-qualifiers \
+    --with-cc-opt=-Wno-deprecated-declarations \
+    --with-cc-opt=-Wno-ignored-qualifiers \
     --with-ipv6 \
     --with-compat \
     --with-threads \
     --with-file-aio \
     --with-pcre-jit \
- #   --with-libatomic \
- #   --with-cpp_test_module \
- #   --with-mail \
- #   --with-mail_ssl_module \
+    --with-libatomic \
+    --with-cpp_test_module \
+    --with-mail \
+    --with-mail_ssl_module \
     --with-stream \
     --with-stream_ssl_module \
     --with-stream_quic_module \
@@ -166,36 +168,36 @@ RUN rm /etc/apt/sources.list && \
     --with-http_v3_module \
     --with-http_ssl_module \
     --with-http_v2_hpack_enc \
-#    --with-http_mp4_module \
-#    --with-http_sub_module \
-#    --with-http_dav_module \
-#    --with-http_flv_module \
-#    --with-http_perl_module \
-#    --with-http_xslt_module \
+    --with-http_mp4_module \
+    --with-http_sub_module \
+    --with-http_dav_module \
+    --with-http_flv_module \
+    --with-http_perl_module \
+    --with-http_xslt_module \
     --with-http_geoip_module \
-#    --with-http_slice_module \
-#    --with-http_realip_module \
-#    --with-http_gunzip_module \
-#    --with-http_addition_module \
-#    --with-http_degradation_module \
-#    --with-http_stub_status_module \
-#    --with-http_gzip_static_module \
-#    --with-http_secure_link_module \
-#    --with-http_image_filter_module \
-#    --with-http_auth_request_module \
-#    --with-http_random_index_module \
+    --with-http_slice_module \
+    --with-http_realip_module \
+    --with-http_gunzip_module \
+    --with-http_addition_module \
+    --with-http_degradation_module \
+    --with-http_stub_status_module \
+    --with-http_gzip_static_module \
+    --with-http_secure_link_module \
+    --with-http_image_filter_module \
+    --with-http_auth_request_module \
+    --with-http_random_index_module \
     --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
-#    --add-module=/src/ngx_cache_purge \
-#    --add-module=/src/nginx-module-vts \
+    --add-module=/src/ngx_cache_purge \
+    --add-module=/src/nginx-module-vts \
     --add-module=/src/ModSecurity-nginx \
-#    --add-module=/src/nginx-rtmp-module \
-#    --add-module=/src/nginx-dav-ext-module \
+    --add-module=/src/nginx-rtmp-module \
+    --add-module=/src/nginx-dav-ext-module \
     --add-module=/src/ngx_http_geoip2_module \
-#    --add-module=/src/testcookie-nginx-module \
+    --add-module=/src/testcookie-nginx-module \
     --add-module=/src/incubator-pagespeed-ngx \
-#    --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
-#    --add-module=/src/ngx_http_substitutions_filter_module \
+    --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
+    --add-module=/src/ngx_http_substitutions_filter_module \
 #    --with-zlib="/src/zlib-ng" \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
