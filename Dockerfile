@@ -226,7 +226,7 @@ RUN rm /etc/apt/sources.list && \
     cd /src && \
     curl -L https://github.com/crowdsecurity/cs-openresty-bouncer/releases/latest/download/crowdsec-openresty-bouncer.tgz | tar xz && \
     cd /src/crowdsec-openresty-bouncer-v* && \
-    ./install.sh --NGINX_CONF_DIR=/etc/nginx/conf.d --LIB_PATH=/etc/nginx/lualib --CONFIG_PATH=/defaults/crowdsec --DATA_PATH=/defaults/crowdsec --docker && \
+    /src/crowdsec-openresty-bouncer-v*/install.sh --NGINX_CONF_DIR=/etc/nginx/conf.d --LIB_PATH=/etc/nginx/lualib --CONFIG_PATH=/defaults/crowdsec --DATA_PATH=/defaults/crowdsec --docker && \
     sed -i 's|ENABLED=.*|ENABLED=false|' /defaults/crowdsec/crowdsec-openresty-bouncer.conf && \
     
 # Install Bad Bot Blocker
