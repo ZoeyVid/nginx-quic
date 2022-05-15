@@ -197,8 +197,8 @@ RUN rm /etc/apt/sources.list && \
 #    --add-module=/src/ngx_http_geoip2_module \
 #    --add-module=/src/testcookie-nginx-module \
     --add-module=/src/incubator-pagespeed-ngx \
-#    --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
-#    --add-module=/src/ngx_http_substitutions_filter_module \
+    --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
+    --add-module=/src/ngx_http_substitutions_filter_module \
 #    --with-zlib="/src/zlib-ng" \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
