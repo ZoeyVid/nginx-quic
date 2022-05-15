@@ -189,11 +189,11 @@ RUN rm /etc/apt/sources.list && \
     --with-http_random_index_module \
     --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
-    --add-module=/src/ngx_cache_purge \
-    --add-module=/src/nginx-module-vts \
+#    --add-module=/src/ngx_cache_purge \
+#    --add-module=/src/nginx-module-vts \
     --add-module=/src/ModSecurity-nginx \
-    --add-module=/src/nginx-rtmp-module \
-    --add-module=/src/nginx-dav-ext-module \
+#    --add-module=/src/nginx-rtmp-module \
+#    --add-module=/src/nginx-dav-ext-module \
     --add-module=/src/ngx_http_geoip2_module \
     --add-module=/src/testcookie-nginx-module \
     --add-module=/src/incubator-pagespeed-ngx \
