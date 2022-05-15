@@ -120,6 +120,7 @@ RUN rm /etc/apt/sources.list && \
     cd zlib-ng && \
     ./configure --zlib-compat && \
     make && \
+    make install && \
 
 # Openssl
     cd /src && \
@@ -199,7 +200,6 @@ RUN rm /etc/apt/sources.list && \
     --add-module=/src/incubator-pagespeed-ngx \
     --add-module=/src/ngx_http_redis-${HTTPREDIS_VER} \
     --add-module=/src/ngx_http_substitutions_filter_module \
-#    --with-zlib="/src/zlib-ng" \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
     --with-ld-opt="-L/src/openssl/build/lib" && \
@@ -218,15 +218,15 @@ RUN rm /etc/apt/sources.list && \
     sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
     
 # Install Bad Bot Blocker
-    curl -L https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/install-ngxblocker -o /usr/local/sbin/install-ngxblocker && \
-    chmod +x /usr/local/sbin/install-ngxblocker && \
-    cd /usr/local/sbin && \
-    ./install-ngxblocker && \
-    ./install-ngxblocker -x && \
-    chmod +x /usr/local/sbin/setup-ngxblocker && \
-    chmod +x /usr/local/sbin/update-ngxblocker && \
-    ./setup-ngxblocker -e conf && \
-    ./setup-ngxblocker -x -e conf && \
+#    curl -L https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/install-ngxblocker -o /usr/local/sbin/install-ngxblocker && \
+#    chmod +x /usr/local/sbin/install-ngxblocker && \
+#    cd /usr/local/sbin && \
+#    ./install-ngxblocker && \
+#    ./install-ngxblocker -x && \
+#    chmod +x /usr/local/sbin/setup-ngxblocker && \
+#    chmod +x /usr/local/sbin/update-ngxblocker && \
+#    ./setup-ngxblocker -e conf && \
+#    ./setup-ngxblocker -x -e conf && \
 
 # Clean
 #    rm -rf /src && \
