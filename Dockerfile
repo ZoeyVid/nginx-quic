@@ -148,15 +148,15 @@ RUN rm /etc/apt/sources.list && \
     --http-client-body-temp-path=/var/cache/nginx/client_temp \
     --user=nginx \
     --group=nginx \
-#    --with-cc-opt=-Wno-deprecated-declarations \
-#    --with-cc-opt=-Wno-ignored-qualifiers \
+    --with-cc-opt=-Wno-deprecated-declarations \
+    --with-cc-opt=-Wno-ignored-qualifiers \
     --with-ipv6 \
     --with-compat \
     --with-threads \
     --with-file-aio \
     --with-pcre-jit \
-    --with-libatomic \
-    --with-cpp_test_module \
+#    --with-libatomic \
+#    --with-cpp_test_module \
     --with-mail \
     --with-mail_ssl_module \
     --with-stream \
