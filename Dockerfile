@@ -32,7 +32,7 @@ RUN rm /etc/apt/sources.list && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
     mercurial patch libtool autoconf automake golang coreutils build-essential wget gnupg \
     libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libgd-dev libatomic-ops-dev libgeoip-dev libgeoip1 \
-    libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev libperl-dev \
+    libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev libperl-dev luarocks \
     python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl unzip apt-utils tar git jq curl && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
@@ -199,27 +199,30 @@ RUN rm /etc/apt/sources.list && \
     cd /etc/apt/preferences.d && \
     echo -e 'Package: nginx*\nPin: release *\nPin-Priority: -1' >nginx-block && \
     
+    luarocks install lua-cjson  && \
+    luarocks install lua-resty-openidc && \
+    luarocks install lua-resty-http && \
+    
     mkdir /etc/nginx/modsec && \
     curl -L https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended -o /etc/nginx/modsec/modsecurity.conf && \
     sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
     
 # Install Bad Bot Blocker
-#    curl -L https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/install-ngxblocker -o /usr/local/sbin/install-ngxblocker && \
-#    chmod +x /usr/local/sbin/install-ngxblocker && \
-#    cd /usr/local/sbin && \
-#    ./install-ngxblocker && \
-#    ./install-ngxblocker -x && \
-#    chmod +x /usr/local/sbin/setup-ngxblocker && \
-#    chmod +x /usr/local/sbin/update-ngxblocker && \
-#    ./setup-ngxblocker -e conf && \
-#    ./setup-ngxblocker -x -e conf && \
+    curl -L https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/install-ngxblocker -o /usr/local/sbin/install-ngxblocker && \
+    chmod +x /usr/local/sbin/install-ngxblocker && \
+    cd /usr/local/sbin && \
+    ./install-ngxblocker && \
+    ./install-ngxblocker -x && \
+    chmod +x /usr/local/sbin/setup-ngxblocker && \
+    chmod +x /usr/local/sbin/update-ngxblocker && \
+    ./setup-ngxblocker -e conf && \
+    ./setup-ngxblocker -x -e conf && \
 
 # Clean
 #    rm -rf /src && \
-    apt purge -y \
-    mercurial patch libtool autoconf automake golang coreutils build-essential wget gnupg && \
-    apt autoremove --purge -y && \
+    apt purge -y mercurial patch libtool autoconf automake golang coreutils build-essential wget gnupg && \
+    apt autoremove -y --purge && \
     apt autoclean -y && \
     apt clean -y
-
+    
 ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]
