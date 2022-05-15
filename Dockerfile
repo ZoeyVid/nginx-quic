@@ -113,14 +113,6 @@ RUN rm /etc/apt/sources.list && \
     curl -L https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -o nginx_http2_hpack.patch && \
     patch -p1 <nginx_http2_hpack.patch && \
     
-# zlib
-    cd /src && \
-    git clone --recursive https://github.com/cloudflare/zlib /src/zlib && \
-    cd /src/zlib && \
-    /src/zlib/configure && \
-    gmake -j "$(nproc)" && \
-    gmake -j "$(nproc)" install && \
-    
 # Openssl
     cd /src && \
     git clone --recursive https://github.com/quictls/openssl /src/openssl && \
