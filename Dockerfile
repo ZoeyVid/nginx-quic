@@ -112,9 +112,6 @@ RUN rm /etc/apt/sources.list && \
 # zlib
     cd /src && \
     git clone --recursive https://github.com/Dead2/zlib-ng && \
-    cd /src/zlib-ng && \
-    ./configure --zlib-compat && \
-    make && \
 
 # Openssl
     cd /src && \
