@@ -118,15 +118,14 @@ RUN rm /etc/apt/sources.list && \
     git clone --recursive https://github.com/cloudflare/zlib /src/zlib && \
     ./configure && \
     gmake -j "$(nproc)" && \
-    
+    gmake -j "$(nproc)" install && \
 
 # Openssl
     cd /src && \
     git clone --recursive https://github.com/quictls/openssl /src/openssl && \
     cd /src/openssl && \
-    ./configure && \
+    ./Configure && \
     gmake -j "$(nproc)" && \
-    gmake -j "$(nproc)" install && \
 
 # Configure
     cd /src && \
