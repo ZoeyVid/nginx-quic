@@ -193,22 +193,32 @@ RUN rm /etc/apt/sources.list && \
     --with-cc-opt="-I/src/openssl/build/include" \
     --with-ld-opt="-L/src/openssl/build/lib" && \
     
-# Build & Install    
+# Build & Install
+    cd /src && \
     gmake -j "$(nproc)" && \
     gmake -j "$(nproc)" install && \
     
+    cd /src && \
     strip -s /usr/sbin/nginx && \
     
     cd /etc/apt/preferences.d && \
     echo -e 'Package: nginx*\nPin: release *\nPin-Priority: -1' >nginx-block && \
     
+    cd /src && \
     luarocks install lua-cjson  && \
     luarocks install lua-resty-openidc && \
     luarocks install lua-resty-http && \
     
+    cd /src && \
     mkdir /etc/nginx/modsec && \
     curl -L https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended -o /etc/nginx/modsec/modsecurity.conf && \
     sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
+    
+    cd /src && \
+    curl -L https://github.com/crowdsecurity/cs-openresty-bouncer/releases/latest/download/crowdsec-openresty-bouncer.tgz | tar xz && \
+    cd /src/crowdsec-openresty-bouncer-v* && \
+    ./install.sh --NGINX_CONF_DIR=/etc/nginx/conf.d --LIB_PATH=/etc/nginx/lualib --CONFIG_PATH=/defaults/crowdsec --DATA_PATH=/defaults/crowdsec --docker && \
+    sed -i 's|ENABLED=.*|ENABLED=false|' /defaults/crowdsec/crowdsec-openresty-bouncer.conf && \
     
 # Install Bad Bot Blocker
     curl -L https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/install-ngxblocker -o /usr/local/sbin/install-ngxblocker && \
@@ -222,7 +232,10 @@ RUN rm /etc/apt/sources.list && \
     ./setup-ngxblocker -x -e conf && \
 
 # Clean
-#    rm -rf /src && \
+    mv /src/build/luajit-root /luajit-root && \
+    rm -rf /src && \
+    mkdir -p /src/build && \
+    mv /luajit-root /src/build/luajit-root && \
 #    apt remove --purge \
 #    mmercurial patch autoconf automake golang coreutils build-essential gnupg && \
     apt autoremove -y --purge && \
