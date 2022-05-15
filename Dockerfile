@@ -220,7 +220,8 @@ RUN rm /etc/apt/sources.list && \
 
 # Clean
 #    rm -rf /src && \
-    apt purge -y mercurial patch libtool autoconf automake golang coreutils build-essential wget gnupg && \
+    apt remove --purge \
+    mercurial patch libtool autoconf automake golang coreutils build-essential wget gnupg && \
     apt autoremove -y --purge && \
     apt autoclean -y && \
     apt clean -y
