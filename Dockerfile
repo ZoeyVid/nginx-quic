@@ -236,11 +236,6 @@ RUN rm /etc/apt/sources.list && \
     mv /src/build/luajit-root /luajit-root && \
     rm -rf /src && \
     mkdir -p /src/build && \
-    mv /luajit-root /src/build/luajit-root && \
-    apt remove --purge \
-    mmercurial patch autoconf automake golang coreutils build-essential gnupg && \
-    apt autoremove -y --purge && \
-    apt autoclean -y && \
-    apt clean -y
+    mv /luajit-root /src/build/luajit-root
     
 ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]
