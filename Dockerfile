@@ -204,15 +204,15 @@ RUN rm /etc/apt/sources.list && \
     sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
     
 # Install Bad Bot Blocker
-    curl -L https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/install-ngxblocker -o /usr/local/sbin/install-ngxblocker && \
-    chmod +x /usr/local/sbin/install-ngxblocker && \
-    cd /usr/local/sbin && \
-    ./install-ngxblocker && \
-    ./install-ngxblocker -x && \
-    chmod +x /usr/local/sbin/setup-ngxblocker && \
-    chmod +x /usr/local/sbin/update-ngxblocker && \
-    ./setup-ngxblocker -e conf && \
-    ./setup-ngxblocker -x -e conf && \
+#    curl -L https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/install-ngxblocker -o /usr/local/sbin/install-ngxblocker && \
+#    chmod +x /usr/local/sbin/install-ngxblocker && \
+#    cd /usr/local/sbin && \
+#    ./install-ngxblocker && \
+#    ./install-ngxblocker -x && \
+#    chmod +x /usr/local/sbin/setup-ngxblocker && \
+#    chmod +x /usr/local/sbin/update-ngxblocker && \
+#    ./setup-ngxblocker -e conf && \
+#    ./setup-ngxblocker -x -e conf && \
 
 # Clean
 #    rm -rf /src && \
