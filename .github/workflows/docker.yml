@@ -92,7 +92,7 @@ jobs:
         
       - name: Run HTTP/3 server
         run: |
-          docker run -d -p 443:443/udp \
+          docker run -p 443:443/udp \
             -v $PWD/nginx.conf:/usr/local/nginx/conf/nginx.conf \
             -v $PWD/docker_volumes/ssl_certs/fullchain.pem:/etc/ssl/certs/fullchain.pem \
             -v $PWD/docker_volumes/ssl_certs/privkey.pem:/etc/ssl/private/privkey.pem \
