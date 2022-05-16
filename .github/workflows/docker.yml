@@ -100,4 +100,4 @@ jobs:
       
       - name: HTTP/3 connection test
         run: |
-         docker run --rm --net host ymuski/curl-http3 curl -L --insecure --http3 https://127.0.0.1:443 -I -p
+         docker run --rm --net host ymuski/curl-http3 curl -Ls --insecure --http3 https://127.0.0.1:443 -I -p
