@@ -238,4 +238,4 @@ RUN rm /etc/apt/sources.list && \
     mkdir -p /src/build && \
     mv /luajit-root /src/build/luajit-root
     
-ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
