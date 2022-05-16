@@ -203,9 +203,6 @@ RUN rm /etc/apt/sources.list && \
     cd /src && \
     strip -s /usr/sbin/nginx && \
     
-    cd /etc/apt/preferences.d && \
-    echo -e 'Package: nginx*\nPin: release *\nPin-Priority: -1' >nginx-block && \
-    
     cd /src && \
     luarocks install lua-cjson  && \
     luarocks install lua-resty-openidc && \
