@@ -211,6 +211,9 @@ RUN rm /etc/apt/sources.list && \
     luarocks install lua-resty-openidc && \
     luarocks install lua-resty-http && \
     
+    mkdir -p /var/cache/nginx && \
+    mkdir -p /var/log/nginx && \
+    
     cd /src && \
     mkdir /etc/nginx/modsec && \
     curl -L https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended -o /etc/nginx/modsec/modsecurity.conf && \
