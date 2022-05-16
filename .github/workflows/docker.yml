@@ -19,44 +19,43 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
     
-      - name: Make nginx.conf
-        run: |
-         cat > nginx.conf <<EOF
-         worker_processes  1;
- 
-         events {
-             worker_connections  1024;
-         }
-
-         http {
-             server {
-                 listen 127.0.0.1:443 ssl http2 http3 reuseport;
- 
-                 ssl_certificate      /etc/ssl/certs/fullchain.pem;
-                 ssl_certificate_key  /etc/ssl/private/privkey.pem;
- 
-                 # Enable "new" TLS versions (TLSv1.3 is required for QUIC).
-                 ssl_protocols TLSv1.2 TLSv1.3;
- 
-                 pagespeed on;                                                                                                                                                                                                                         
-                 pagespeed FileCachePath /var/ngx_pagespeed_cache;                                                                                                                                                                                                                                                                                                                                                                                                                           
-                 
-                 brotli on;                                                                                                                                                                                                                            
-                 brotli_comp_level 6;
-                 brotli_static on;
- 
-                # Add Alt-Svc header to negotiate HTTP/3.
-                add_header alt-svc 'h3=":443"; ma=86400, h3-29=":443"; ma=86400';
-             }
-         }
-         EOF
-        
-      - name: Make SSL certificates
-        run: |
-         set -eu
-         SSL_CERTS_PATH=./docker_volumes/ssl_certs
-         mkdir -p $SSL_CERTS_PATH
-         openssl req  -nodes -new -x509 -subj '/CN=*' -sha256 -keyout $SSL_CERTS_PATH/privkey.pem -out $SSL_CERTS_PATH/fullchain.pem -days 365000
+#      - name: Make nginx.conf
+#        run: |
+#         cat > nginx.conf <<EOF
+#         worker_processes  1;
+# 
+#         events {
+#             worker_connections  1024;
+#         }
+#
+#         http {
+#             server {
+#                 listen 127.0.0.1:443 ssl http2 http3 reuseport;
+# 
+#                 ssl_certificate      /etc/ssl/certs/fullchain.pem;
+#                 ssl_certificate_key  /etc/ssl/private/privkey.pem;
+# 
+#                 # Enable "new" TLS versions (TLSv1.3 is required for QUIC).
+#                 ssl_protocols TLSv1.2 TLSv1.3;
+# 
+#                 pagespeed on;                                                                                                                                                                                                                         
+#                 pagespeed FileCachePath /var/ngx_pagespeed_cache;                                                                                                                                                                                                                                                                                                                                                                                                                           
+#                 
+#                 brotli on;                                                                                                                                                                                                                            
+#                 brotli_comp_level 6;
+#                 brotli_static on;
+# 
+#                # Add Alt-Svc header to negotiate HTTP/3.
+#                add_header alt-svc 'h3=":443"; ma=86400, h3-29=":443"; ma=86400';
+#             }
+#        }
+#         EOF
+#        
+#      - name: Make SSL certificates
+#        run: |
+#         SSL_CERTS_PATH=./docker_volumes/ssl_certs
+#         mkdir -p $SSL_CERTS_PATH
+#         openssl req  -nodes -new -x509 -subj '/CN=*' -sha256 -keyout $SSL_CERTS_PATH/privkey.pem -out $SSL_CERTS_PATH/fullchain.pem -days 365000
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -90,14 +89,14 @@ jobs:
       - name: Show Nginx version
         run: docker run --rm ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} /usr/sbin/nginx -V
         
-      - name: Run HTTP/3 server
-        run: |
-          docker run -d -p 443:443/udp -p 443:443 -p 80:80 \
-            -v $PWD/nginx.conf:/usr/local/nginx/conf/nginx.conf \
-            -v $PWD/docker_volumes/ssl_certs/fullchain.pem:/etc/ssl/certs/fullchain.pem \
-            -v $PWD/docker_volumes/ssl_certs/privkey.pem:/etc/ssl/private/privkey.pem \
-            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
-      
-      - name: HTTP/3 connection test
-        run: |
-         docker run --rm --net host ymuski/curl-http3 curl -Ls --insecure --http3 https://127.0.0.1:443 -I -p
+#      - name: Run HTTP/3 server
+#        run: |
+#          docker run -d -p 443:443/udp -p 443:443 -p 80:80 \
+#            -v $PWD/nginx.conf:/usr/local/nginx/conf/nginx.conf \
+#            -v $PWD/docker_volumes/ssl_certs/fullchain.pem:/etc/ssl/certs/fullchain.pem \
+#            -v $PWD/docker_volumes/ssl_certs/privkey.pem:/etc/ssl/private/privkey.pem \
+#            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
+#      
+#      - name: HTTP/3 connection test
+#        run: |
+#         docker run --rm --net host ymuski/curl-http3 curl -Ls --insecure --http3 https://127.0.0.1:443 -I -p
