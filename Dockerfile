@@ -221,17 +221,6 @@ RUN rm /etc/apt/sources.list && \
     cd /src/crowdsec-openresty-bouncer-v* && \
     /src/crowdsec-openresty-bouncer-v*/install.sh --NGINX_CONF_DIR=/etc/nginx/conf.d --LIB_PATH=/etc/nginx/lualib --CONFIG_PATH=/defaults/crowdsec --DATA_PATH=/defaults/crowdsec --docker && \
     sed -i 's|ENABLED=.*|ENABLED=false|' /defaults/crowdsec/crowdsec-openresty-bouncer.conf && \
-    
-# Install Bad Bot Blocker
-    curl -L https://raw.githubusercontent.com/mitchellkrogza/nginx-ultimate-bad-bot-blocker/master/install-ngxblocker -o /usr/local/sbin/install-ngxblocker && \
-    chmod +x /usr/local/sbin/install-ngxblocker && \
-    cd /usr/local/sbin && \
-    /usr/local/sbin/install-ngxblocker && \
-    /usr/local/sbin/install-ngxblocker -x && \
-    chmod +x /usr/local/sbin/setup-ngxblocker && \
-    chmod +x /usr/local/sbin/update-ngxblocker && \
-    /usr/local/sbin/setup-ngxblocker -e conf && \
-    /usr/local/sbin/setup-ngxblocker -x -e conf && \
 
 # Clean
     mv /src/build/luajit-root /luajit-root && \
