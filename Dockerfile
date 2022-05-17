@@ -145,6 +145,7 @@ RUN rm /etc/apt/sources.list && \
     --group=nginx \
     --with-cc-opt=-Wno-deprecated-declarations \
     --with-cc-opt=-Wno-ignored-qualifiers \
+    --with-ipv6 \
     --with-compat \
     --with-threads \
     --with-file-aio \
