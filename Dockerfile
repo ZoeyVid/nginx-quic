@@ -216,19 +216,12 @@ RUN rm /etc/apt/sources.list && \
     
     cd /src && \
     luarocks install lua-cjson && \
-    luarocks install lua-resty-openidc
+    luarocks install lua-resty-openidc && \
 
 # Clean
-RUN mv /src/build/luajit-root /luajit-root && \
+    mv /src/build/luajit-root /luajit-root && \
     rm -rf /src && \
     mkdir -p /src/build && \
-    mv /luajit-root /src/build/luajit-root && \
-
-    apt update -y && \
-    apt upgrade -y --allow-downgrades && \
-    apt dist-upgrade -y --allow-downgrades && \
-    apt autoremove --purge -y && \
-    apt autoclean -y && \
-    apt clean -y
+    mv /luajit-root /src/build/luajit-root
 
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
