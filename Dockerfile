@@ -2,6 +2,7 @@ FROM debian:bullseye-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
 # Versions
+    LUAROCK_VERSION=luarocks_3.8.0+dfsg1-1_all.deb \
     OPENRESTY_VERSION=openresty-1.21.4.1rc3 \
     PAGESPEED_INCUBATOR_VERSION=1.14.36.1 \
     NGINX_VERSION=nginx-1.21.4 \
@@ -32,8 +33,8 @@ RUN rm /etc/apt/sources.list && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
     mercurial patch autoconf automake golang coreutils build-essential gnupg passwd \
     libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libgd-dev libgd3 libatomic-ops-dev libgeoip-dev libgeoip1 \
-    libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev libperl-dev libtool sysvinit-utils \
-    python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl tar git jq curl wget zip unzip && \
+    libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev libperl-dev libtool sysvinit-utils lua5.1 liblua5.1-dev lua-any lua-sec \
+    python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl tar git jq curl wget luarocks && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y && \
@@ -207,6 +208,10 @@ RUN rm /etc/apt/sources.list && \
     mkdir /etc/nginx/modsec && \
     curl -L https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended -o /etc/nginx/modsec/modsecurity.conf && \
     sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf
+    
+    cd /src && \
+    luarocks install lua-cjson && \
+    luarocks install lua-resty-openidc && \
 
 # Clean
 RUN mv /src/build/luajit-root /luajit-root && \
