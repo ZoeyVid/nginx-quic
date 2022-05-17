@@ -207,11 +207,11 @@ RUN rm /etc/apt/sources.list && \
     cd /src && \
     mkdir /etc/nginx/modsec && \
     curl -L https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended -o /etc/nginx/modsec/modsecurity.conf && \
-    sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf
+    sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
     
     cd /src && \
     luarocks install lua-cjson && \
-    luarocks install lua-resty-openidc && \
+    luarocks install lua-resty-openidc
 
 # Clean
 RUN mv /src/build/luajit-root /luajit-root && \
