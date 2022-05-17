@@ -2,7 +2,6 @@ FROM debian:bullseye-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
 # Versions
-    LUAROCK_VERSION=luarocks_3.8.0+dfsg1-1_all.deb \
     OPENRESTY_VERSION=openresty-1.21.4.1rc3 \
     PAGESPEED_INCUBATOR_VERSION=1.14.36.1 \
     NGINX_VERSION=nginx-1.21.4 \
@@ -10,6 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 # Requirements
 RUN rm /etc/apt/sources.list && \
+    echo "fs.file-max = 65535" > /etc/sysctl.conf && \
     echo "deb http://deb.debian.org/debian bullseye main contrib" >> /etc/apt/sources.list && \
     echo "deb http://deb.debian.org/debian bullseye-updates main contrib" >> /etc/apt/sources.list && \
     echo "deb http://ftp.debian.org/debian bullseye-backports main contrib" >> /etc/apt/sources.list && \
@@ -32,11 +32,12 @@ RUN rm /etc/apt/sources.list && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
     mercurial patch autoconf automake golang coreutils build-essential gnupg passwd \
     libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libgd-dev libgd3 libatomic-ops-dev libgeoip-dev libgeoip1 \
-    libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev libperl-dev lua5.1 liblua5.1-dev lua-any libtool lua-sec gettext-base sysvinit-utils \
+    libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev libperl-dev libtool sysvinit-utils \
     python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate knot-dnsutils redis-tools redis-server perl tar git jq curl wget zip unzip && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y && \
+    npm i -g npm yarn && \
     useradd nginx && \
 
 # Openresty Install
@@ -50,11 +51,6 @@ RUN rm /etc/apt/sources.list && \
     cd /src/bundle/${NGINX_VERSION} && \
     hg pull && \
     hg update quic && \
-    
-# luarocks & yarn install
-    npm i -g npm yarn && \
-    curl -L https://ftp.debian.org/debian/pool/main/l/luarocks/${LUAROCK_VERSION} -o /src/luarocks.deb && \
-    dpkg -i /src/luarocks.deb && \
 
 # Pagespeed
     cd /src && \
@@ -204,28 +200,25 @@ RUN rm /etc/apt/sources.list && \
     strip -s /usr/sbin/nginx && \
     
     cd /src && \
-    luarocks install lua-cjson  && \
-    luarocks install lua-resty-openidc && \
-    luarocks install lua-resty-http && \
-    
     mkdir -p /var/cache/nginx && \
     mkdir -p /var/log/nginx && \
     
     cd /src && \
     mkdir /etc/nginx/modsec && \
     curl -L https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended -o /etc/nginx/modsec/modsecurity.conf && \
-    sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
-    
-    cd /src && \
-    curl -L https://github.com/crowdsecurity/cs-openresty-bouncer/releases/latest/download/crowdsec-openresty-bouncer.tgz | tar xz && \
-    cd /src/crowdsec-openresty-bouncer-v* && \
-    /src/crowdsec-openresty-bouncer-v*/install.sh --NGINX_CONF_DIR=/etc/nginx/conf.d --LIB_PATH=/etc/nginx/lualib --CONFIG_PATH=/defaults/crowdsec --DATA_PATH=/defaults/crowdsec --docker && \
-    sed -i 's|ENABLED=.*|ENABLED=false|' /defaults/crowdsec/crowdsec-openresty-bouncer.conf && \
+    sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf
 
 # Clean
-    mv /src/build/luajit-root /luajit-root && \
+RUN mv /src/build/luajit-root /luajit-root && \
     rm -rf /src && \
     mkdir -p /src/build && \
-    mv /luajit-root /src/build/luajit-root
-    
+    mv /luajit-root /src/build/luajit-root && \
+
+    apt update -y && \
+    apt upgrade -y --allow-downgrades && \
+    apt dist-upgrade -y --allow-downgrades && \
+    apt autoremove --purge -y && \
+    apt autoclean -y && \
+    apt clean -y
+
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
