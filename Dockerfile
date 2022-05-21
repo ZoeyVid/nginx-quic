@@ -86,7 +86,7 @@ RUN rm /etc/apt/sources.list && \
     
     cd /src && \
     git clone --recursive https://github.com/Naereen/Nginx-Fancyindex-Theme && \
-    mv /src/Nginx-Fancyindex-Theme/Nginx-Fancyindex-Theme-dark /fancyindex && \
+    mv /src/Nginx-Fancyindex-Theme/Nginx-Fancyindex-Theme-dark /Nginx-Fancyindex-Theme-dark && \
 
 # webdav
     cd /src && \
