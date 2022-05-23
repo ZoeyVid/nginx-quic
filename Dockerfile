@@ -39,7 +39,7 @@ RUN rm /etc/apt/sources.list && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y && \
-    npm i -g npm yarn && \
+    curl --compressed -o- -L https://yarnpkg.com/install.sh | bash && \
     useradd nginx && \
 
 # Openresty Install
