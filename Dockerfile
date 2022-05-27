@@ -32,7 +32,7 @@ RUN rm /etc/apt/sources.list && \
     apt autoclean -y && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
-    mercurial patch autoconf automake golang coreutils build-essential gnupg passwd \
+    mercurial dos2unix patch autoconf automake golang coreutils build-essential gnupg passwd \
     libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libgd-dev libgd3 libatomic-ops-dev libgeoip-dev libgeoip1 \
     libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev libperl-dev libtool sysvinit-utils lua5.1 liblua5.1-dev lua-any lua-sec luarocks perl \
     python3 python-is-python3 python3-pip certbot nodejs sqlite3 logrotate dnsutils redis-tools redis-server tar git jq curl wget zip unzip figlet nano && \
@@ -43,18 +43,13 @@ RUN rm /etc/apt/sources.list && \
     useradd nginx && \
 
 # Openresty Install
-    curl -L https://openresty.org/download/${OPENRESTY_VERSION}.tar.gz | tar zx && \
-    mv ${OPENRESTY_VERSION} /src && \
-
-# Nginx Install
-    rm -rf /src/bundle/${NGINX_VERSION} && \
-    hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/bundle/${NGINX_VERSION} && \
-    hg clone http://hg.nginx.org/njs /src/bundle/njs && \
-    cd /src/bundle/${NGINX_VERSION} && \
-    hg pull && \
-    hg update quic && \
+    git clone --recursive https://github.com/SanCraftDev/openresty-quic /src && \
+    
+    cd /src && \
+    make && \
 
 # luarocks install
+    cd /src && \
     curl -L https://ftp.debian.org/debian/pool/main/l/luarocks/${LUAROCK_VERSION} -o /src/luarocks.deb && \
     dpkg -i /src/luarocks.deb && \
 
@@ -107,18 +102,6 @@ RUN rm /etc/apt/sources.list && \
 # modsec
     cd /src && \
     git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx /src/ModSecurity-nginx && \
-
-# openresty-nginx-quic patch
-    cd /src && \
-    curl -L https://raw.githubusercontent.com/SanCraftDev/nginx-quic/develop/configure.patch -o configure.patch && \
-    patch < configure.patch && \
-
-# Cloudflare's TLS Dynamic Record Resizing patch & full HPACK encoding patch
-    cd /src/bundle/${NGINX_VERSION} && \
-    curl -L https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -o tcp-tls.patch && \
-    patch -p1 <tcp-tls.patch && \
-    curl -L https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -o nginx_http2_hpack.patch && \
-    patch -p1 <nginx_http2_hpack.patch && \
     
 # Openssl
     cd /src && \
