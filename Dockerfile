@@ -47,6 +47,13 @@ RUN rm /etc/apt/sources.list && \
     
     cd /src && \
     make && \
+    
+    cd /src && \
+    rm openresty-*.tar.gz && \
+    mv openresty-* .. && \
+    cd / && \
+    rm -rf /src && \
+    mv openresty-* /src && \
 
 # luarocks install
     cd /src && \
