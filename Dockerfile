@@ -5,7 +5,7 @@ ARG BUILD=${BUILD}
 ENV DEBIAN_FRONTEND=noninteractive \
 # Versions
     LUAROCK_VERSION=luarocks_3.8.0+dfsg1-1_all.deb \
-    OPENRESTY_VERSION=openresty-1.21.4.1rc3 \
+    OPENRESTY_VERSION=openresty-1.21.4.1 \
     PAGESPEED_INCUBATOR_VERSION=1.14.36.1 \
     NGINX_VERSION=nginx-1.21.4
     
