@@ -157,7 +157,6 @@ RUN rm /etc/apt/sources.list && \
     --with-http_v2_module \
     --with-http_v3_module \
     --with-http_ssl_module \
-    --with-http_spdy_module \
     --with-http_v2_hpack_enc \
     --with-http_mp4_module \
     --with-http_sub_module \
