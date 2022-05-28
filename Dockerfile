@@ -209,6 +209,9 @@ RUN rm /etc/apt/sources.list && \
     sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
     
     cd /src && \
+    curl -L https://ssl-config.mozilla.org/ffdhe2048.txt -o /dhparam && \
+    
+    cd /src && \
     luarocks install lua-cjson && \
     luarocks install lua-resty-openidc && \
 
