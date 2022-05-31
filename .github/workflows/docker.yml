@@ -28,6 +28,9 @@ jobs:
       - name: patch nginx-openresty
         if: steps.cache-frontend.outputs.cache-hit != 'true'
         run: | 
+         export DEBIAN_FRONTEND=noninteractive
+         sudo apt update -y
+         apt -o DPkg::Options::="--force-confnew" -y dos2unix
          git clone --recursive https://github.com/SanCraftDev/openresty-quic src
          cd src
          make -j "$(nproc)"
