@@ -18,6 +18,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: cache-nginx-openresty
+        id: cache-nginx-openresty
+        uses: actions/cache@v3
+        with:
+          path: frontend/dist
+          key: cache-nginx-openresty-${{ secrets.CACHE_ID }}
+
+      - name: patch nginx-openresty
+        if: steps.cache-frontend.outputs.cache-hit != 'true'
+        run: | 
+         git clone --recursive https://github.com/SanCraftDev/openresty-quic src
+         cd src
+         make -j "$(nproc)"
+         rm openresty-*.tar.gz
+         mv openresty-* ../openresty
+         rm -rf ../src
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
