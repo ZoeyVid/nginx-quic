@@ -73,9 +73,9 @@ RUN cd /src && \
 RUN cd /src && \
     git clone --recursive https://github.com/leev/ngx_http_geoip2_module /src/ngx_http_geoip2_module
     
-#  ngx_security_headers
+# ngx_security_headers
 RUN cd /src && \
-    git clone --recursive https://github.com/GetPageSpeed/ngx_security_header
+    git clone --recursive https://github.com/GetPageSpeed/ngx_security_header /src/ngx_security_header
 
 # Cache Purge
 RUN cd /src && \
