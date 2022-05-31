@@ -75,7 +75,7 @@ RUN cd /src && \
     
 # ngx_security_headers
 RUN cd /src && \
-    git clone --recursive https://github.com/GetPageSpeed/ngx_security_header /src/ngx_security_header
+    git clone --recursive https://github.com/GetPageSpeed/ngx_security_headers /src/ngx_security_headers
 
 # Cache Purge
 RUN cd /src && \
