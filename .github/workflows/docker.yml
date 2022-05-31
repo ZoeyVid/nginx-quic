@@ -22,7 +22,7 @@ jobs:
         id: cache-nginx-openresty
         uses: actions/cache@v3
         with:
-          path: frontend/dist
+          path: openresty
           key: cache-nginx-openresty-${{ secrets.CACHE_ID }}
 
       - name: patch nginx-openresty
