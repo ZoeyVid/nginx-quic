@@ -37,14 +37,6 @@ RUN rm /etc/apt/sources.list && \
     curl --compressed -o- -L https://yarnpkg.com/install.sh | bash && \
     pip install certbot && \
     useradd nginx
-
-# Openssl
-RUN cd /src && \
-    git clone --recursive https://github.com/quictls/openssl /src/openssl && \
-    cd /src/openssl && \
-    /src/openssl/Configure && \
-    make -j "$(nproc)" && \
-    make -j "$(nproc)" install
     
 # Openresty Install
 RUN git clone --recursive https://github.com/SanCraftDev/openresty-quic /src && \
@@ -58,6 +50,14 @@ RUN git clone --recursive https://github.com/SanCraftDev/openresty-quic /src && 
     cd / && \
     rm -rf /src && \
     mv openresty-* /src
+
+# Openssl
+RUN cd /src && \
+    git clone --recursive https://github.com/quictls/openssl /src/openssl && \
+    cd /src/openssl && \
+    /src/openssl/Configure && \
+    make -j "$(nproc)" && \
+    make -j "$(nproc)" install
 
 # Pagespeed
 RUN cd /src && \
