@@ -38,18 +38,8 @@ RUN rm /etc/apt/sources.list && \
     pip install certbot && \
     useradd nginx
     
-# Openresty Install
-RUN git clone --recursive https://github.com/SanCraftDev/openresty-quic /src && \
-    
-    cd /src && \
-    make -j "$(nproc)" && \
-    
-    cd /src && \
-    rm openresty-*.tar.gz && \
-    mv openresty-* .. && \
-    cd / && \
-    rm -rf /src && \
-    mv openresty-* /src
+# Copy Openresty
+COPY openresty /src
 
 # Openssl
 RUN cd /src && \
