@@ -47,7 +47,6 @@ RUN rm /etc/apt/sources.list && \
     cd /src/openssl && \
     /src/openssl/Configure && \
     make -j "$(nproc)" && \
-    make -j "$(nproc)" install && \
 
 # Pagespeed
     cd /src && \
