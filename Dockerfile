@@ -4,11 +4,11 @@ ARG BUILD=${BUILD}
 ARG PAGESPEED_INCUBATOR_VERSION=1.14.36.1
     
 # Copy Openresty
-COPY openresty /src
+#COPY openresty /src
     
 # Requirements
 ENV DEBIAN_FRONTEND=noninteractive
-RUN rm /etc/apt/sources.list && \
+RUN rm -rf /etc/apt/sources.list && \
     echo "fs.file-max = 65535" > /etc/sysctl.conf && \
     echo "deb http://deb.debian.org/debian bullseye main contrib non-free" >> /etc/apt/sources.list && \
     echo "deb http://deb.debian.org/debian bullseye-updates main contrib non-free" >> /etc/apt/sources.list && \
@@ -42,6 +42,21 @@ RUN rm /etc/apt/sources.list && \
     curl --compressed -o- -L https://yarnpkg.com/install.sh | bash && \
     pip install certbot && \
     useradd nginx && \
+
+# Nginx
+    hg clone https://hg.nginx.org/nginx-quic -r "quic" /src && \
+    cd /src && \
+    hg pull && \
+    hg update quic && \
+
+# Patches
+    cd /src && \
+    curl -L https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -o tcp-tls.patch && \
+    patch -p1 <tcp-tls.patch && \
+    rm -rf tcp-tls.patch && \
+    curl -L https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -o nginx_http2_hpack.patch && \
+    patch -p1 <nginx_http2_hpack.patch && \
+    rm -rf nginx_http2_hpack.patch && \
 
 # Openssl
     cd /src && \
@@ -106,7 +121,7 @@ RUN rm /etc/apt/sources.list && \
 
 # Configure
     cd /src && \
-    /src/configure \
+    /src/auto/configure \
     --with-debug \
     --build=${BUILD} \
     --prefix=/etc/nginx \
