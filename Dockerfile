@@ -112,8 +112,8 @@ RUN rm -rf /etc/apt/sources.list && \
     git clone --recursive https://github.com/arut/nginx-rtmp-module /src/nginx-rtmp-module && \
 
 # testcookie
-    cd /src && \
-    git clone --recursive https://github.com/kyprizel/testcookie-nginx-module /src/testcookie-nginx-module && \
+#    cd /src && \
+#    git clone --recursive https://github.com/kyprizel/testcookie-nginx-module /src/testcookie-nginx-module && \
 
 # modsec
     cd /src && \
@@ -187,7 +187,7 @@ RUN rm -rf /etc/apt/sources.list && \
     --add-module=/src/ngx_security_headers \
     --add-module=/src/nginx-dav-ext-module \
     --add-module=/src/ngx_http_geoip2_module \
-    --add-module=/src/testcookie-nginx-module \
+#    --add-module=/src/testcookie-nginx-module \
     --add-module=/src/incubator-pagespeed-ngx \
     --add-module=/src/ngx_http_substitutions_filter_module \
     --with-openssl="/src/openssl" \
