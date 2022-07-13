@@ -22,7 +22,7 @@ RUN rm -rf /etc/apt/sources.list && \
     apt -t bullseye-backports autoremove --purge -y && \
     apt autoclean -t bullseye-backports -y && \
     apt clean -t bullseye-backports -y && \
-    apt -o DPkg::Options::="--force-confnew" -y install curl gnupg ca-certificates apt-utils && \
+    apt -o DPkg::Options::="--force-confnew" -y install -t bullseye-backports curl gnupg ca-certificates apt-utils && \
     curl -Ls https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee /usr/share/keyrings/nodesource.gpg && \
     echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x bullseye main" >> /etc/apt/sources.list && \
     apt update -t bullseye-backports -y && \
@@ -31,7 +31,7 @@ RUN rm -rf /etc/apt/sources.list && \
     apt -t bullseye-backports autoremove --purge -y && \
     apt autoclean -t bullseye-backports -y && \
     apt clean -t bullseye-backports -y && \
-    apt -o DPkg::Options::="--force-confnew" -y install -y \
+    apt -o DPkg::Options::="--force-confnew" -y install -t bullseye-backports -y \
     mercurial dos2unix patch autoconf automake golang coreutils build-essential gnupg passwd \
     libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libgd-dev libgd3 libatomic-ops-dev libgeoip-dev libgeoip1 \
     libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev libperl-dev libtool sysvinit-utils lua5.1 liblua5.1-dev lua-any lua-sec luarocks perl \
