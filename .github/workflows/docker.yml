@@ -45,6 +45,8 @@ jobs:
          git clone --recursive https://github.com/openresty/srcache-nginx-module ../openresty/bundle/srcache-nginx-module-0.32
          rm -rf ../openresty/bundle/ngx_lua-0.10.21
          git clone --recursive https://github.com/openresty/lua-nginx-module ../openresty/bundle/ngx_lua-0.10.21
+         rm -rf ../openresty/bundle/headers-more-nginx-module-0.33
+         git clone --recursive https://github.com/openresty/headers-more-nginx-module ../openresty/bundle/headers-more-nginx-module-0.33
          rm -rf ../src
 
       - name: Set up QEMU
