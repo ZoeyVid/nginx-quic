@@ -42,6 +42,8 @@ jobs:
          rm openresty-*.tar.gz
          mv openresty-* ../openresty
          rm -rf ../src
+         rm -rf ../openresty/bundle/srcache-nginx-module-0.32
+         git clone --recursive https://github.com/openresty/srcache-nginx-module ../openresty/bundle/srcache-nginx-module-0.32
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
