@@ -71,6 +71,10 @@ RUN rm -rf /etc/apt/sources.list && \
     cd /src/incubator-pagespeed-ngx && \
     curl -L https://dist.apache.org/repos/dist/release/incubator/pagespeed/${PAGESPEED_INCUBATOR_VERSION}/x64/psol-${PAGESPEED_INCUBATOR_VERSION}-apache-incubating-x64.tar.gz | tar zx && \
 
+# njs
+    cd /src && \
+    hg clone http://hg.nginx.org/njs /src/njs && \
+
 # Brotli
     cd /src && \
     git clone --recursive https://github.com/google/ngx_brotli /src/ngx_brotli && \
@@ -178,6 +182,7 @@ RUN rm -rf /etc/apt/sources.list && \
     --with-http_image_filter_module \
     --with-http_auth_request_module \
     --with-http_random_index_module \
+    --add-module=/src/njs/nginx \
     --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
     --add-module=/src/ngx_cache_purge \
