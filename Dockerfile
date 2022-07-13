@@ -19,7 +19,7 @@ RUN rm -rf /etc/apt/sources.list && \
     apt update -t bullseye-backports -y && \
     apt upgrade -t bullseye-backports -y --allow-downgrades && \
     apt dist-upgrade -t bullseye-backports -y --allow-downgrades && \
-    apt -t bullseye-backports autoremove --purge -y && \
+    apt autoremove -t bullseye-backports --purge -y && \
     apt autoclean -t bullseye-backports -y && \
     apt clean -t bullseye-backports -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -t bullseye-backports -y curl gnupg ca-certificates apt-utils && \
@@ -28,7 +28,7 @@ RUN rm -rf /etc/apt/sources.list && \
     apt update -t bullseye-backports -y && \
     apt upgrade -t bullseye-backports -y --allow-downgrades && \
     apt dist-upgrade -t bullseye-backports -y --allow-downgrades && \
-    apt -t bullseye-backports autoremove --purge -y && \
+    apt autoremove -t bullseye-backports --purge -y && \
     apt autoclean -t bullseye-backports -y && \
     apt clean -t bullseye-backports -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -t bullseye-backports -y \
