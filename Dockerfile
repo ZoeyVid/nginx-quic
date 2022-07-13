@@ -89,7 +89,7 @@ RUN rm -rf /etc/apt/sources.list && \
 
 # Cache Purge
     cd /src && \
-    git clone --recursive https://github.com/FRiCKLE/ngx_cache_purge /src/ngx_cache_purge && \
+    git clone --recursive https://github.com/nginx-modules/ngx_cache_purge /src/ngx_cache_purge && \
     
 # Nginx Substitutions Filter
     cd /src && \
