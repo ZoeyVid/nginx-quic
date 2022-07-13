@@ -29,7 +29,6 @@ jobs:
         if: steps.cache-nginx-openresty.outputs.cache-hit != 'true'
         run: | 
          export DEBIAN_FRONTEND=noninteractive
-         sudo apt update -y
          sudo apt -o DPkg::Options::="--force-confnew" install -y dos2unix
          git clone --recursive https://github.com/SanCraftDev/openresty-quic src
          cd src
