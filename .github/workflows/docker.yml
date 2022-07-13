@@ -30,11 +30,6 @@ jobs:
         run: | 
          export DEBIAN_FRONTEND=noninteractive
          sudo apt update -y
-         sudo apt upgrade -y --allow-downgrades
-         sudo apt dist-upgrade -y --allow-downgrades
-         sudo apt autoremove --purge -y
-         sudo apt autoclean -y
-         sudo apt clean -y
          sudo apt -o DPkg::Options::="--force-confnew" install -y dos2unix
          git clone --recursive https://github.com/SanCraftDev/openresty-quic src
          cd src
