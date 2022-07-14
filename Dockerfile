@@ -177,8 +177,8 @@ RUN rm -rf /etc/apt/sources.list && \
     git clone --recursive https://github.com/dvershinin/ngx_http_captcha_module /src/ngx_http_captcha_module && \
     
 # ngx_cookie_limit_req_module
-    cd /src && \
-    git clone --recursive https://github.com/limithit/ngx_cookie_limit_req_module /src/ngx_cookie_limit_req_module && \
+#    cd /src && \
+#    git clone --recursive https://github.com/limithit/ngx_cookie_limit_req_module /src/ngx_cookie_limit_req_module && \
     
 # modjpeg-nginx
 #    cd /src && \
@@ -266,7 +266,7 @@ RUN rm -rf /etc/apt/sources.list && \
     --add-module=/src/nginx-fips-check-module \
 #    --add-module=/src/testcookie-nginx-module \
     --add-module=/src/incubator-pagespeed-ngx \
-    --add-module=/src/ngx_cookie_limit_req_module \
+#    --add-module=/src/ngx_cookie_limit_req_module \
     --add-module=/src/nginx_accept_language_module \
     --add-module=/src/ngx_http_js_challenge_module \
     --add-module=/src/ngx_http_google_filter_module \
