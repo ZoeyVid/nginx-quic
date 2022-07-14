@@ -161,8 +161,8 @@ RUN rm -rf /etc/apt/sources.list && \
     git clone --recursive https://github.com/dvershinin/nginx-sticky-module-ng /src/nginx-sticky-module-ng && \
     
 # ngx_http_google_filter_module
-    cd /src && \
-    git clone --recursive https://github.com/cuber/ngx_http_google_filter_module /src/ngx_http_google_filter_module && \
+#    cd /src && \
+#    git clone --recursive https://github.com/cuber/ngx_http_google_filter_module /src/ngx_http_google_filter_module && \
     
 # nginx-ts-module 
     cd /src && \
@@ -269,7 +269,7 @@ RUN rm -rf /etc/apt/sources.list && \
 #    --add-module=/src/ngx_cookie_limit_req_module \
     --add-module=/src/nginx_accept_language_module \
     --add-module=/src/ngx_http_js_challenge_module \
-    --add-module=/src/ngx_http_google_filter_module \
+#    --add-module=/src/ngx_http_google_filter_module \
     --add-module=/src/ngx_http_substitutions_filter_module \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
