@@ -40,7 +40,7 @@ RUN rm -rf /etc/apt/sources.list && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y && \
-    curl --compressed -o- -L https://yarnpkg.com/install.sh | bash && \
+    curl -L https://yarnpkg.com/install.sh | bash && \
     pip install certbot && \
     useradd nginx && \
 
