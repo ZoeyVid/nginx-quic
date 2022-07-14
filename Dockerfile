@@ -251,6 +251,7 @@ RUN rm -rf /etc/apt/sources.list && \
     --add-module=/src/modjpeg-nginx \
     --add-module=/src/ngx-fancyindex \
     --add-module=/src/ngx_cache_purge \
+    --add-module=/src/nginx-ts-module \
     --add-module=/src/nginx-module-vts \
     --add-module=/src/nginx-module-sts \
     --add-module=/src/ModSecurity-nginx \
@@ -267,8 +268,8 @@ RUN rm -rf /etc/apt/sources.list && \
     --add-module=/src/incubator-pagespeed-ngx \
     --add-module=/src/ngx_cookie_limit_req_module \
     --add-module=/src/nginx_accept_language_module \
-    --add-module=/src/ngx_http_google_filter_module \
     --add-module=/src/ngx_http_js_challenge_module \
+    --add-module=/src/ngx_http_google_filter_module \
     --add-module=/src/ngx_http_substitutions_filter_module \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
