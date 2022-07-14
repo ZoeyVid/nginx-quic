@@ -181,8 +181,8 @@ RUN rm -rf /etc/apt/sources.list && \
     git clone --recursive https://github.com/limithit/ngx_cookie_limit_req_module /src/ngx_cookie_limit_req_module && \
     
 # modjpeg-nginx
-    cd /src && \
-    git clone --recursive https://github.com/ioppermann/modjpeg-nginx /src/modjpeg-nginx && \
+#    cd /src && \
+#    git clone --recursive https://github.com/ioppermann/modjpeg-nginx /src/modjpeg-nginx && \
 
 # Configure
     cd /src && \
@@ -248,7 +248,7 @@ RUN rm -rf /etc/apt/sources.list && \
     --add-module=/src/njs/nginx \
     --add-module=/src/ngx_brotli \
     --add-module=/src/nginx-statsd \
-    --add-module=/src/modjpeg-nginx \
+#    --add-module=/src/modjpeg-nginx \
     --add-module=/src/ngx-fancyindex \
     --add-module=/src/ngx_cache_purge \
     --add-module=/src/nginx-ts-module \
