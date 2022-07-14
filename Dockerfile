@@ -35,6 +35,7 @@ RUN rm -rf /etc/apt/sources.list && \
     mercurial dos2unix patch autoconf automake golang coreutils build-essential gnupg passwd \
     libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libgd-dev libgd3 libatomic-ops-dev libgeoip-dev libgeoip1 \
     libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev libperl-dev libtool sysvinit-utils lua5.1 liblua5.1-dev lua-any lua-sec luarocks perl \
+    libimage-imlib2-perl imagemagick libgd-dev libiconv-hook-dev libiconv-hook1 libiconv-hook1-dbgsym \
     python3 python-is-python3 python3-pip nodejs sqlite3 logrotate dnsutils redis-tools redis-server tar git jq curl wget zip unzip figlet nano apache2-utils && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
@@ -123,6 +124,66 @@ RUN rm -rf /etc/apt/sources.list && \
     cd /src && \
     git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx /src/ModSecurity-nginx && \
 
+# nginx_accept_language_module
+    cd /src && \
+    git clone --recursive https://github.com/dvershinin/nginx_accept_language_module /src/nginx_accept_language_module && \
+    
+# nginx-upload-module
+    cd /src && \
+    git clone --recursive https://github.com/fdintino/nginx-upload-module /src/nginx-upload-module && \
+    
+# f4fhds
+    cd /src && \
+    git clone --recursive https://github.com/GetPageSpeed/f4fhds /src/f4fhds && \
+    
+# nginx-upstream-fair
+    cd /src && \
+    git clone --recursive https://github.com/itoffshore/nginx-upstream-fair /src/nginx-upstream-fair && \
+    
+# mod_zip
+    cd /src && \
+    git clone --recursive https://github.com/evanmiller/mod_zip /src/mod_zip && \
+    
+# nginx-statsd
+    cd /src && \
+    git clone --recursive https://github.com/getsentry/nginx-statsd /src/nginx-statsd && \
+    
+# nginx-module-sts
+    cd /src && \
+    git clone --recursive https://github.com/vozlt/nginx-module-sts /src/nginx-module-sts && \
+    
+# nginx-fips-check-module
+    cd /src && \
+    git clone --recursive https://github.com/ogarrett/nginx-fips-check-module /src/nginx-fips-check-module && \
+    
+# nginx-sticky-module-ng
+    cd /src && \
+    git clone --recursive https://github.com/dvershinin/nginx-sticky-module-ng /src/nginx-sticky-module-ng && \
+    
+# ngx_http_google_filter_module
+    cd /src && \
+    git clone --recursive https://github.com/cuber/ngx_http_google_filter_module /src/ngx_http_google_filter_module && \
+    
+# nginx-ts-module 
+    cd /src && \
+    git clone --recursive https://github.com/arut/nginx-ts-module /src/nginx-ts-module && \
+    
+# ngx_http_js_challenge_module
+    cd /src && \
+    git clone --recursive https://github.com/dvershinin/ngx_http_js_challenge_module /src/ngx_http_js_challenge_module && \
+    
+# ngx_http_captcha_module
+    cd /src && \
+    git clone --recursive https://github.com/dvershinin/ngx_http_captcha_module /src/ngx_http_captcha_module && \
+    
+# ngx_cookie_limit_req_module
+    cd /src && \
+    git clone --recursive https://github.com/limithit/ngx_cookie_limit_req_module /src/ngx_cookie_limit_req_module && \
+    
+# modjpeg-nginx
+    cd /src && \
+    git clone --recursive https://github.com/ioppermann/modjpeg-nginx /src/modjpeg-nginx && \
+
 # Configure
     cd /src && \
     /src/configure \
@@ -182,18 +243,32 @@ RUN rm -rf /etc/apt/sources.list && \
     --with-http_image_filter_module \
     --with-http_auth_request_module \
     --with-http_random_index_module \
+    --add-module=/src/f4fhds \
+    --add-module=/src/mod_zip \
     --add-module=/src/njs/nginx \
     --add-module=/src/ngx_brotli \
+    --add-module=/src/nginx-statsd \
+    --add-module=/src/modjpeg-nginx \
     --add-module=/src/ngx-fancyindex \
     --add-module=/src/ngx_cache_purge \
     --add-module=/src/nginx-module-vts \
+    --add-module=/src/nginx-module-sts \
     --add-module=/src/ModSecurity-nginx \
+    --add-module=/src/nginx-upstream-fair \
+    --add-module=/src/nginx-upload-module \
     --add-module=/src/ngx_security_headers \
     --add-module=/src/nginx-dav-ext-module \
     --add-module=/src/nginx-http-flv-module \
     --add-module=/src/ngx_http_geoip2_module \
+    --add-module=/src/nginx-sticky-module-ng \
+    --add-module=/src/ngx_http_captcha_module \
+    --add-module=/src/nginx-fips-check-module \
 #    --add-module=/src/testcookie-nginx-module \
     --add-module=/src/incubator-pagespeed-ngx \
+    --add-module=/src/ngx_cookie_limit_req_module \
+    --add-module=/src/nginx_accept_language_module \
+    --add-module=/src/ngx_http_google_filter_module \
+    --add-module=/src/ngx_http_js_challenge_module \
     --add-module=/src/ngx_http_substitutions_filter_module \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
