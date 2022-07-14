@@ -111,9 +111,9 @@ RUN rm -rf /etc/apt/sources.list && \
     cd /src && \
     git clone --recursive https://github.com/vozlt/nginx-module-vts /src/nginx-module-vts && \
 
-# rtmp
+# flv
     cd /src && \
-    git clone --recursive https://github.com/arut/nginx-rtmp-module /src/nginx-rtmp-module && \
+    git clone --recursive https://github.com/winshining/nginx-http-flv-module /src/nginx-http-flv-module && \
 
 # testcookie
 #    cd /src && \
@@ -188,9 +188,9 @@ RUN rm -rf /etc/apt/sources.list && \
     --add-module=/src/ngx_cache_purge \
     --add-module=/src/nginx-module-vts \
     --add-module=/src/ModSecurity-nginx \
-    --add-module=/src/nginx-rtmp-module \
     --add-module=/src/ngx_security_headers \
     --add-module=/src/nginx-dav-ext-module \
+    --add-module=/src/nginx-http-flv-module \
     --add-module=/src/ngx_http_geoip2_module \
 #    --add-module=/src/testcookie-nginx-module \
     --add-module=/src/incubator-pagespeed-ngx \
