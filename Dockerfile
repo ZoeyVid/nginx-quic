@@ -298,7 +298,7 @@ RUN rm -rf /etc/apt/sources.list && \
     rm -rf /src && \
 
 # Copy version into env
-    cd / && \
+RUN cd / && \
     nginx -v 2> v && \
     sed -i "s/nginx version: //g" v
 
