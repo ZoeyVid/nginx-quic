@@ -298,11 +298,9 @@ RUN rm -rf /etc/apt/sources.list && \
 
 # Copy version into env
     nginx -v 2> /v && \
-    sed -i "s/nginx version: //g" /v && \
-    OPENRESTY_VERSION=$(cat /v) && \
-    rm -rf /v
+    sed -i "s/nginx version: //g" /v
 
-ENV OPENRESTY_VERSION=${OPENRESTY_VERSION}
+ENV OPENRESTY_VERSION=$(cat /v)
 
 ENTRYPOINT ["/usr/sbin/nginx"]
 CMD ["-g", "daemon off;"]
