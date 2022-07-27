@@ -291,11 +291,7 @@ RUN rm -rf /etc/apt/sources.list && \
     sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
     
     cd /src && \
-    curl -L https://ssl-config.mozilla.org/ffdhe2048.txt -o /etc/ssl/dhparam && \
-
-# Clean
-    cd / && \
-    rm -rf /src && \
+    curl -L https://ssl-config.mozilla.org/ffdhe2048.txt -o /etc/ssl/dhparam
 
 # Copy version into env
 RUN cd / && \
@@ -303,6 +299,10 @@ RUN cd / && \
     sed -i "s/nginx version: //g" v
 
 ENV OPENRESTY_VERSION=$(cat v)
+
+# Clean
+RUN cd / && \
+    rm -rf /src
 
 ENTRYPOINT ["/usr/sbin/nginx"]
 CMD ["-g", "daemon off;"]
