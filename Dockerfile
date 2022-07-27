@@ -117,8 +117,8 @@ RUN rm -rf /etc/apt/sources.list && \
     git clone --recursive https://github.com/winshining/nginx-http-flv-module /src/nginx-http-flv-module && \
 
 # testcookie
-#    cd /src && \
-#    git clone --recursive https://github.com/kyprizel/testcookie-nginx-module /src/testcookie-nginx-module && \
+    cd /src && \
+    git clone --recursive https://github.com/kyprizel/testcookie-nginx-module /src/testcookie-nginx-module && \
 
 # modsec
     cd /src && \
@@ -264,7 +264,7 @@ RUN rm -rf /etc/apt/sources.list && \
     --add-module=/src/nginx-sticky-module-ng \
     --add-module=/src/ngx_http_captcha_module \
     --add-module=/src/nginx-fips-check-module \
-#    --add-module=/src/testcookie-nginx-module \
+    --add-module=/src/testcookie-nginx-module \
     --add-module=/src/incubator-pagespeed-ngx \
 #    --add-module=/src/ngx_cookie_limit_req_module \
     --add-module=/src/nginx_accept_language_module \
