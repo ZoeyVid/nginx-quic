@@ -297,10 +297,10 @@ RUN rm -rf /etc/apt/sources.list && \
     rm -rf /src && \
 
 # Copy version into env
-    nginx -v 2> v && \
-    sed -i "s/nginx version: //g" v && \
-    OPENRESTY_VERSION=$(cat v) && \
-    rm -rf v
+    nginx -v 2> /v && \
+    sed -i "s/nginx version: //g" /v && \
+    OPENRESTY_VERSION=$(cat /v) && \
+    rm -rf /v
 
 ENV OPENRESTY_VERSION=${OPENRESTY_VERSION}
 
