@@ -294,9 +294,10 @@ RUN rm -rf /etc/apt/sources.list && \
     curl -L https://ssl-config.mozilla.org/ffdhe2048.txt -o /etc/ssl/dhparam && \
 
 # Clean
-    rm -rf /src
+    rm -rf /src && \
 
-RUN nginx -v 2> v && \
+# Copy version into env
+    nginx -v 2> v && \
     sed -i "s/nginx version: //g" v
 ENV OPENRESTY_VERSION=$(cat v)
 RUN rm -rf v
