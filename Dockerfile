@@ -296,5 +296,10 @@ RUN rm -rf /etc/apt/sources.list && \
 # Clean
     rm -rf /src
 
+RUN nginx -v 2> v && \
+    sed -i "s/nginx version: //g" v
+ENV OPENRESTY_VERSION=$(cat v)
+RUN rm -rf v
+
 ENTRYPOINT ["/usr/sbin/nginx"]
 CMD ["-g", "daemon off;"]
