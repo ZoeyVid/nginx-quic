@@ -33,17 +33,10 @@ jobs:
          git clone --recursive https://github.com/SanCraftDev/openresty-quic src
          cd src
          make -j "$(nproc)"
-         rm openresty-*.tar.gz
-         mv openresty-* ../openresty
-         rm -rf ../openresty/bundle/srcache-nginx-module-0.32
-         git clone --recursive https://github.com/openresty/srcache-nginx-module ../openresty/bundle/srcache-nginx-module-0.32
-         rm -rf ../openresty/bundle/ngx_lua-0.10.21
-         git clone --recursive https://github.com/openresty/lua-nginx-module ../openresty/bundle/ngx_lua-0.10.21
-         rm -rf ../openresty/bundle/headers-more-nginx-module-0.33
-         git clone --recursive https://github.com/openresty/headers-more-nginx-module ../openresty/bundle/headers-more-nginx-module-0.33
-         rm -rf ../openresty/bundle/redis-nginx-module-0.3.9
-         git clone --recursive https://github.com/centminmod/ngx_http_redis ../openresty/bundle/redis-nginx-module-0.3.9
-         rm -rf ../src
+         cd ..
+         rm src/openresty-*.tar.gz
+         mv srv/openresty-* openresty
+         rm -rf src
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
