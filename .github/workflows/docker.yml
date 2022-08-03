@@ -30,14 +30,12 @@ jobs:
       - name: patch nginx-openresty
         if: steps.cache-nginx-openresty.outputs.cache-hit != 'true'
         run: | 
-         export DEBIAN_FRONTEND=noninteractive
-         sudo apt -o DPkg::Options::="--force-confnew" install -y dos2unix
          git clone --recursive https://github.com/SanCraftDev/openresty-quic src
          cd src
          make -j "$(nproc)"
          cd ..
          rm src/openresty-*.tar.gz
-         mv src/openresty-* ./openresty
+         cp src/openresty-* openresty
          rm -rf src
 
       - name: Set up QEMU
