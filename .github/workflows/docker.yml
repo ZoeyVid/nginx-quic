@@ -88,7 +88,7 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
-      - name: Show Nginx version
+      - name: show version
         if: ${{ github.event_name != 'pull_request' }}
         run: docker run --rm ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} -V
 
@@ -111,6 +111,6 @@ jobs:
           build-args: |
            "BUILD=${{ github.event.repository.name }}"
 
-      - name: Show Nginx version (PR)
+      - name: show version (PR)
         if: ${{ github.event_name == 'pull_request' }}
         run: docker run --rm ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }} -V
