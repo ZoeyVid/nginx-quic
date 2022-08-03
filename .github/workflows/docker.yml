@@ -35,7 +35,7 @@ jobs:
          make -j "$(nproc)"
          cd ..
          rm src/openresty-*.tar.gz
-         cp src/openresty-* openresty
+         cp -r src/openresty-* openresty
          rm -rf src
 
       - name: Set up QEMU
