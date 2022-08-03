@@ -117,3 +117,10 @@ jobs:
       - name: show version (PR)
         if: ${{ github.event_name == 'pull_request' }}
         run: docker run --rm ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }} -V
+          
+      - name: add comment (PR)
+        uses: mshick/add-pr-comment@v1
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          message: "The Docker Image can now be found here: `ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}`"
+          repo-token: ${{ github.token }}
