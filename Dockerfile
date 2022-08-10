@@ -302,5 +302,6 @@ RUN rm -rf /etc/apt/sources.list && \
     nginx -v 2> v && \
     sed -i "s/nginx version: //g" v
 
+LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/openresty-nginx-quic"
 ENTRYPOINT ["/usr/sbin/nginx"]
 CMD ["-g", "daemon off;"]
