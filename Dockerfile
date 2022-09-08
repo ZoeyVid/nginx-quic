@@ -79,6 +79,10 @@ RUN rm -rf /etc/apt/sources.list && \
 # Brotli
     cd /src && \
     git clone --recursive https://github.com/google/ngx_brotli /src/ngx_brotli && \
+
+# zstd-nginx-module
+    cd /src && \
+    git clone --recursive https://github.com/tokers/zstd-nginx-module /src/zstd-nginx-module && \
     
 # GeoIP
     cd /src && \
@@ -255,6 +259,7 @@ RUN rm -rf /etc/apt/sources.list && \
     --add-module=/src/nginx-module-vts \
     --add-module=/src/nginx-module-sts \
     --add-module=/src/ModSecurity-nginx \
+    --add-module=/src/zstd-nginx-module \
     --add-module=/src/nginx-upstream-fair \
     --add-module=/src/nginx-upload-module \
     --add-module=/src/ngx_security_headers \
