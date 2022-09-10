@@ -1,4 +1,4 @@
-FROM debian:sid-20220822-slim
+FROM debian:bullseye-20220822-slim
 
 ARG BUILD=${BUILD}
 ARG PAGESPEED_INCUBATOR_VERSION=1.14.36.1
@@ -10,22 +10,28 @@ COPY openresty /src
 ENV DEBIAN_FRONTEND=noninteractive
 RUN rm -rf /etc/apt/sources.list && \
     echo "fs.file-max = 65535" > /etc/sysctl.conf && \
-    apt update -y && \
-    apt upgrade -y --allow-downgrades && \
-    apt dist-upgrade -y --allow-downgrades && \
-    apt autoremove --purge -y && \
-    apt autoclean -y && \
-    apt clean -y && \
-    apt -o DPkg::Options::="--force-confnew" -y install -y curl gnupg ca-certificates apt-utils && \
+    echo "deb http://ftp.debian.org/debian bullseye main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb http://ftp.debian.org/debian bullseye-updates main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb http://ftp.debian.org/debian bullseye-proposed-updates main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb http://ftp.debian.org/debian bullseye-backports main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb http://ftp.debian.org/debian bullseye-backports-sloppy main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb http://security.debian.org/debian-security bullseye-security main contrib non-free" >> /etc/apt/sources.list && \
+    apt update -t bullseye-backports -y && \
+    apt upgrade -t bullseye-backports -y --allow-downgrades && \
+    apt dist-upgrade -t bullseye-backports -y --allow-downgrades && \
+    apt autoremove -t bullseye-backports --purge -y && \
+    apt autoclean -t bullseye-backports -y && \
+    apt clean -t bullseye-backports -y && \
+    apt -o DPkg::Options::="--force-confnew" -y install -t bullseye-backports -y curl gnupg ca-certificates apt-utils && \
     curl -Ls https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee /usr/share/keyrings/nodesource.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x sid main" > /etc/apt/sources.list && \
-    apt update -y && \
-    apt upgrade -y --allow-downgrades && \
-    apt dist-upgrade -y --allow-downgrades && \
-    apt autoremove --purge -y && \
-    apt autoclean -y && \
-    apt clean -y && \
-    apt -o DPkg::Options::="--force-confnew" -y install -y \
+    echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x bullseye main" >> /etc/apt/sources.list && \
+    apt update -t bullseye-backports -y && \
+    apt upgrade -t bullseye-backports -y --allow-downgrades && \
+    apt dist-upgrade -t bullseye-backports -y --allow-downgrades && \
+    apt autoremove -t bullseye-backports --purge -y && \
+    apt autoclean -t bullseye-backports -y && \
+    apt clean -t bullseye-backports -y && \
+    apt -o DPkg::Options::="--force-confnew" -y install -t bullseye-backports -y \
     mercurial dos2unix patch autoconf automake golang coreutils build-essential gnupg passwd \
     libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libgd-dev libgd3 libatomic-ops-dev libgeoip-dev libgeoip1 \
     libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev libperl-dev libtool sysvinit-utils lua5.1 liblua5.1-dev lua-any lua-sec luarocks perl \
