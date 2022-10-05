@@ -10,12 +10,12 @@ COPY openresty /src
 ENV DEBIAN_FRONTEND=noninteractive
 RUN rm -rf /etc/apt/sources.list && \
     echo "fs.file-max = 65535" > /etc/sysctl.conf && \
-    echo "deb http://ftp.debian.org/debian bullseye main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb http://ftp.debian.org/debian bullseye-updates main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb http://ftp.debian.org/debian bullseye-proposed-updates main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb http://ftp.debian.org/debian bullseye-backports main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb http://ftp.debian.org/debian bullseye-backports-sloppy main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb http://security.debian.org/debian-security bullseye-security main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb https://debian.inf.tu-dresden.de/debian bullseye main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb https://debian.inf.tu-dresden.de/debian bullseye-updates main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb https://debian.inf.tu-dresden.de/debian bullseye-proposed-updates main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb https://debian.inf.tu-dresden.de/debian bullseye-backports main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb https://debian.inf.tu-dresden.de/debian bullseye-backports-sloppy main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb https://security.debian.org/debian-security bullseye-security main contrib non-free" >> /etc/apt/sources.list && \
     apt update -t bullseye-backports -y && \
     apt upgrade -t bullseye-backports -y --allow-downgrades && \
     apt dist-upgrade -t bullseye-backports -y --allow-downgrades && \
