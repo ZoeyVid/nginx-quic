@@ -14,6 +14,7 @@ RUN apt update -y && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y && \
+    apt -o DPkg::Options::="--force-confnew" -y install -y curl gnupg ca-certificates apt-utils && \
     rm -rf /etc/apt/sources.list && \
     echo "fs.file-max = 65535" > /etc/sysctl.conf && \
     echo "deb https://debian.inf.tu-dresden.de/debian bullseye main contrib non-free" >> /etc/apt/sources.list && \
