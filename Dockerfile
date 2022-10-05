@@ -8,7 +8,13 @@ COPY openresty /src
     
 # Requirements
 ENV DEBIAN_FRONTEND=noninteractive
-RUN rm -rf /etc/apt/sources.list && \
+RUN apt update -y && \
+    apt upgrade -y --allow-downgrades && \
+    apt dist-upgrade -y --allow-downgrades && \
+    apt autoremove --purge -y && \
+    apt autoclean -y && \
+    apt clean -y && \
+    rm -rf /etc/apt/sources.list && \
     echo "fs.file-max = 65535" > /etc/sysctl.conf && \
     echo "deb https://debian.inf.tu-dresden.de/debian bullseye main contrib non-free" >> /etc/apt/sources.list && \
     echo "deb https://debian.inf.tu-dresden.de/debian bullseye-updates main contrib non-free" >> /etc/apt/sources.list && \
