@@ -31,7 +31,7 @@ RUN apt update -y && \
     apt clean -t bullseye-backports -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -t bullseye-backports -y curl gnupg ca-certificates apt-utils && \
     curl -Ls https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee /usr/share/keyrings/nodesource.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x bullseye main" >> /etc/apt/sources.list && \
+    echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x bullseye main" >> /etc/apt/sources.list && \
     apt update -t bullseye-backports -y && \
     apt upgrade -t bullseye-backports -y --allow-downgrades && \
     apt dist-upgrade -t bullseye-backports -y --allow-downgrades && \
