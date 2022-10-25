@@ -1,4 +1,4 @@
-FROM debian:bullseye-20221004-slim
+FROM debian:bullseye-20221024-slim
 
 ARG BUILD=${BUILD}
 ARG PAGESPEED_INCUBATOR_VERSION=1.14.36.1
