@@ -1,7 +1,7 @@
 FROM debian:bullseye-20221024-slim
 
 ARG BUILD=${BUILD}
-ARG PAGESPEED_INCUBATOR_VERSION=1.14.36.1
+#ARG PAGESPEED_INCUBATOR_VERSION=1.14.36.1
     
 # Copy Openresty
 COPY openresty /src
@@ -74,10 +74,10 @@ RUN apt update -y && \
     make -j "$(nproc)" && \
 
 # Pagespeed
-    cd /src && \
-    git clone https://github.com/apache/incubator-pagespeed-ngx /src/incubator-pagespeed-ngx && \
-    cd /src/incubator-pagespeed-ngx && \
-    curl -L https://dist.apache.org/repos/dist/release/incubator/pagespeed/${PAGESPEED_INCUBATOR_VERSION}/x64/psol-${PAGESPEED_INCUBATOR_VERSION}-apache-incubating-x64.tar.gz | tar zx && \
+#    cd /src && \
+#    git clone https://github.com/apache/incubator-pagespeed-ngx /src/incubator-pagespeed-ngx && \
+#    cd /src/incubator-pagespeed-ngx && \
+#    curl -L https://dist.apache.org/repos/dist/release/incubator/pagespeed/${PAGESPEED_INCUBATOR_VERSION}/x64/psol-${PAGESPEED_INCUBATOR_VERSION}-apache-incubating-x64.tar.gz | tar zx && \
 
 # njs
     cd /src && \
@@ -277,7 +277,7 @@ RUN apt update -y && \
     --add-module=/src/ngx_http_captcha_module \
     --add-module=/src/nginx-fips-check-module \
     --add-module=/src/testcookie-nginx-module \
-    --add-module=/src/incubator-pagespeed-ngx \
+#    --add-module=/src/incubator-pagespeed-ngx \
 #    --add-module=/src/ngx_cookie_limit_req_module \
     --add-module=/src/nginx_accept_language_module \
     --add-module=/src/ngx_http_js_challenge_module \
