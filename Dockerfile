@@ -1,4 +1,4 @@
-FROM debian:unstable-20221024-slim
+FROM debian:unstable-20221024-slim as build
 
 ARG BUILD=${BUILD}
 #ARG PAGESPEED_INCUBATOR_VERSION=1.14.36.1
@@ -268,8 +268,8 @@ RUN apt update -y && \
 #    --add-module=/src/ngx_http_google_filter_module \
 #    --add-module=/src/ngx_http_substitutions_filter_module \
     --with-openssl="/src/openssl" \
-    --with-cc-opt="-I/src/openssl/build/include -static -static-libgcc" \
-    --with-ld-opt="-L/src/openssl/build/lib -static" && \
+    --with-cc-opt="-I/src/openssl/build/include" \
+    --with-ld-opt="-L/src/openssl/build/lib" && \
     
 # Build & Install
     cd /src && \
