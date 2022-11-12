@@ -281,10 +281,10 @@ RUN apt update -y && \
     mkdir -p /var/cache/nginx && \
     mkdir -p /var/log/nginx && \
     
-    cd /src && \
-    mkdir /etc/nginx/modsec && \
-    curl -L https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended -o /etc/nginx/modsec/modsecurity.conf && \
-    sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
+#    cd /src && \
+#    mkdir /etc/nginx/modsec && \
+#    curl -L https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended -o /etc/nginx/modsec/modsecurity.conf && \
+#    sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
     
     cd /src && \
     curl -L https://ssl-config.mozilla.org/ffdhe2048.txt -o /etc/ssl/dhparam && \
