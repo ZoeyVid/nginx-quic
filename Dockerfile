@@ -277,7 +277,7 @@ RUN apt update -y && \
     make -j "$(nproc)" install && \
     
     cd /src && \
-    strip -s /usr/sbin/nginx && \
+    strip -s /bin/nginx && \
     mkdir -p /var/cache/nginx && \
     mkdir -p /var/log/nginx && \
     
