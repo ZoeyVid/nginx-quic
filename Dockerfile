@@ -185,7 +185,7 @@ RUN apt update -y && \
     --with-debug \
     --build=${BUILD} \
     --prefix=/etc/nginx \
-    --sbin-path=/usr/local/bin/nginx \
+    --sbin-path=/bin/nginx \
     --pid-path=/var/run/nginx.pid \
     --lock-path=/var/run/nginx.lock \
     --conf-path=/etc/nginx/nginx.conf \
