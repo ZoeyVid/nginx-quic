@@ -25,15 +25,13 @@ RUN apt update -y && \
     apt autoclean -y && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
-    mercurial dos2unix patch autoconf automake golang coreutils build-essential gnupg passwd \
-    libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libgd-dev libgd3 libatomic-ops-dev libgeoip-dev libgeoip1 \
-    libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev libperl-dev libtool sysvinit-utils lua5.1 liblua5.1-dev lua-any lua-sec luarocks perl \
-    libimage-imlib2-perl imagemagick libgd-dev libiconv-hook-dev libiconv-hook1 libzstd-dev \
-    python3 python-is-python3 python3-pip nodejs npm sqlite3 logrotate dnsutils redis-tools redis-server tar git jq curl wget zip unzip figlet nano apache2-utils && \
+    git python3 python-is-python3 python3-pip nodejs npm logrotate mercurial curl apache2-utils libpcre3-dev && \
+    apt update -y && \
+    apt upgrade -y --allow-downgrades && \
+    apt dist-upgrade -y --allow-downgrades && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y && \
-    npm install --global yarn && \
     pip install certbot && \
 
 # Nginx
@@ -76,21 +74,9 @@ RUN apt update -y && \
     cd /src && \
     git clone --recursive https://github.com/tokers/zstd-nginx-module /src/zstd-nginx-module && \
     
-# GeoIP
-    cd /src && \
-    git clone --recursive https://github.com/leev/ngx_http_geoip2_module /src/ngx_http_geoip2_module && \
-    
 # ngx_security_headers
     cd /src && \
     git clone --recursive https://github.com/GetPageSpeed/ngx_security_headers /src/ngx_security_headers && \
-
-# Cache Purge
-    cd /src && \
-    git clone --recursive https://github.com/nginx-modules/ngx_cache_purge /src/ngx_cache_purge && \
-    
-# Nginx Substitutions Filter
-    cd /src && \
-    git clone --recursive https://github.com/yaoweibin/ngx_http_substitutions_filter_module /src/ngx_http_substitutions_filter_module && \
 
 # fancyindex
     cd /src && \
@@ -99,23 +85,7 @@ RUN apt update -y && \
     cd /src && \
     git clone --recursive https://github.com/SanCraftDev/Nginx-Fancyindex-Theme && \
     mv /src/Nginx-Fancyindex-Theme/Nginx-Fancyindex-Theme-dark /Nginx-Fancyindex-Theme-dark && \
-
-# webdav
-    cd /src && \
-    git clone --recursive https://github.com/arut/nginx-dav-ext-module /src/nginx-dav-ext-module && \
-
-# vts
-    cd /src && \
-    git clone --recursive https://github.com/vozlt/nginx-module-vts /src/nginx-module-vts && \
-
-# flv
-    cd /src && \
-    git clone --recursive https://github.com/winshining/nginx-http-flv-module /src/nginx-http-flv-module && \
-
-# testcookie
-    cd /src && \
-    git clone --recursive https://github.com/kyprizel/testcookie-nginx-module /src/testcookie-nginx-module && \
-
+    
 # modsec
     cd /src && \
     git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx /src/ModSecurity-nginx && \
@@ -124,53 +94,82 @@ RUN apt update -y && \
     cd /src && \
     git clone --recursive https://github.com/dvershinin/nginx_accept_language_module /src/nginx_accept_language_module && \
     
-# nginx-upload-module
+# ngx_http_js_challenge_module
     cd /src && \
-    git clone --recursive https://github.com/fdintino/nginx-upload-module /src/nginx-upload-module && \
-    
-# f4fhds
+    git clone --recursive https://github.com/dvershinin/ngx_http_js_challenge_module /src/ngx_http_js_challenge_module && \
+
+# testcookie
     cd /src && \
-    git clone --recursive https://github.com/GetPageSpeed/f4fhds /src/f4fhds && \
-    
-# nginx-upstream-fair
-    cd /src && \
-    git clone --recursive https://github.com/itoffshore/nginx-upstream-fair /src/nginx-upstream-fair && \
-    
-# mod_zip
-    cd /src && \
-    git clone --recursive https://github.com/evanmiller/mod_zip /src/mod_zip && \
-    
-# nginx-statsd
-    cd /src && \
-    git clone --recursive https://github.com/getsentry/nginx-statsd /src/nginx-statsd && \
+    git clone --recursive https://github.com/kyprizel/testcookie-nginx-module /src/testcookie-nginx-module && \
     
 # nginx-module-sts
     cd /src && \
     git clone --recursive https://github.com/vozlt/nginx-module-sts /src/nginx-module-sts && \
+
+# vts
+    cd /src && \
+    git clone --recursive https://github.com/vozlt/nginx-module-vts /src/nginx-module-vts && \
+    
+# nginx-upstream-fair
+#    cd /src && \
+#    git clone --recursive https://github.com/itoffshore/nginx-upstream-fair /src/nginx-upstream-fair && \
+    
+    
+# GeoIP
+#    cd /src && \
+#    git clone --recursive https://github.com/leev/ngx_http_geoip2_module /src/ngx_http_geoip2_module && \
+
+# Cache Purge
+#    cd /src && \
+#    git clone --recursive https://github.com/nginx-modules/ngx_cache_purge /src/ngx_cache_purge && \
+    
+# Nginx Substitutions Filter
+#    cd /src && \
+#    git clone --recursive https://github.com/yaoweibin/ngx_http_substitutions_filter_module /src/ngx_http_substitutions_filter_module && \
+
+# webdav
+#    cd /src && \
+#    git clone --recursive https://github.com/arut/nginx-dav-ext-module /src/nginx-dav-ext-module && \
+
+# flv
+#    cd /src && \
+#    git clone --recursive https://github.com/winshining/nginx-http-flv-module /src/nginx-http-flv-module && \
+    
+# nginx-upload-module
+#    cd /src && \
+#    git clone --recursive https://github.com/fdintino/nginx-upload-module /src/nginx-upload-module && \
+    
+# f4fhds
+#    cd /src && \
+#    git clone --recursive https://github.com/GetPageSpeed/f4fhds /src/f4fhds && \
+    
+# mod_zip
+#    cd /src && \
+#    git clone --recursive https://github.com/evanmiller/mod_zip /src/mod_zip && \
+    
+# nginx-statsd
+#    cd /src && \
+#    git clone --recursive https://github.com/getsentry/nginx-statsd /src/nginx-statsd && \
     
 # nginx-fips-check-module
-    cd /src && \
-    git clone --recursive https://github.com/ogarrett/nginx-fips-check-module /src/nginx-fips-check-module && \
+#    cd /src && \
+#    git clone --recursive https://github.com/ogarrett/nginx-fips-check-module /src/nginx-fips-check-module && \
     
 # nginx-sticky-module-ng
-    cd /src && \
-    git clone --recursive https://github.com/dvershinin/nginx-sticky-module-ng /src/nginx-sticky-module-ng && \
+#    cd /src && \
+#    git clone --recursive https://github.com/dvershinin/nginx-sticky-module-ng /src/nginx-sticky-module-ng && \
     
 # ngx_http_google_filter_module
-    cd /src && \
-    git clone --recursive https://github.com/GetPageSpeed/ngx_http_google_filter_module /src/ngx_http_google_filter_module && \
+#    cd /src && \
+#    git clone --recursive https://github.com/GetPageSpeed/ngx_http_google_filter_module /src/ngx_http_google_filter_module && \
     
 # nginx-ts-module 
-    cd /src && \
-    git clone --recursive https://github.com/arut/nginx-ts-module /src/nginx-ts-module && \
-    
-# ngx_http_js_challenge_module
-    cd /src && \
-    git clone --recursive https://github.com/dvershinin/ngx_http_js_challenge_module /src/ngx_http_js_challenge_module && \
+#    cd /src && \
+#    git clone --recursive https://github.com/arut/nginx-ts-module /src/nginx-ts-module && \
     
 # ngx_http_captcha_module
-    cd /src && \
-    git clone --recursive https://github.com/dvershinin/ngx_http_captcha_module /src/ngx_http_captcha_module && \
+#    cd /src && \
+#    git clone --recursive https://github.com/dvershinin/ngx_http_captcha_module /src/ngx_http_captcha_module && \
     
 # ngx_cookie_limit_req_module
 #    cd /src && \
@@ -186,7 +185,7 @@ RUN apt update -y && \
     --with-debug \
     --build=${BUILD} \
     --prefix=/etc/nginx \
-    --sbin-path=/usr/sbin/nginx \
+    --sbin-path=/usr/local/bin/nginx \
     --pid-path=/var/run/nginx.pid \
     --lock-path=/var/run/nginx.lock \
     --conf-path=/etc/nginx/nginx.conf \
@@ -198,10 +197,10 @@ RUN apt update -y && \
     --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
     --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
     --http-client-body-temp-path=/var/cache/nginx/client_temp \
-    --user=nginx \
-    --group=nginx \
-    --with-cc-opt=-Wno-deprecated-declarations \
-    --with-cc-opt=-Wno-ignored-qualifiers \
+    --user=root \
+    --group=root \
+#    --with-cc-opt=-Wno-deprecated-declarations \
+#    --with-cc-opt=-Wno-ignored-qualifiers \
     --with-ipv6 \
     --with-compat \
     --with-threads \
@@ -239,35 +238,35 @@ RUN apt update -y && \
     --with-http_image_filter_module \
     --with-http_auth_request_module \
     --with-http_random_index_module \
-    --add-module=/src/f4fhds \
-    --add-module=/src/mod_zip \
     --add-module=/src/njs/nginx \
     --add-module=/src/ngx_brotli \
-    --add-module=/src/nginx-statsd \
-#    --add-module=/src/modjpeg-nginx \
     --add-module=/src/ngx-fancyindex \
-    --add-module=/src/ngx_cache_purge \
-    --add-module=/src/nginx-ts-module \
     --add-module=/src/nginx-module-vts \
     --add-module=/src/nginx-module-sts \
     --add-module=/src/ModSecurity-nginx \
     --add-module=/src/zstd-nginx-module \
-    --add-module=/src/nginx-upstream-fair \
-    --add-module=/src/nginx-upload-module \
     --add-module=/src/ngx_security_headers \
-    --add-module=/src/nginx-dav-ext-module \
-    --add-module=/src/nginx-http-flv-module \
-    --add-module=/src/ngx_http_geoip2_module \
-    --add-module=/src/nginx-sticky-module-ng \
-    --add-module=/src/ngx_http_captcha_module \
-    --add-module=/src/nginx-fips-check-module \
     --add-module=/src/testcookie-nginx-module \
-#    --add-module=/src/incubator-pagespeed-ngx \
-#    --add-module=/src/ngx_cookie_limit_req_module \
     --add-module=/src/nginx_accept_language_module \
     --add-module=/src/ngx_http_js_challenge_module \
-    --add-module=/src/ngx_http_google_filter_module \
-    --add-module=/src/ngx_http_substitutions_filter_module \
+#    --add-module=/src/f4fhds \
+#    --add-module=/src/mod_zip \
+#    --add-module=/src/nginx-statsd \
+#    --add-module=/src/modjpeg-nginx \
+#    --add-module=/src/ngx_cache_purge \
+#    --add-module=/src/nginx-ts-module \
+#    --add-module=/src/nginx-upstream-fair \
+#    --add-module=/src/nginx-upload-module \
+#    --add-module=/src/nginx-dav-ext-module \
+#    --add-module=/src/nginx-http-flv-module \
+#    --add-module=/src/ngx_http_geoip2_module \
+#    --add-module=/src/nginx-sticky-module-ng \
+#    --add-module=/src/ngx_http_captcha_module \
+#    --add-module=/src/nginx-fips-check-module \
+#    --add-module=/src/incubator-pagespeed-ngx \
+#    --add-module=/src/ngx_cookie_limit_req_module \
+#    --add-module=/src/ngx_http_google_filter_module \
+#    --add-module=/src/ngx_http_substitutions_filter_module \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
     --with-ld-opt="-L/src/openssl/build/lib" && \
@@ -300,5 +299,5 @@ RUN apt update -y && \
     sed -i "s/nginx version: //g" v
 
 LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/openresty-nginx-quic"
-ENTRYPOINT ["/usr/sbin/nginx"]
+ENTRYPOINT ["nginx"]
 CMD ["-g", "daemon off;"]
