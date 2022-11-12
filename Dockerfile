@@ -8,14 +8,7 @@ COPY openresty /src
     
 # Requirements
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt update -y && \
-    apt upgrade -y --allow-downgrades && \
-    apt dist-upgrade -y --allow-downgrades && \
-    apt autoremove --purge -y && \
-    apt autoclean -y && \
-    apt clean -y && \
-    apt -o DPkg::Options::="--force-confnew" -y install -y curl gnupg ca-certificates apt-utils && \
-    rm -rf /etc/apt/sources.list && \
+RUN rm -rf /etc/apt/sources.list && \
     rm -rf /etc/apt/sources.list.d/* && \
     echo "deb [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] https://debian.inf.tu-dresden.de/debian unstable main contrib non-free" >> /etc/apt/sources.list && \
     apt update -y && \
@@ -42,7 +35,6 @@ RUN apt update -y && \
     apt clean -y && \
     npm install --global yarn && \
     pip install certbot && \
-    useradd nginx && \
 
 # Nginx
 #    hg clone https://hg.nginx.org/nginx-quic -r "quic" /src && \
