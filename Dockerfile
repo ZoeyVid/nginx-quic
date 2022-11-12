@@ -25,7 +25,7 @@ RUN apt update -y && \
     apt autoclean -y && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
-    nodejs npm python3 python-is-python3 python3-pip logrotate git curl apache2-utils libpcre3-dev && \
+    nodejs npm python3 python-is-python3 python3-pip logrotate git curl apache2-utils libpcre3-dev libatomic-ops-dev && \
     apt update -y && \
     apt upgrade -y --allow-downgrades && \
     apt dist-upgrade -y --allow-downgrades && \
@@ -199,14 +199,12 @@ RUN apt update -y && \
     --http-client-body-temp-path=/var/cache/nginx/client_temp \
     --user=root \
     --group=root \
-#    --with-cc-opt=-Wno-deprecated-declarations \
-#    --with-cc-opt=-Wno-ignored-qualifiers \
     --with-ipv6 \
 #    --with-compat \
     --with-threads \
     --with-file-aio \
     --with-pcre \
-#    --with-libatomic \
+    --with-libatomic \
 #    --with-cpp_test_module \
     --with-mail \
     --with-mail_ssl_module \
@@ -220,7 +218,7 @@ RUN apt update -y && \
     --with-http_v3_module \
     --with-http_ssl_module \
     --with-http_v2_hpack_enc \
-    --with-http_mp4_module \
+#    --with-http_mp4_module \
 #    --with-http_sub_module \
 #    --with-http_dav_module \
 #    --with-http_flv_module \
