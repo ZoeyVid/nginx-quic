@@ -8,7 +8,6 @@ COPY openresty /src
     
 # Requirements
 ENV DEBIAN_FRONTEND=noninteractive
-ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update -y && \
     apt upgrade -y --allow-downgrades && \
     apt dist-upgrade -y --allow-downgrades && \
