@@ -87,8 +87,8 @@ RUN apt update -y && \
     mv /src/Nginx-Fancyindex-Theme/Nginx-Fancyindex-Theme-dark /Nginx-Fancyindex-Theme-dark && \
     
 # modsec
-    cd /src && \
-    git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx /src/ModSecurity-nginx && \
+#    cd /src && \
+#    git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx /src/ModSecurity-nginx && \
 
 # nginx_accept_language_module
     cd /src && \
@@ -99,16 +99,16 @@ RUN apt update -y && \
     git clone --recursive https://github.com/dvershinin/ngx_http_js_challenge_module /src/ngx_http_js_challenge_module && \
 
 # testcookie
-    cd /src && \
-    git clone --recursive https://github.com/kyprizel/testcookie-nginx-module /src/testcookie-nginx-module && \
+#    cd /src && \
+#    git clone --recursive https://github.com/kyprizel/testcookie-nginx-module /src/testcookie-nginx-module && \
     
 # nginx-module-sts
-    cd /src && \
-    git clone --recursive https://github.com/vozlt/nginx-module-sts /src/nginx-module-sts && \
+#    cd /src && \
+#    git clone --recursive https://github.com/vozlt/nginx-module-sts /src/nginx-module-sts && \
 
 # vts
-    cd /src && \
-    git clone --recursive https://github.com/vozlt/nginx-module-vts /src/nginx-module-vts && \
+#    cd /src && \
+#    git clone --recursive https://github.com/vozlt/nginx-module-vts /src/nginx-module-vts && \
     
 # nginx-upstream-fair
 #    cd /src && \
@@ -241,12 +241,12 @@ RUN apt update -y && \
     --add-module=/src/njs/nginx \
     --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
-    --add-module=/src/nginx-module-vts \
-    --add-module=/src/nginx-module-sts \
-    --add-module=/src/ModSecurity-nginx \
+#    --add-module=/src/nginx-module-vts \
+#    --add-module=/src/nginx-module-sts \
+#    --add-module=/src/ModSecurity-nginx \
     --add-module=/src/zstd-nginx-module \
     --add-module=/src/ngx_security_headers \
-    --add-module=/src/testcookie-nginx-module \
+#    --add-module=/src/testcookie-nginx-module \
     --add-module=/src/nginx_accept_language_module \
     --add-module=/src/ngx_http_js_challenge_module \
 #    --add-module=/src/f4fhds \
