@@ -25,7 +25,7 @@ RUN apt update -y && \
     apt autoclean -y && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y \
-    nodejs npm python3 python-is-python3 python3-pip logrotate git curl apache2-utils libpcre3-dev && \
+    nodejs npm python3 python-is-python3 python3-pip logrotate git curl apache2-utils libpcre3-dev libatomic-ops-dev && \
     apt update -y && \
     apt upgrade -y --allow-downgrades && \
     apt dist-upgrade -y --allow-downgrades && \
