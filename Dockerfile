@@ -63,16 +63,16 @@ RUN apt update -y && \
 #    curl -L https://dist.apache.org/repos/dist/release/incubator/pagespeed/${PAGESPEED_INCUBATOR_VERSION}/x64/psol-${PAGESPEED_INCUBATOR_VERSION}-apache-incubating-x64.tar.gz | tar zx && \
 
 # njs
-    cd /src && \
-    hg clone http://hg.nginx.org/njs /src/njs && \
+#    cd /src && \
+#    hg clone http://hg.nginx.org/njs /src/njs && \
 
 # Brotli
-    cd /src && \
-    git clone --recursive https://github.com/google/ngx_brotli /src/ngx_brotli && \
+#    cd /src && \
+#    git clone --recursive https://github.com/google/ngx_brotli /src/ngx_brotli && \
 
 # zstd-nginx-module
-    cd /src && \
-    git clone --recursive https://github.com/tokers/zstd-nginx-module /src/zstd-nginx-module && \
+#    cd /src && \
+#    git clone --recursive https://github.com/tokers/zstd-nginx-module /src/zstd-nginx-module && \
     
 # ngx_security_headers
     cd /src && \
@@ -91,12 +91,12 @@ RUN apt update -y && \
 #    git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx /src/ModSecurity-nginx && \
 
 # nginx_accept_language_module
-    cd /src && \
-    git clone --recursive https://github.com/dvershinin/nginx_accept_language_module /src/nginx_accept_language_module && \
+#    cd /src && \
+#    git clone --recursive https://github.com/dvershinin/nginx_accept_language_module /src/nginx_accept_language_module && \
     
 # ngx_http_js_challenge_module
-    cd /src && \
-    git clone --recursive https://github.com/dvershinin/ngx_http_js_challenge_module /src/ngx_http_js_challenge_module && \
+#    cd /src && \
+#    git clone --recursive https://github.com/dvershinin/ngx_http_js_challenge_module /src/ngx_http_js_challenge_module && \
 
 # testcookie
 #    cd /src && \
@@ -202,18 +202,18 @@ RUN apt update -y && \
 #    --with-cc-opt=-Wno-deprecated-declarations \
 #    --with-cc-opt=-Wno-ignored-qualifiers \
     --with-ipv6 \
-    --with-compat \
+#    --with-compat \
     --with-threads \
     --with-file-aio \
     --with-pcre-jit \
     --with-libatomic \
     --with-cpp_test_module \
-    --with-mail \
-    --with-mail_ssl_module \
+#    --with-mail \
+#    --with-mail_ssl_module \
     --with-stream \
     --with-stream_ssl_module \
     --with-stream_quic_module \
-    --with-stream_geoip_module \
+#    --with-stream_geoip_module \
     --with-stream_realip_module \
     --with-stream_ssl_preread_module \
     --with-http_v2_module \
@@ -221,34 +221,34 @@ RUN apt update -y && \
     --with-http_ssl_module \
     --with-http_v2_hpack_enc \
     --with-http_mp4_module \
-    --with-http_sub_module \
-    --with-http_dav_module \
-    --with-http_flv_module \
-    --with-http_perl_module \
-    --with-http_xslt_module \
-    --with-http_geoip_module \
-    --with-http_slice_module \
+#    --with-http_sub_module \
+#    --with-http_dav_module \
+#    --with-http_flv_module \
+#    --with-http_perl_module \
+#    --with-http_xslt_module \
+#    --with-http_geoip_module \
+#    --with-http_slice_module \
     --with-http_realip_module \
     --with-http_gunzip_module \
-    --with-http_addition_module \
-    --with-http_degradation_module \
-    --with-http_stub_status_module \
+#    --with-http_addition_module \
+#    --with-http_degradation_module \
+#    --with-http_stub_status_module \
     --with-http_gzip_static_module \
-    --with-http_secure_link_module \
-    --with-http_image_filter_module \
-    --with-http_auth_request_module \
-    --with-http_random_index_module \
-    --add-module=/src/njs/nginx \
-    --add-module=/src/ngx_brotli \
+#    --with-http_secure_link_module \
+#    --with-http_image_filter_module \
+#    --with-http_auth_request_module \
+#    --with-http_random_index_module \
+#    --add-module=/src/njs/nginx \
+#    --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
+    --add-module=/src/ngx_security_headers \
 #    --add-module=/src/nginx-module-vts \
 #    --add-module=/src/nginx-module-sts \
 #    --add-module=/src/ModSecurity-nginx \
-    --add-module=/src/zstd-nginx-module \
-    --add-module=/src/ngx_security_headers \
+#    --add-module=/src/zstd-nginx-module \
 #    --add-module=/src/testcookie-nginx-module \
-    --add-module=/src/nginx_accept_language_module \
-    --add-module=/src/ngx_http_js_challenge_module \
+#    --add-module=/src/nginx_accept_language_module \
+#    --add-module=/src/ngx_http_js_challenge_module \
 #    --add-module=/src/f4fhds \
 #    --add-module=/src/mod_zip \
 #    --add-module=/src/nginx-statsd \
