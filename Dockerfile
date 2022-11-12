@@ -205,11 +205,11 @@ RUN apt update -y && \
 #    --with-compat \
     --with-threads \
     --with-file-aio \
-    --with-pcre-jit \
-    --with-libatomic \
-    --with-cpp_test_module \
-#    --with-mail \
-#    --with-mail_ssl_module \
+    --with-pcre \
+#    --with-libatomic \
+#    --with-cpp_test_module \
+    --with-mail \
+    --with-mail_ssl_module \
     --with-stream \
     --with-stream_ssl_module \
     --with-stream_quic_module \
@@ -268,8 +268,8 @@ RUN apt update -y && \
 #    --add-module=/src/ngx_http_google_filter_module \
 #    --add-module=/src/ngx_http_substitutions_filter_module \
     --with-openssl="/src/openssl" \
-    --with-cc-opt="-I/src/openssl/build/include" \
-    --with-ld-opt="-L/src/openssl/build/lib" && \
+    --with-cc-opt="-I/src/openssl/build/include -static -static-libgcc" \
+    --with-ld-opt="-L/src/openssl/build/lib -static" && \
     
 # Build & Install
     cd /src && \
