@@ -8,6 +8,7 @@ COPY openresty /src
     
 # Requirements
 ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update -y && \
     apt upgrade -y --allow-downgrades && \
     apt dist-upgrade -y --allow-downgrades && \
@@ -16,34 +17,27 @@ RUN apt update -y && \
     apt clean -y && \
     apt -o DPkg::Options::="--force-confnew" -y install -y curl gnupg ca-certificates apt-utils && \
     rm -rf /etc/apt/sources.list && \
-    echo "fs.file-max = 65535" > /etc/sysctl.conf && \
-    echo "deb https://debian.inf.tu-dresden.de/debian bullseye main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb https://debian.inf.tu-dresden.de/debian bullseye-updates main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb https://debian.inf.tu-dresden.de/debian bullseye-proposed-updates main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb https://debian.inf.tu-dresden.de/debian bullseye-backports main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb https://debian.inf.tu-dresden.de/debian bullseye-backports-sloppy main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb https://security.debian.org/debian-security bullseye-security main contrib non-free" >> /etc/apt/sources.list && \
-    apt update -t bullseye-backports -y && \
-    apt upgrade -t bullseye-backports -y --allow-downgrades && \
-    apt dist-upgrade -t bullseye-backports -y --allow-downgrades && \
-    apt autoremove -t bullseye-backports --purge -y && \
-    apt autoclean -t bullseye-backports -y && \
-    apt clean -t bullseye-backports -y && \
-    apt -o DPkg::Options::="--force-confnew" -y install -t bullseye-backports -y curl gnupg ca-certificates apt-utils && \
-    curl -Ls https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee /usr/share/keyrings/nodesource.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x bullseye main" >> /etc/apt/sources.list && \
-    apt update -t bullseye-backports -y && \
-    apt upgrade -t bullseye-backports -y --allow-downgrades && \
-    apt dist-upgrade -t bullseye-backports -y --allow-downgrades && \
-    apt autoremove -t bullseye-backports --purge -y && \
-    apt autoclean -t bullseye-backports -y && \
-    apt clean -t bullseye-backports -y && \
-    apt -o DPkg::Options::="--force-confnew" -y install -t bullseye-backports -y \
+    rm -rf /etc/apt/sources.list.d/* && \
+    echo "deb [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] https://debian.inf.tu-dresden.de/debian unstable main contrib non-free" >> /etc/apt/sources.list && \
+    apt update -y && \
+    apt upgrade -y --allow-downgrades && \
+    apt dist-upgrade -y --allow-downgrades && \
+    apt autoremove --purge -y && \
+    apt autoclean -y && \
+    apt clean -y && \
+    apt -o DPkg::Options::="--force-confnew" -y install -y curl gnupg ca-certificates apt-utils && \
+    apt update -y && \
+    apt upgrade -y --allow-downgrades && \
+    apt dist-upgrade -y --allow-downgrades && \
+    apt autoremove --purge -y && \
+    apt autoclean -y && \
+    apt clean -y && \
+    apt -o DPkg::Options::="--force-confnew" -y install -y \
     mercurial dos2unix patch autoconf automake golang coreutils build-essential gnupg passwd \
     libpcre3 libpcre3-dev libxml2-dev libxslt1-dev libcurl4-openssl-dev uuid-dev zlib1g-dev libgd-dev libgd3 libatomic-ops-dev libgeoip-dev libgeoip1 \
     libmaxminddb-dev libmaxminddb0 libmodsecurity3 libmodsecurity-dev libperl-dev libtool sysvinit-utils lua5.1 liblua5.1-dev lua-any lua-sec luarocks perl \
     libimage-imlib2-perl imagemagick libgd-dev libiconv-hook-dev libiconv-hook1 libzstd-dev \
-    python3 python-is-python3 python3-pip nodejs sqlite3 logrotate dnsutils redis-tools redis-server tar git jq curl wget zip unzip figlet nano apache2-utils && \
+    python3 python-is-python3 python3-pip nodejs npm sqlite3 logrotate dnsutils redis-tools redis-server tar git jq curl wget zip unzip figlet nano apache2-utils && \
     apt autoremove --purge -y && \
     apt autoclean -y && \
     apt clean -y && \
