@@ -5,7 +5,7 @@ ARG BUILD=${BUILD}
     
 # Requirements
 RUN apk add --no-cache ca-certificates git perl && \
-    wget https://github.com/SanCraftDev/openresty-quic/releases/download/latest/openresty.tar.gz -O - | tar xz && mv openresty src
+    wget https://github.com/SanCraftDev/openresty-quic/releases/download/latest/openresty.tar.gz -O - | tar xz && mv openresty src && \
 
 # Nginx
 #    hg clone https://hg.nginx.org/nginx-quic -r "quic" /src && \
