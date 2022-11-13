@@ -4,7 +4,7 @@ ARG BUILD=${BUILD}
 #ARG PAGESPEED_INCUBATOR_VERSION=1.14.36.1
 
 # Requirements
-RUN apk add --no-cache ca-certificates git make perl gcc g++ && \
+RUN apk add --no-cache ca-certificates git make perl gcc g++ linux-headers && \
     mkdir /src && \
 
 # Nginx
@@ -30,7 +30,7 @@ RUN apk add --no-cache ca-certificates git make perl gcc g++ && \
     make -j "$(nproc)"
 
 # Openresty
-RUN apk add --no-cache linux-headers pcre-dev zlib-dev libatomic_ops-dev && \
+RUN apk add --no-cache pcre-dev zlib-dev libatomic_ops-dev && \
     wget https://github.com/SanCraftDev/openresty-quic/releases/download/latest/openresty.tar.gz -O - | tar xz -C /src && \
 
 # Pagespeed
