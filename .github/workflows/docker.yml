@@ -20,16 +20,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: patch nginx-openresty
-        run: | 
-         git clone --recursive https://github.com/SanCraftDev/openresty-quic src
-         cd src
-         make -j "$(nproc)"
-         cd ..
-         rm src/openresty-*.tar.gz
-         cp -r src/openresty-* openresty
-         rm -rf src
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
