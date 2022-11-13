@@ -3,11 +3,9 @@ FROM alpine:20221110 as build
 ARG BUILD=${BUILD}
 #ARG PAGESPEED_INCUBATOR_VERSION=1.14.36.1
     
-# Copy Openresty
-COPY openresty /src
-    
 # Requirements
 RUN apk add --no-cache ca-certificates git && \
+    wget https://github.com/SanCraftDev/openresty-quic/releases/download/latest/openresty.tar.gz -O - | tar xz && mv openresty src
 
 # Nginx
 #    hg clone https://hg.nginx.org/nginx-quic -r "quic" /src && \
