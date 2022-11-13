@@ -1,4 +1,4 @@
-FROM debian:unstable-20221024-slim as build
+FROM alpine:20221110 as build
 
 ARG BUILD=${BUILD}
 #ARG PAGESPEED_INCUBATOR_VERSION=1.14.36.1
@@ -7,32 +7,7 @@ ARG BUILD=${BUILD}
 COPY openresty /src
     
 # Requirements
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt update -y && \
-    apt upgrade -y --allow-downgrades && \
-    apt dist-upgrade -y --allow-downgrades && \
-    apt autoremove --purge -y && \
-    apt autoclean -y && \
-    apt clean -y && \
-    apt -o DPkg::Options::="--force-confnew" -y install -y ca-certificates apt-utils && \
-    rm -rf /etc/apt/sources.list && \
-    rm -rf /etc/apt/sources.list.d/* && \
-    echo "deb [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] https://debian.inf.tu-dresden.de/debian unstable main contrib non-free" >> /etc/apt/sources.list && \
-    apt update -y && \
-    apt upgrade -y --allow-downgrades && \
-    apt dist-upgrade -y --allow-downgrades && \
-    apt autoremove --purge -y && \
-    apt autoclean -y && \
-    apt clean -y && \
-    apt -o DPkg::Options::="--force-confnew" -y install -y \
-    nodejs npm python3 python-is-python3 python3-pip logrotate git curl apache2-utils libpcre3-dev libatomic-ops-dev && \
-    apt update -y && \
-    apt upgrade -y --allow-downgrades && \
-    apt dist-upgrade -y --allow-downgrades && \
-    apt autoremove --purge -y && \
-    apt autoclean -y && \
-    apt clean -y && \
-    pip install certbot && \
+RUN apk add --no-cache ca-certificates git && \
 
 # Nginx
 #    hg clone https://hg.nginx.org/nginx-quic -r "quic" /src && \
