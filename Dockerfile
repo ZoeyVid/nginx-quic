@@ -4,7 +4,7 @@ ARG BUILD=${BUILD}
 #ARG PAGESPEED_INCUBATOR_VERSION=1.14.36.1
 
 # Requirements
-RUN apk add --no-cache ca-certificates git make perl gcc g++ linux-headers pcre-dev && \
+RUN apk add --no-cache ca-certificates git make perl gcc g++ linux-headers pcre-dev zlib-dev && \
     mkdir /src && \
     wget https://github.com/SanCraftDev/openresty-quic/releases/download/latest/openresty.tar.gz -O - | tar xz -C /src && \
 
@@ -246,10 +246,10 @@ RUN apk add --no-cache ca-certificates git make perl gcc g++ linux-headers pcre-
 # Build & Install
     cd /src/openresty && \
     make -j "$(nproc)" && \
-    make -j "$(nproc)" install && \
+#    make -j "$(nproc)" install && \
     
     cd /src && \
-    strip -s /bin/nginx && \
+#    strip -s /bin/nginx && \
     mkdir -p /var/cache/nginx && \
     mkdir -p /var/log/nginx && \
     
@@ -266,10 +266,10 @@ RUN apk add --no-cache ca-certificates git make perl gcc g++ linux-headers pcre-
     rm -rf /src && \
 
 # Copy version into env
-    cd / && \
-    nginx -v 2> v && \
-    sed -i "s/nginx version: //g" v && \
-    ldd /bin/nginx
+#    cd / && \
+#    nginx -v 2> v && \
+#    sed -i "s/nginx version: //g" v && \
+#    ldd /bin/nginx
 
 LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/openresty-nginx-quic"
 ENTRYPOINT ["nginx"]
