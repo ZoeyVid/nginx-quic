@@ -265,8 +265,8 @@ RUN apk add --no-cache pcre-dev zlib-dev libatomic_ops-dev && \
     wget https://ssl-config.mozilla.org/ffdhe2048.txt -O /etc/ssl/dhparam && \
 
 # Clean
-    cd / && \
-    rm -rf /src && \
+#    cd / && \
+#    rm -rf /src && \
 
 # Copy version into env
 #    cd / && \
