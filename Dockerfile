@@ -249,30 +249,33 @@ RUN apk add --no-cache pcre-dev zlib-dev libatomic_ops-dev && \
 # Build & Install
     cd /src/openresty && \
     make -j "$(nproc)" && \
-#    make -j "$(nproc)" install && \
-    
-    cd /src && \
-#    strip -s /bin/nginx && \
-    mkdir -p /var/cache/nginx && \
-    mkdir -p /var/log/nginx && \
+    make -j "$(nproc)" install && \
+    strip -s /bin/nginx && \
     
 #    cd /src && \
 #    mkdir /etc/nginx/modsec && \
 #    wget https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended -O /etc/nginx/modsec/modsecurity.conf && \
-#    sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
+#    sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf
+
+    exit 0
+
+FROM alpine:20221110
+
+COPY --from=build /bin/nginx /bin/nginx
+COPY --from=build /etc/nginx /etc/nginx
+
+RUN apk add --no-cache ca-certificates pcre-dev zlib-dev \
+    nodejs npm python3 py3-pip logrotate apache2-utils openssl && \
     
-    cd /src && \
+    strip -s /bin/nginx && \
+    nginx -v 2> /v && \
+    sed -i "s/nginx version: //g" /v && \
+    
     wget https://ssl-config.mozilla.org/ffdhe2048.txt -O /etc/ssl/dhparam && \
-
-# Clean
-#    cd / && \
-#    rm -rf /src && \
-
-# Copy version into env
-#    cd / && \
-#    nginx -v 2> v && \
-#    sed -i "s/nginx version: //g" v && \
-#    ldd /bin/nginx && \
+    
+    mkdir -p /var/cache/nginx && \
+    mkdir -p /var/log/nginx && \
+    
     exit 0
 
 LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/openresty-nginx-quic"
