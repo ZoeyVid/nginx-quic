@@ -116,7 +116,6 @@ COPY --from=build /nft/Nginx-Fancyindex-Theme-dark /nft
 RUN apk --no-cache upgrade && \
     apk add --no-cache ca-certificates pcre-dev zlib-dev \
     nodejs-current npm python3 py3-pip logrotate apache2-utils openssl && \
-    
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 
 LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/openresty-nginx-quic"
