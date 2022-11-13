@@ -267,7 +267,6 @@ COPY --from=build /etc/nginx /etc/nginx
 RUN apk add --no-cache ca-certificates pcre-dev zlib-dev \
     nodejs npm python3 py3-pip logrotate apache2-utils openssl && \
     
-    strip -s /bin/nginx && \
     nginx -v 2> /v && \
     sed -i "s/nginx version: //g" /v && \
     
