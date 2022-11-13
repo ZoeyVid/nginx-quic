@@ -2,10 +2,11 @@ FROM alpine:20221110 as build
 
 ARG BUILD=${BUILD}
 #ARG PAGESPEED_INCUBATOR_VERSION=1.14.36.1
-    
+
 # Requirements
 RUN apk add --no-cache ca-certificates git make perl gcc g++ linux-headers pcre-dev && \
-    wget https://github.com/SanCraftDev/openresty-quic/releases/download/latest/openresty.tar.gz -O - | tar xz && mv openresty src && \
+    mkdir /src && \
+    wget https://github.com/SanCraftDev/openresty-quic/releases/download/latest/openresty.tar.gz -O - | tar xz -C /src && \
 
 # Nginx
 #    hg clone https://hg.nginx.org/nginx-quic -r "quic" /src && \
@@ -153,8 +154,8 @@ RUN apk add --no-cache ca-certificates git make perl gcc g++ linux-headers pcre-
 #    git clone --recursive https://github.com/ioppermann/modjpeg-nginx /src/modjpeg-nginx && \
 
 # Configure
-    cd /src && \
-    /src/configure \
+    cd /src/openresty && \
+    /src/openresty/configure \
     --with-debug \
     --build=${BUILD} \
     --prefix=/etc/nginx \
@@ -243,7 +244,7 @@ RUN apk add --no-cache ca-certificates git make perl gcc g++ linux-headers pcre-
     --with-ld-opt="-L/src/openssl/build/lib" && \
     
 # Build & Install
-    cd /src && \
+    cd /src/openresty && \
     make -j "$(nproc)" && \
     make -j "$(nproc)" install && \
     
