@@ -102,7 +102,7 @@ RUN apk --no-cache upgrade && \
     make -j "$(nproc)" install && \
     strip -s /usr/local/openresty/nginx/sbin/nginx
 
-RUN apk add --no-cache gcc g++ libffi-dev python3 python3-dev py3-pip && pip install certbot
+RUN apk add --no-cache gcc g++ libffi-dev python3-dev py3-pip && pip install certbot
 RUN git clone --recursive https://github.com/SanCraftDev/Nginx-Fancyindex-Theme /nft
 RUN wget https://ssl-config.mozilla.org/ffdhe2048.txt -O /etc/ssl/dhparam
 RUN /usr/local/openresty/nginx/sbin/nginx -v 2> /v && sed -i "s/nginx version: //g" /v
