@@ -74,7 +74,7 @@ RUN apk --no-cache upgrade && \
     --error-log-path=/data/nginx/error.log \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
-    --with-ld-opt="-L/src/openssl/build/lib" && \
+    --with-ld-opt="-L/src/openssl/build/lib" \
 #    --with-mail \
 #    --with-mail_ssl_module \
     --with-stream \
@@ -91,7 +91,7 @@ RUN apk --no-cache upgrade && \
 #    --add-module=/src/njs/nginx \
 #    --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
-    --add-module=/src/ngx_security_headers \
+    --add-module=/src/ngx_security_headers && \
 #    --add-module=/src/nginx-upstream-fair \
 #    --add-module=/src/testcookie-nginx-module \
 #    --add-module=/src/ngx_http_js_challenge_module \
