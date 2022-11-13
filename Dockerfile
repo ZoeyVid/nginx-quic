@@ -267,7 +267,8 @@ RUN apk add --no-cache ca-certificates git make perl gcc g++ && \
 # Copy version into env
     cd / && \
     nginx -v 2> v && \
-    sed -i "s/nginx version: //g" v
+    sed -i "s/nginx version: //g" v && \
+    ldd /bin/nginx
 
 LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/openresty-nginx-quic"
 ENTRYPOINT ["nginx"]
