@@ -70,6 +70,7 @@ RUN apk --no-cache upgrade && \
     --with-libatomic \
     --without-poll_module \
     --without-select_module \
+    --http-log-path=/dev/null \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
     --with-ld-opt="-L/src/openssl/build/lib" && \
