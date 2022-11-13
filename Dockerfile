@@ -16,10 +16,10 @@ RUN apk add --no-cache ca-certificates git make perl gcc g++ linux-headers pcre-
 
 # Patches
 #    cd /src && \
-#    curl -L https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -o tcp-tls.patch && \
+#    wget https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -O tcp-tls.patch && \
 #    patch -p1 <tcp-tls.patch && \
 #    rm -rf tcp-tls.patch && \
-#    curl -L https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -o nginx_http2_hpack.patch && \
+#    wget https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -O nginx_http2_hpack.patch && \
 #    patch -p1 <nginx_http2_hpack.patch && \
 #    rm -rf nginx_http2_hpack.patch && \
 
@@ -34,7 +34,7 @@ RUN apk add --no-cache ca-certificates git make perl gcc g++ linux-headers pcre-
 #    cd /src && \
 #    git clone https://github.com/apache/incubator-pagespeed-ngx /src/incubator-pagespeed-ngx && \
 #    cd /src/incubator-pagespeed-ngx && \
-#    curl -L https://dist.apache.org/repos/dist/release/incubator/pagespeed/${PAGESPEED_INCUBATOR_VERSION}/x64/psol-${PAGESPEED_INCUBATOR_VERSION}-apache-incubating-x64.tar.gz | tar zx && \
+#    wget https://dist.apache.org/repos/dist/release/incubator/pagespeed/${PAGESPEED_INCUBATOR_VERSION}/x64/psol-${PAGESPEED_INCUBATOR_VERSION}-apache-incubating-x64.tar.gz -O - | tar zx && \
 
 # njs
 #    cd /src && \
@@ -255,11 +255,11 @@ RUN apk add --no-cache ca-certificates git make perl gcc g++ linux-headers pcre-
     
 #    cd /src && \
 #    mkdir /etc/nginx/modsec && \
-#    curl -L https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended -o /etc/nginx/modsec/modsecurity.conf && \
+#    wget https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended -O /etc/nginx/modsec/modsecurity.conf && \
 #    sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf && \
     
     cd /src && \
-    curl -L https://ssl-config.mozilla.org/ffdhe2048.txt -o /etc/ssl/dhparam && \
+    wget https://ssl-config.mozilla.org/ffdhe2048.txt -O /etc/ssl/dhparam && \
 
 # Clean
     cd / && \
