@@ -57,10 +57,6 @@ RUN apk --no-cache upgrade && \
 #    cd /src && \
 #    git clone --recursive https://github.com/google/ngx_brotli /src/ngx_brotli && \
 
-# zstd-nginx-module
-#    cd /src && \
-#    git clone --recursive https://github.com/tokers/zstd-nginx-module /src/zstd-nginx-module && \
-
 # Configure
     cd /src/openresty && \
     /src/openresty/configure \
@@ -95,7 +91,6 @@ RUN apk --no-cache upgrade && \
 #    --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
     --add-module=/src/ngx_security_headers \
-#    --add-module=/src/ModSecurity-nginx \
 #    --add-module=/src/nginx-upstream-fair \
 #    --add-module=/src/testcookie-nginx-module \
 #    --add-module=/src/ngx_http_js_challenge_module \
