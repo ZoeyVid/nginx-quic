@@ -272,7 +272,8 @@ RUN apk add --no-cache pcre-dev zlib-dev libatomic_ops-dev && \
 #    cd / && \
 #    nginx -v 2> v && \
 #    sed -i "s/nginx version: //g" v && \
-#    ldd /bin/nginx
+#    ldd /bin/nginx && \
+    exit 0
 
 LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/openresty-nginx-quic"
 ENTRYPOINT ["nginx"]
