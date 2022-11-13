@@ -5,7 +5,7 @@ ARG BUILD=${BUILD}
 
 # Requirements
 RUN apk add --no-cache ca-certificates git make perl gcc g++ && \
-    mkdir /src
+    mkdir /src && \
 
 # Nginx
 #    hg clone https://hg.nginx.org/nginx-quic -r "quic" /src && \
@@ -27,7 +27,7 @@ RUN apk add --no-cache ca-certificates git make perl gcc g++ && \
     git clone --recursive https://github.com/quictls/openssl /src/openssl && \
     cd /src/openssl && \
     /src/openssl/Configure && \
-    make -j "$(nproc)" && \
+    make -j "$(nproc)"
 
 # Openresty
 RUN apk add --no-cache linux-headers pcre-dev zlib-dev libatomic_ops-dev && \
