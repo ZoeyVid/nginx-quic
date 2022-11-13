@@ -115,7 +115,7 @@ COPY --from=build /nft/Nginx-Fancyindex-Theme-dark /nft
 COPY --from=build /usr/local/openresty /usr/local/openresty
 
 RUN apk --no-cache upgrade && \
-    apk add --no-cache ca-certificates pcre-dev zlib-dev \
+    apk add --no-cache ca-certificates pcre-dev zlib-dev bash \
     nodejs-current npm python3 py3-pip logrotate apache2-utils openssl && \
     ln -s /usr/local/openresty/nginx/sbin/nginx /usr/local/bin/nginx
 
