@@ -66,7 +66,6 @@ RUN apk --no-cache upgrade && \
     --with-threads \
     --with-file-aio \
     --with-pcre \
-    --enable-jit \
     --with-pcre-jit \
     --with-libatomic \
     --without-poll_module \
