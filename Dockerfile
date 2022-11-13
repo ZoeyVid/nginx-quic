@@ -71,6 +71,7 @@ RUN apk --no-cache upgrade && \
     --without-poll_module \
     --without-select_module \
     --http-log-path=/dev/null \
+    --error-log-path=/data/nginx/error.log \
     --with-openssl="/src/openssl" \
     --with-cc-opt="-I/src/openssl/build/include" \
     --with-ld-opt="-L/src/openssl/build/lib" && \
