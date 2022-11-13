@@ -100,24 +100,24 @@ RUN apk --no-cache upgrade && \
     cd /src/openresty && \
     make -j "$(nproc)" && \
     make -j "$(nproc)" install && \
-    strip -s /usr/local/nginx/sbin/nginx
+    strip -s /usr/local/openresty/nginx/sbin/nginx
 
 RUN apk add --no-cache gcc g++ libffi-dev python3-dev && pip install certbot
 RUN git clone --recursive https://github.com/SanCraftDev/Nginx-Fancyindex-Theme /nft
 RUN wget https://ssl-config.mozilla.org/ffdhe2048.txt -O /etc/ssl/dhparam
-RUN /usr/local/nginx/sbin/nginx -v 2> /v && sed -i "s/nginx version: //g" /v
+RUN /usr/local/openresty/nginx/sbin/nginx -v 2> /v && sed -i "s/nginx version: //g" /v
 
 FROM alpine:20221110
 COPY --from=build /v /v
-COPY --from=build /usr/local/nginx /usr/local/nginx
 COPY --from=build /usr/bin/certbot /usr/bin/certbot
 COPY --from=build /etc/ssl/dhparam /etc/ssl/dhparam
 COPY --from=build /nft/Nginx-Fancyindex-Theme-dark /nft
+COPY --from=build /usr/local/openresty /usr/local/openresty
 
 RUN apk --no-cache upgrade && \
     apk add --no-cache ca-certificates pcre-dev zlib-dev \
     nodejs-current npm python3 py3-pip logrotate apache2-utils openssl && \
-    ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
+    ln -s /usr/local/openresty/nginx/sbin/nginx /usr/local/bin/nginx
 
 LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/openresty-nginx-quic"
 ENTRYPOINT ["nginx"]
