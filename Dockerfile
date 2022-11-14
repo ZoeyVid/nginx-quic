@@ -89,6 +89,7 @@ RUN apk --no-cache upgrade && \
     --with-http_v3_module \
     --with-http_realip_module \
     --with-http_gunzip_module \
+    --with-http_auth_request_module \
 #    --add-module=/src/njs/nginx \
 #    --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
