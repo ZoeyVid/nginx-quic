@@ -117,7 +117,7 @@ COPY --from=build /usr/local/openresty /usr/local/openresty
 
 RUN apk upgrade --no-cache && \
     apk add --no-cache ca-certificates pcre-dev zlib-dev bash \
-    nodejs-current yarn python3 py3-pip logrotate apache2-utils openssl && \
+    nodejs-current npm python3 py3-pip logrotate apache2-utils openssl && \
     ln -s /usr/local/openresty/nginx/sbin/nginx /usr/local/bin/nginx
 
 LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/openresty-nginx-quic"
