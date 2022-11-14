@@ -111,6 +111,7 @@ RUN /usr/local/openresty/nginx/sbin/nginx -v 2> /v && sed -i "s/nginx version: /
 FROM alpine:20221110
 COPY --from=build /v /v
 COPY --from=build /usr/bin/certbot /usr/bin/certbot
+COPY --from=build /usr/lib/python*/site-packages/certbot*  /usr/lib/python*/site-packages/certbot*
 COPY --from=build /etc/ssl/dhparam /etc/ssl/dhparam
 COPY --from=build /nft/Nginx-Fancyindex-Theme-dark /nft
 COPY --from=build /usr/local/openresty /usr/local/openresty
@@ -118,7 +119,8 @@ COPY --from=build /usr/local/openresty /usr/local/openresty
 RUN apk upgrade --no-cache && \
     apk add --no-cache ca-certificates pcre-dev zlib-dev bash \
     nodejs-current npm python3 py3-pip logrotate apache2-utils openssl && \
-    ln -s /usr/local/openresty/nginx/sbin/nginx /usr/local/bin/nginx
+    ln -s /usr/local/openresty/nginx/sbin/nginx /usr/local/bin/nginx && \
+    certbot --version
 
 LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/openresty-nginx-quic"
 ENTRYPOINT ["nginx"]
