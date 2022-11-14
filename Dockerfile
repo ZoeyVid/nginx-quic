@@ -119,7 +119,7 @@ RUN apk upgrade --no-cache && \
     ln -s /usr/local/openresty/nginx/sbin/nginx /usr/local/bin/nginx
     
 RUN apk add --no-cache gcc g++ libffi-dev python3-dev && \
-    pip install certbot && \
+    pip install --no-cache-dir certbot && \
     apk del --no-cache gcc g++ libffi-dev python3-dev
 
 LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/openresty-nginx-quic"
