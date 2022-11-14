@@ -3,7 +3,8 @@ FROM alpine:20221110 as build
 ARG BUILD=${BUILD}
 
 # Requirements
-RUN apk add --no-cache ca-certificates git make perl gcc g++ linux-headers && \
+RUN apk upgrade --no-cache && \ 
+    apk add --no-cache ca-certificates git make perl gcc g++ linux-headers && \
     mkdir /src && \
 
 # Openssl
@@ -114,7 +115,7 @@ COPY --from=build /etc/ssl/dhparam /etc/ssl/dhparam
 COPY --from=build /nft/Nginx-Fancyindex-Theme-dark /nft
 COPY --from=build /usr/local/openresty /usr/local/openresty
 
-RUN apk --no-cache upgrade && \
+RUN apk upgrade --no-cache && \
     apk add --no-cache ca-certificates pcre-dev zlib-dev bash \
     nodejs-current npm python3 py3-pip logrotate apache2-utils openssl && \
     ln -s /usr/local/openresty/nginx/sbin/nginx /usr/local/bin/nginx
