@@ -4,7 +4,8 @@ ARG BUILD=${BUILD}
 
 # Requirements
 RUN apk upgrade --no-cache && \ 
-    apk add --no-cache ca-certificates git make perl gcc g++ linux-headers && \
+    apk add --no-cache ca-certificates git wget make perl gcc g++ linux-headers \
+    pcre-dev zlib-dev libatomic_ops-dev && \
     mkdir /src && \
 
 # Openssl
@@ -12,11 +13,9 @@ RUN apk upgrade --no-cache && \
     git clone --recursive https://github.com/quictls/openssl /src/openssl && \
     cd /src/openssl && \
     /src/openssl/Configure && \
-    make -j "$(nproc)"
+    make -j "$(nproc)" && \
 
 # Openresty
-RUN apk --no-cache upgrade && \
-    apk add --no-cache pcre-dev zlib-dev libatomic_ops-dev && \
     wget https://github.com/SanCraftDev/openresty-quic/releases/download/latest/openresty.tar.gz -O - | tar xz -C /src && \
 
 # Nginx
@@ -102,26 +101,17 @@ RUN apk --no-cache upgrade && \
     cd /src/openresty && \
     make -j "$(nproc)" && \
     make -j "$(nproc)" install && \
-    strip -s /usr/local/openresty/nginx/sbin/nginx
+    strip -s /usr/local/openresty/nginx/sbin/nginx && \
 
-RUN git clone --recursive https://github.com/SanCraftDev/Nginx-Fancyindex-Theme /nft
-RUN wget https://ssl-config.mozilla.org/ffdhe2048.txt -O /etc/ssl/dhparam
-RUN /usr/local/openresty/nginx/sbin/nginx -v 2> /v && sed -i "s/nginx version: //g" /v
+    /usr/local/openresty/nginx/sbin/nginx -v 2> /v && sed -i "s/nginx version: //g" /v
 
 FROM alpine:20221110
 COPY --from=build /v /v
-COPY --from=build /etc/ssl/dhparam /etc/ssl/dhparam
-COPY --from=build /nft/Nginx-Fancyindex-Theme-dark /nft
 COPY --from=build /usr/local/openresty /usr/local/openresty
 
 RUN apk upgrade --no-cache && \
-    apk add --no-cache ca-certificates pcre-dev zlib-dev bash \
-    nodejs-current npm python3 py3-pip logrotate apache2-utils openssl && \
+    apk add --no-cache ca-certificates wget pcre-dev zlib-dev && \
     ln -s /usr/local/openresty/nginx/sbin/nginx /usr/local/bin/nginx
-    
-RUN apk add --no-cache gcc g++ libffi-dev python3-dev && \
-    pip install --no-cache-dir certbot && \
-    apk del --no-cache gcc g++ libffi-dev python3-dev
 
 LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/openresty-nginx-quic"
 ENTRYPOINT ["nginx"]
