@@ -54,7 +54,7 @@ RUN apk upgrade --no-cache && \
 
 # Configure
     cd /src/nginx && \
-    /src/nginx/configure \
+    /src/nginx/auto/configure \
     --build=${BUILD} \
     --with-compat \
     --with-threads \
