@@ -56,13 +56,12 @@ RUN apk upgrade --no-cache && \
     cd /src/nginx && \
     /src/nginx/configure \
     --build=${BUILD} \
-    --with-ipv6 \
     --with-compat \
     --with-threads \
     --with-file-aio \
+    --with-libatomic \
     --with-pcre \
     --with-pcre-jit \
-    --with-libatomic \
     --without-poll_module \
     --without-select_module \
     --with-openssl="/src/openssl" \
