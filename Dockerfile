@@ -106,6 +106,5 @@ RUN apk upgrade --no-cache && \
     apk add --no-cache ca-certificates wget tzdata pcre-dev zlib-dev && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 
-LABEL org.opencontainers.image.source="https://github.com/SanCraftDev/nginx-quic"
 ENTRYPOINT ["nginx"]
 CMD ["-g", "daemon off;"]
