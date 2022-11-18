@@ -22,7 +22,7 @@ RUN apk upgrade --no-cache && \
     wget https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -O /src/nginx/nginx_http2_hpack.patch && \
     sed -i "s|nginx/|nginx-proxy-manager/|g" /src/nginx/src/core/nginx.h && \
     sed -i "s|Server: nginx|Server: nginx-proxy-manager|g" /src/nginx/src/http/ngx_http_header_filter_module.c && \
-    sed -i "s|<hr><center>nginx</center>|<hr><center>nginx-proxy-manager</center>|g" src/http/ngx_http_special_response.c && \
+    sed -i "s|<hr><center>nginx</center>|<hr><center>nginx-proxy-manager</center>|g" /src/nginx/src/http/ngx_http_special_response.c && \
     cd /src/nginx && \
     patch -p1 </src/nginx/tcp-tls.patch && \
     patch -p1 </src/nginx/nginx_http2_hpack.patch && \
