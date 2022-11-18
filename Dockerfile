@@ -16,13 +16,16 @@ RUN apk upgrade --no-cache && \
     make -j "$(nproc)" && \
 
 # Nginx
+    cd /src && \
     hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/nginx && \
+    wget https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -O /src/nginx/tcp-tls.patch && \
+    wget https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -O /src/nginx/nginx_http2_hpack.patch && \
+    sed -i "s|\"nginx/\"|\"nginx-proxy-manager/\"|g" src/core/nginx.h && \
+    sed -i "s|\"Server: nginx\"|\"Server: nginx-proxy-manager\"|g" src/http/ngx_http_header_filter_module.c && \
     cd /src/nginx && \
-    wget https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -O tcp-tls.patch && \
-    wget https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -O nginx_http2_hpack.patch && \
-    patch -p1 <tcp-tls.patch && \
-    patch -p1 <nginx_http2_hpack.patch && \
-    rm -rf *.patch && \
+    patch -p1 </src/nginx/tcp-tls.patch && \
+    patch -p1 </src/nginx/nginx_http2_hpack.patch && \
+    rm -rf /src/nginx/*.patch && \
 
 # njs
 #    cd /src && \
