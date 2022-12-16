@@ -3,7 +3,7 @@ name: Build Docker Image
 on:
   push:
     branches:    
-      - develop
+      - latest
     paths:
       - Dockerfile
       - .github/workflows/docker.yml
