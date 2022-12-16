@@ -55,7 +55,9 @@ jobs:
           push: ${{ github.ref == 'refs/heads/develop' }}
           tags: | 
            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
+           ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.run_number }}
            ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
+           ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.run_number }}
           build-args: |
            "BUILD=${{ github.event.repository.name }}"
 
