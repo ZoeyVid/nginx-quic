@@ -5,7 +5,7 @@ on:
     - cron:  "0 0 * * *"
   push:
     branches:    
-      - latest
+      - develop
     paths:
       - Dockerfile
       - .github/workflows/docker.yml
@@ -67,7 +67,9 @@ jobs:
         if: ${{ github.ref == 'refs/heads/develop' }}
         run: | 
          docker run --rm ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} -V
+         docker run --rm ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.run_number }} -V
          docker run --rm ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} -V
+         docker run --rm ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.run_number }} -V
 
       - name: Set PR-Number (PR)
         if: ${{ github.event_name == 'pull_request' }}
