@@ -5,7 +5,7 @@ ARG BUILD=${BUILD}
 # Requirements
 RUN apk upgrade --no-cache && \ 
     apk add --no-cache ca-certificates wget tzdata git patch mercurial make perl gcc g++ linux-headers \
-    pcre-dev zlib-dev libatomic_ops-dev && \
+    pcre-dev zlib-static libatomic_ops-static && \
     mkdir /src && \
 
 # Openssl
@@ -70,7 +70,7 @@ RUN apk upgrade --no-cache && \
     --without-select_module \
     --with-openssl="/src/openssl" \
     --with-ld-opt="-L/src/openssl/build/lib -static" \
-    --with-cc-opt="-I/src/openssl/build/include -static -static-libgcc" \
+    --with-cc-opt="-I/src/openssl/build/include" \
 #    --with-mail \
 #    --with-mail_ssl_module \
     --with-stream \
@@ -84,6 +84,7 @@ RUN apk upgrade --no-cache && \
     --with-http_v3_module \
     --with-http_realip_module \
     --with-http_gunzip_module \
+    --with-http_addition_module \
     --with-http_auth_request_module \
 #    --add-module=/src/njs/nginx \
 #    --add-module=/src/ngx_brotli \
