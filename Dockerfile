@@ -5,7 +5,7 @@ ARG BUILD=${BUILD}
 # Requirements
 RUN apk upgrade --no-cache && \ 
     apk add --no-cache ca-certificates wget tzdata git patch mercurial make perl gcc g++ linux-headers \
-    pcre-dev zlib-static libatomic_ops-static && \
+    libatomic_ops-dev libatomic_ops-static zlib-dev zlib-static pcre-dev && \
     mkdir /src && \
 
 # Openssl
