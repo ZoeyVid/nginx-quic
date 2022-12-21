@@ -69,8 +69,8 @@ RUN apk upgrade --no-cache && \
     --without-poll_module \
     --without-select_module \
     --with-openssl="/src/openssl" \
-    --with-cc-opt="-I/src/openssl/build/include" \
-    --with-ld-opt="-L/src/openssl/build/lib" \
+    --with-ld-opt="-L/src/openssl/build/lib -static" \
+    --with-cc-opt="-I/src/openssl/build/include -static -static-libgcc" \
 #    --with-mail \
 #    --with-mail_ssl_module \
     --with-stream \
@@ -103,7 +103,7 @@ FROM alpine:20221110
 COPY --from=build /usr/local/nginx /usr/local/nginx
 
 RUN apk upgrade --no-cache && \
-    apk add --no-cache ca-certificates wget tzdata pcre-dev zlib-dev && \
+    apk add --no-cache ca-certificates wget tzdata && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 
 ENTRYPOINT ["nginx"]
