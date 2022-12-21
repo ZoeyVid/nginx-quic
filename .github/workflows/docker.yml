@@ -5,6 +5,7 @@ on:
     - cron:  "0 0 */6 * *"
   push:
     branches:    
+      - latest
       - develop
     paths:
       - Dockerfile
@@ -56,8 +57,10 @@ jobs:
           platforms: linux/amd64,linux/arm64 #,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4 #,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
           push: ${{ github.ref == 'refs/heads/develop' }}
           tags: | 
+           ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop
            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
            ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.run_number }}
+           ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop
            ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }}
            ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.run_number }}
           build-args: |
@@ -66,8 +69,10 @@ jobs:
       - name: show version
         if: ${{ github.ref == 'refs/heads/develop' }}
         run: | 
+         docker run --rm ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop -V
          docker run --rm ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} -V
          docker run --rm ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.run_number }} -V
+         docker run --rm ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:develop -V
          docker run --rm ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.ref_name }} -V
          docker run --rm ghcr.io/${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.run_number }} -V
 
