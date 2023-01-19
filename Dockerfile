@@ -29,8 +29,8 @@ RUN apk upgrade --no-cache && \
     rm -rf /src/nginx/*.patch && \
 
 # njs
-#    cd /src && \
-#    hg clone http://hg.nginx.org/njs /src/njs && \
+    cd /src && \
+    hg clone http://hg.nginx.org/njs /src/njs && \
 
 # nginx-upstream-fair
 #    cd /src && \
@@ -53,8 +53,8 @@ RUN apk upgrade --no-cache && \
     git clone --recursive https://github.com/GetPageSpeed/ngx_security_headers /src/ngx_security_headers && \
 
 # Brotli
-#    cd /src && \
-#    git clone --recursive https://github.com/google/ngx_brotli /src/ngx_brotli && \
+    cd /src && \
+    git clone --recursive https://github.com/google/ngx_brotli /src/ngx_brotli && \
 
 # Configure
     cd /src/nginx && \
@@ -86,8 +86,8 @@ RUN apk upgrade --no-cache && \
     --with-http_gunzip_module \
     --with-http_addition_module \
     --with-http_auth_request_module \
-#    --add-module=/src/njs/nginx \
-#    --add-module=/src/ngx_brotli \
+    --add-module=/src/njs/nginx \
+    --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
     --add-module=/src/ngx_security_headers && \
 #    --add-module=/src/nginx-upstream-fair \
