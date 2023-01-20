@@ -4,7 +4,7 @@ ARG BUILD=${BUILD}
 
 # Requirements
 RUN apk upgrade --no-cache && \ 
-    apk add --no-cache ca-certificates wget tzdata bash git patch mercurial make perl gcc g++ linux-headers \
+    apk add --no-cache ca-certificates wget tzdata bash git patch mercurial make cmake perl gcc g++ linux-headers \
     libatomic_ops-dev libatomic_ops-static zlib-dev zlib-static pcre-dev && \
     mkdir /src && \
 
