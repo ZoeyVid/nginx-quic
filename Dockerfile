@@ -59,8 +59,8 @@ RUN apk upgrade --no-cache && \
 # ngx_unbrotli
     cd /src && \
     git clone --recursive https://github.com/clyfish/ngx_unbrotli /src/ngx_unbrotli && \
-    sed -i "s|cmake3|cmake|g" /src/ngx_unbrotli/build_brotli.sh && \
-    /src/ngx_unbrotli/build_brotli.sh && \
+    sed -i "s|cmake3|cmake|g" /src/ngx_unbrotli/build_brotli.sh  && \
+    bash /src/ngx_unbrotli/build_brotli.sh && \
 
 # Configure
     cd /src/nginx && \
