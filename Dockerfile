@@ -85,6 +85,7 @@ RUN apk upgrade --no-cache && \
     --with-http_realip_module \
     --with-http_gunzip_module \
     --with-http_addition_module \
+    --with-http_gzip_static_module \
     --with-http_auth_request_module \
     --add-module=/src/njs/nginx \
     --add-module=/src/ngx_brotli \
