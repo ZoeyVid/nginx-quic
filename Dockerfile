@@ -44,7 +44,7 @@ RUN apk upgrade --no-cache && \
 #    cd /src && \
 #    git clone --recursive https://github.com/dvershinin/ngx_http_js_challenge_module /src/ngx_http_js_challenge_module && \
 
-# fancyindex
+# ngx-fancyindex
     cd /src && \
     git clone --recursive https://github.com/aperezdc/ngx-fancyindex /src/ngx-fancyindex && \
     
@@ -52,13 +52,15 @@ RUN apk upgrade --no-cache && \
     cd /src && \
     git clone --recursive https://github.com/GetPageSpeed/ngx_security_headers /src/ngx_security_headers && \
 
-# Brotli
+# ngx_brotli
     cd /src && \
     git clone --recursive https://github.com/google/ngx_brotli /src/ngx_brotli && \
 
-# Brotli
+# ngx_unbrotli
     cd /src && \
     git clone --recursive https://github.com/clyfish/ngx_unbrotli /src/ngx_unbrotli && \
+    sed -i "s|cmake3|cmake|g" /src/ngx_unbrotli/build_brotli.sh && \
+    /src/ngx_unbrotli/build_brotli.sh && \
 
 # Configure
     cd /src/nginx && \
