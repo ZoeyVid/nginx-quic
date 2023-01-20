@@ -4,7 +4,7 @@ ARG BUILD=${BUILD}
 
 # Requirements
 RUN apk upgrade --no-cache && \ 
-    apk add --no-cache ca-certificates wget tzdata git patch mercurial make perl gcc g++ linux-headers \
+    apk add --no-cache ca-certificates wget tzdata bash git patch mercurial make perl gcc g++ linux-headers \
     libatomic_ops-dev libatomic_ops-static zlib-dev zlib-static pcre-dev && \
     mkdir /src && \
 
@@ -60,7 +60,7 @@ RUN apk upgrade --no-cache && \
     cd /src && \
     git clone --recursive https://github.com/clyfish/ngx_unbrotli /src/ngx_unbrotli && \
     sed -i "s|cmake3|cmake|g" /src/ngx_unbrotli/build_brotli.sh  && \
-    bash /src/ngx_unbrotli/build_brotli.sh && \
+    /src/ngx_unbrotli/build_brotli.sh && \
 
 # Configure
     cd /src/nginx && \
