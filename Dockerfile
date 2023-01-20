@@ -56,6 +56,10 @@ RUN apk upgrade --no-cache && \
     cd /src && \
     git clone --recursive https://github.com/google/ngx_brotli /src/ngx_brotli && \
 
+# Brotli
+    cd /src && \
+    git clone --recursive https://github.com/clyfish/ngx_unbrotli /src/ngx_unbrotli && \
+
 # Configure
     cd /src/nginx && \
     /src/nginx/auto/configure \
@@ -88,6 +92,7 @@ RUN apk upgrade --no-cache && \
     --with-http_auth_request_module \
     --add-module=/src/njs/nginx \
     --add-module=/src/ngx_brotli \
+    --add-module=/src/ngx_unbrotli \
     --add-module=/src/ngx-fancyindex \
     --add-module=/src/ngx_security_headers && \
 #    --add-module=/src/nginx-upstream-fair \
