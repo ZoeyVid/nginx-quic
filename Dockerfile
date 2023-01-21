@@ -7,14 +7,12 @@ RUN apk upgrade --no-cache && \
     apk add --no-cache ca-certificates wget tzdata bash git patch mercurial make cmake perl gcc g++ linux-headers \
     libatomic_ops-dev libatomic_ops-static zlib-dev zlib-static pcre-dev && \
     mkdir /src && \
-
 # Openssl
     cd /src && \
     git clone --recursive https://github.com/quictls/openssl /src/openssl && \
     cd /src/openssl && \
     /src/openssl/Configure && \
     make -j "$(nproc)" && \
-
 # Nginx
     cd /src && \
     hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/nginx && \
@@ -27,35 +25,27 @@ RUN apk upgrade --no-cache && \
     patch -p1 </src/nginx/tcp-tls.patch && \
     patch -p1 </src/nginx/nginx_http2_hpack.patch && \
     rm -rf /src/nginx/*.patch && \
-
 # njs
     cd /src && \
     hg clone http://hg.nginx.org/njs /src/njs && \
-
 # nginx-upstream-fair
 #    cd /src && \
 #    git clone --recursive https://github.com/itoffshore/nginx-upstream-fair /src/nginx-upstream-fair && \
-
 # testcookie
 #    cd /src && \
 #    git clone --recursive https://github.com/kyprizel/testcookie-nginx-module /src/testcookie-nginx-module && \
-
 # ngx_http_js_challenge_module
 #    cd /src && \
 #    git clone --recursive https://github.com/dvershinin/ngx_http_js_challenge_module /src/ngx_http_js_challenge_module && \
-
 # ngx-fancyindex
     cd /src && \
     git clone --recursive https://github.com/aperezdc/ngx-fancyindex /src/ngx-fancyindex && \
-    
 # ngx_security_headers
     cd /src && \
     git clone --recursive https://github.com/GetPageSpeed/ngx_security_headers /src/ngx_security_headers && \
-
 # ngx_brotli
     cd /src && \
     git clone --recursive https://github.com/google/ngx_brotli /src/ngx_brotli && \
-
 # Configure
     cd /src/nginx && \
     /src/nginx/auto/configure \
@@ -94,7 +84,6 @@ RUN apk upgrade --no-cache && \
 #    --add-module=/src/nginx-upstream-fair \
 #    --add-module=/src/testcookie-nginx-module \
 #    --add-module=/src/ngx_http_js_challenge_module \
-    
 # Build & Install
     cd /src/nginx && \
     make -j "$(nproc)" && \
