@@ -4,7 +4,7 @@ ARG BUILD=${BUILD}
 
 # Requirements
 RUN apk upgrade --no-cache && \ 
-    apk add --no-cache ca-certificates wget tzdata bash git patch mercurial make cmake perl gcc g++ linux-headers \
+    apk add --no-cache ca-certificates wget tzdata bash git mercurial build-base patch cmake perl linux-headers \
     libatomic_ops-dev libatomic_ops-static zlib-dev zlib-static pcre-dev && \
     mkdir /src && \
 # Openssl
@@ -16,14 +16,14 @@ RUN apk upgrade --no-cache && \
 # Nginx
     cd /src && \
     hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/nginx && \
-    wget https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -O /src/nginx/tcp-tls.patch && \
-    wget https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -O /src/nginx/nginx_http2_hpack.patch && \
+    wget https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -O /src/nginx/1.patch && \
+    wget https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -O /src/nginx/2.patch && \
     sed -i "s|nginx/|nginx-proxy-manager/|g" /src/nginx/src/core/nginx.h && \
     sed -i "s|Server: nginx|Server: nginx-proxy-manager|g" /src/nginx/src/http/ngx_http_header_filter_module.c && \
     sed -i "s|<hr><center>nginx</center>|<hr><center>nginx-proxy-manager</center>|g" /src/nginx/src/http/ngx_http_special_response.c && \
     cd /src/nginx && \
-    patch -p1 </src/nginx/tcp-tls.patch && \
-    patch -p1 </src/nginx/nginx_http2_hpack.patch && \
+    patch -p1 </src/nginx/1.patch && \
+    patch -p1 </src/nginx/2.patch && \
     rm -rf /src/nginx/*.patch && \
 # njs
 #    cd /src && \
@@ -90,7 +90,7 @@ RUN apk upgrade --no-cache && \
     make -j "$(nproc)" install && \
     strip -s /usr/local/nginx/sbin/nginx
 
-FROM alpine:20230208
+FROM python:3.11.2-alpine3.17
 COPY --from=build /usr/local/nginx /usr/local/nginx
 
 RUN apk upgrade --no-cache && \
