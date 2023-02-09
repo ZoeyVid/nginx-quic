@@ -1,4 +1,4 @@
-FROM alpine:20221110 as build
+FROM alpine:20230208 as build
 
 ARG BUILD=${BUILD}
 
@@ -90,7 +90,7 @@ RUN apk upgrade --no-cache && \
     make -j "$(nproc)" install && \
     strip -s /usr/local/nginx/sbin/nginx
 
-FROM alpine:20221110
+FROM alpine:20230208
 COPY --from=build /usr/local/nginx /usr/local/nginx
 
 RUN apk upgrade --no-cache && \
