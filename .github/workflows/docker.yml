@@ -70,15 +70,23 @@ jobs:
         run: |
           docker run -d --pull always --platform amd64 --name nginx-x86_64 ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
           docker cp nginx-x86_64:/usr/local/nginx/sbin/nginx nginx-x86_64
+          docker cp nginx-x86_64:/usr/local/nginx nginx
+          tar -cJf nginx-x86_64.tar.xz nginx
+          rm -r nginx
           docker run -d --pull always --platform arm64 --name nginx-aarch64 ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
           docker cp nginx-aarch64:/usr/local/nginx/sbin/nginx nginx-aarch64
+          docker cp nginx-aarch64:/usr/local/nginx nginx
+          tar -cJf nginx-aarch64.tar.xz nginx
+          rm -r nginx
       - uses: actions/upload-artifact@v3
         if: ${{ github.event_name != 'pull_request' }}
         with:
           name: artifacts
           path: |
             nginx-x86_64
+            nginx-x86_64.tar.xz
             nginx-aarch64
+            nginx-aarch64.tar.xz
       - uses: "marvinpinto/action-automatic-releases@latest"
         if: ${{ github.event_name != 'pull_request' }}
         with:
@@ -88,7 +96,9 @@ jobs:
           automatic_release_tag: ${{ github.run_number }}
           files: |
             nginx-x86_64
+            nginx-x86_64.tar.xz
             nginx-aarch64
+            nginx-aarch64.tar.xz
       - name: Set PR-Number (PR)
         if: ${{ github.event_name == 'pull_request' }}
         id: pr
@@ -107,6 +117,28 @@ jobs:
       - name: show version (PR)
         if: ${{ github.event_name == 'pull_request' }}
         run: docker run --rm ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }} -V
+      - name: copy nginx binary
+        if: ${{ github.event_name != 'pull_request' }}
+        run: |
+          docker run -d --pull always --platform amd64 --name nginx-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}
+          docker cp nginx-x86_64:/usr/local/nginx/sbin/nginx nginx-x86_64
+          docker cp nginx-x86_64:/usr/local/nginx nginx
+          tar -cJf nginx-x86_64.tar.xz nginx
+          rm -r nginx
+          docker run -d --pull always --platform arm64 --name nginx-aarch64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}
+          docker cp nginx-aarch64:/usr/local/nginx/sbin/nginx nginx-aarch64
+          docker cp nginx-aarch64:/usr/local/nginx nginx
+          tar -cJf nginx-aarch64.tar.xz nginx
+          rm -r nginx
+      - uses: actions/upload-artifact@v3
+        if: ${{ github.event_name != 'pull_request' }}
+        with:
+          name: artifacts
+          path: |
+            nginx-x86_64
+            nginx-x86_64.tar.xz
+            nginx-aarch64
+            nginx-aarch64.tar.xz
       - name: add comment (PR)
         uses: mshick/add-pr-comment@v2
         if: ${{ github.event_name == 'pull_request' }}
