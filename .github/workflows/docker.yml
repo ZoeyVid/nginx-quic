@@ -65,7 +65,7 @@ jobs:
           docker run --rm ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }} -V
           docker run --rm ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }} -V
           docker run --rm ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }} -V
-      - name: copy nginx binary
+      - name: copy nginx
         if: ${{ github.event_name != 'pull_request' }}
         run: |
           docker run -d --pull always --platform amd64 --name nginx-x86_64 ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
@@ -117,8 +117,8 @@ jobs:
       - name: show version (PR)
         if: ${{ github.event_name == 'pull_request' }}
         run: docker run --rm ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }} -V
-      - name: copy nginx binary
-        if: ${{ github.event_name != 'pull_request' }}
+      - name: copy nginx (PR)
+        if: ${{ github.event_name == 'pull_request' }}
         run: |
           docker run -d --pull always --platform amd64 --name nginx-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}
           docker cp nginx-x86_64:/usr/local/nginx/sbin/nginx nginx-x86_64
@@ -131,7 +131,7 @@ jobs:
           tar -cJf nginx-aarch64.tar.xz nginx
           rm -r nginx
       - uses: actions/upload-artifact@v3
-        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name == 'pull_request' }}
         with:
           name: artifacts
           path: |
