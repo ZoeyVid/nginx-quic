@@ -87,7 +87,7 @@ RUN apk add --no-cache ca-certificates build-base patch cmake git mercurial perl
     make -j "$(nproc)" install && \
     strip -s /usr/local/nginx/sbin/nginx
 
-FROM python:3.11.2-alpine3.17
+FROM python:3.11.3-alpine3.17
 COPY --from=build /usr/local/nginx /usr/local/nginx
 RUN apk add --no-cache ca-certificates tzdata && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
