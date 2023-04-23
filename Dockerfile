@@ -89,7 +89,8 @@ RUN apk add --no-cache ca-certificates build-base patch cmake git mercurial perl
 
 FROM python:3.11.3-alpine3.17
 COPY --from=build /usr/local/nginx /usr/local/nginx
-RUN apk add --no-cache ca-certificates tzdata && \
+RUN apk add --no-cache ca-certificates tzdata libcap && \
+    setcap cap_net_bind_service=ep /usr/local/nginx/sbin/nginx && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 ENTRYPOINT ["nginx"]
 CMD ["-g", "daemon off;"]
