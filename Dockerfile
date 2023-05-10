@@ -3,7 +3,7 @@ ARG BUILD
 
 # Requirements
 RUN apk add --no-cache ca-certificates build-base patch cmake git mercurial perl \
-    libatomic_ops-dev libatomic_ops-static zlib-dev zlib-static pcre-dev linux-headers && \
+    libatomic_ops-dev zlib-dev zlib-static pcre-dev linux-headers && \
     mkdir /src && \
 # Openssl
     cd /src && \
