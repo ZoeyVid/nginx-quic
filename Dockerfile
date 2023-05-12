@@ -1,4 +1,4 @@
-FROM alpine:3.18.0 as build
+FROM alpine:3.17.3 as build
 ARG BUILD
 
 # Requirements
@@ -72,7 +72,7 @@ RUN apk add --no-cache ca-certificates build-base patch cmake git mercurial perl
     make -j "$(nproc)" install && \
     strip -s /usr/local/nginx/sbin/nginx
 
-FROM python:3.11.3-alpine3.17
+FROM python:3.11.3-alpine3.18
 COPY --from=build /usr/local/nginx /usr/local/nginx
 RUN apk add --no-cache ca-certificates tzdata && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
