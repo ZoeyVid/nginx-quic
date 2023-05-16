@@ -33,7 +33,7 @@ RUN hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/nginx && \
     git clone --recursive https://github.com/google/ngx_brotli /src/ngx_brotli && \
     git clone --recursive https://github.com/aperezdc/ngx-fancyindex /src/ngx-fancyindex && \
     git clone --recursive https://github.com/GetPageSpeed/ngx_security_headers /src/ngx_security_headers && \
-    hg clone http://hg.nginx.org/njs /src/njs && \
+#    hg clone http://hg.nginx.org/njs /src/njs && \
     git clone --recursive https://github.com/vision5/ngx_devel_kit /src/ngx_devel_kit && \
     git clone --recursive https://github.com/openresty/lua-nginx-module /src/lua-nginx-module && \
     git clone --recursive https://github.com/openresty/lua-resty-core /src/lua-resty-core && \
@@ -72,7 +72,7 @@ RUN hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/nginx && \
     --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
     --add-module=/src/ngx_security_headers \
-    --add-module=/src/njs/nginx \
+#    --add-module=/src/njs/nginx \
     --add-module=/src/ngx_devel_kit \
     --add-module=/src/lua-nginx-module && \
 #    --add-module=/src/nginx-upstream-fair \
