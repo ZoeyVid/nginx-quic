@@ -36,8 +36,8 @@ RUN hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/nginx && \
     hg clone http://hg.nginx.org/njs /src/njs && \
     git clone --recursive https://github.com/vision5/ngx_devel_kit /src/ngx_devel_kit && \
     git clone --recursive https://github.com/openresty/lua-nginx-module /src/lua-nginx-module && \
-    git clone --recursive https://github.com/openresty/lrucache /src/lrucache && \
     git clone --recursive https://github.com/openresty/lua-resty-core /src/lua-resty-core && \
+    git clone --recursive https://github.com/openresty/lua-resty-lrucache /src/lua-resty-lrucache && \
 # Configure
     cd /src/nginx && \
     /src/nginx/auto/configure \
@@ -84,7 +84,7 @@ RUN hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/nginx && \
     strip -s /usr/local/nginx/sbin/nginx && \
     cd /src/lua-resty-core && \
     make install PREFIX=/usr/local/nginx && \
-    cd /src/lrucache && \
+    cd /src/lua-resty-lrucache && \
     make install PREFIX=/usr/local/nginx
 
 FROM python:3.11.3-alpine3.18
