@@ -5,13 +5,20 @@ ARG LUAJIT_INC=/usr/include/luajit-2.1
 ARG LUAJIT_LIB=/usr/lib
 
 # Requirements
-RUN apk add --no-cache ca-certificates build-base patch cmake git mercurial perl \
+RUN apk add --no-cache ca-certificates build-base patch cmake git mercurial perl libtool autoconf automake \
     libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers && \
     mkdir /src && \
 # Openssl
     git clone --recursive https://github.com/quictls/openssl /src/openssl && \
     cd /src/openssl && \
     /src/openssl/Configure && \
+    make -j "$(nproc)" && \
+    make -j "$(nproc)" install
+# modsecurity
+RUN git clone --recursive https://github.com/SpiderLabs/ModSecurity /src/ModSecurity && \
+    cd /src/ModSecurity && \
+    /src/ModSecurity/build.sh && \
+    /src/ModSecurity/configure && \
     make -j "$(nproc)"
 # Nginx
 RUN hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/nginx && \
@@ -36,6 +43,7 @@ RUN hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/nginx && \
 #    hg clone http://hg.nginx.org/njs /src/njs && \
     git clone --recursive https://github.com/vision5/ngx_devel_kit /src/ngx_devel_kit && \
     git clone --recursive https://github.com/openresty/lua-nginx-module /src/lua-nginx-module && \
+    git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx /src/ModSecurity-nginx && \
     git clone --recursive https://github.com/openresty/lua-resty-core /src/lua-resty-core && \
     git clone --recursive https://github.com/openresty/lua-resty-lrucache /src/lua-resty-lrucache && \
 # Configure
@@ -75,6 +83,7 @@ RUN hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/nginx && \
 #    --add-module=/src/njs/nginx \
     --add-module=/src/ngx_devel_kit \
     --add-module=/src/lua-nginx-module && \
+    --add-module=/src/ModSecurity-nginx && \
 #    --add-module=/src/nginx-upstream-fair \
 #    --add-module=/src/testcookie-nginx-module \
 #    --add-module=/src/ngx_http_js_challenge_module \
@@ -88,7 +97,8 @@ RUN hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/nginx && \
     make install PREFIX=/usr/local/nginx
 
 FROM python:3.11.3-alpine3.18
-COPY --from=build /usr/local/nginx /usr/local/nginx
+COPY --from=build /usr/local/nginx                               /usr/local/nginx
+COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
 RUN apk add --no-cache ca-certificates tzdata zlib luajit pcre && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 ENTRYPOINT ["nginx"]
