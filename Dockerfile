@@ -82,7 +82,7 @@ RUN hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/nginx && \
     --add-module=/src/ngx_security_headers \
 #    --add-module=/src/njs/nginx \
     --add-module=/src/ngx_devel_kit \
-    --add-module=/src/lua-nginx-module && \
+    --add-module=/src/lua-nginx-module \
     --add-module=/src/ModSecurity-nginx && \
 #    --add-module=/src/nginx-upstream-fair \
 #    --add-module=/src/testcookie-nginx-module \
