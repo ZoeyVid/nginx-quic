@@ -99,7 +99,7 @@ RUN hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/nginx && \
 FROM python:3.11.3-alpine3.18
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
 COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
-RUN apk add --no-cache ca-certificates tzdata zlib luajit pcre && \
+RUN apk add --no-cache ca-certificates tzdata zlib luajit pcre libstdc++ && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 ENTRYPOINT ["nginx"]
 CMD ["-g", "daemon off;"]
