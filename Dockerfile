@@ -6,7 +6,7 @@ ARG LUAJIT_LIB=/usr/lib
 
 # Requirements
 RUN apk add --no-cache ca-certificates build-base patch cmake git mercurial perl libtool autoconf automake \
-    libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev libxml2-dev && \
+    libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev libxml2-dev lua5.1-dev && \
     mkdir /src && \
 # Openssl
     git clone --recursive https://github.com/quictls/openssl /src/openssl && \
@@ -99,7 +99,7 @@ RUN hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/nginx && \
 FROM python:3.11.3-alpine3.18
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
 COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
-RUN apk add --no-cache ca-certificates tzdata zlib luajit pcre yajl libxml2 libstdc++ && \
+RUN apk add --no-cache ca-certificates tzdata zlib luajit pcre libstdc++ yajl libxml2 lua5.1-libs && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 ENTRYPOINT ["nginx"]
 CMD ["-g", "daemon off;"]
