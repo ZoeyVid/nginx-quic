@@ -19,7 +19,8 @@ RUN git clone --recursive https://github.com/SpiderLabs/ModSecurity /src/ModSecu
     /src/ModSecurity/build.sh && \
     /src/ModSecurity/configure && \
     make -j "$(nproc)" && \
-    make -j "$(nproc)" install
+    make -j "$(nproc)" install && \
+    strip -s /usr/local/modsecurity/lib/libmodsecurity.so.3
 # Nginx
 RUN hg clone https://hg.nginx.org/nginx-quic -r "quic" /src/nginx && \
     wget https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -O /src/nginx/1.patch && \
