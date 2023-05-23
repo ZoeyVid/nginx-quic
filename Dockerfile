@@ -51,7 +51,7 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
     git clone --recursive https://github.com/openresty/lua-resty-lrucache /src/lua-resty-lrucache && \
 # Configure
     cd /src/nginx && \
-    /src/nginx/auto/configure \
+    /src/nginx/configure \
     --build=${BUILD} \
     --with-compat \
     --with-threads \
