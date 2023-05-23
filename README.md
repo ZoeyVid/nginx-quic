@@ -1,7 +1,5 @@
 # nginx-quic
 Docker image for Nginx + HTTP/3
 
-# Note!
-Internal branded as nginx-proxy-manager, because this image is used as base for our [npm fork](https://github.com/ZoeyVid/nginx-proxy-manager).
-
-The Binary file in /usr/local/nginx/sbin/nginx is static
+Requires: `zlib luajit pcre libstdc++ yajl libxml2 lua5.1-libs`
+Please add: `/usr/local/nginx/lib/lua/?.lua;;` to the http part of your nginx.conf (replace /usr/local/nginx with the patch where you instakk the tar file to)
