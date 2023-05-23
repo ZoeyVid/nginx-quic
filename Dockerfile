@@ -3,9 +3,11 @@ ARG BUILD
 
 ARG LUAJIT_INC=/usr/include/luajit-2.1
 ARG LUAJIT_LIB=/usr/lib
+ARG NGINX_VER=1.25.0
 
+WORKDIR /src
 # Requirements
-RUN apk add --no-cache ca-certificates build-base patch cmake git mercurial perl libtool autoconf automake \
+RUN apk add --no-cache ca-certificates build-base patch cmake git perl libtool autoconf automake \
     libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev libxml2-dev lua5.1-dev && \
     mkdir /src && \
 # Openssl
@@ -22,7 +24,8 @@ RUN git clone --recursive https://github.com/SpiderLabs/ModSecurity /src/ModSecu
     make -j "$(nproc)" install && \
     strip -s /usr/local/modsecurity/lib/libmodsecurity.so.3
 # Nginx
-RUN hg clone https://hg.nginx.org/nginx -r "default" /src/nginx && \
+RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /src && \
+    mv /src/nginx-"$NGINX_VER" /src/nginx && \
     wget https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.17.7%2B.patch -O /src/nginx/1.patch && \
     wget https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -O /src/nginx/2.patch && \
     wget https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx-1.23.0-resolver_conf_parsing.patch -O /src/nginx/3.patch && \
