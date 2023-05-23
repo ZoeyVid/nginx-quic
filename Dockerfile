@@ -9,7 +9,6 @@ WORKDIR /src
 # Requirements
 RUN apk add --no-cache ca-certificates build-base patch cmake git perl libtool autoconf automake \
     libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev libxml2-dev lua5.1-dev && \
-    mkdir /src && \
 # Openssl
     git clone --recursive https://github.com/quictls/openssl /src/openssl && \
     cd /src/openssl && \
