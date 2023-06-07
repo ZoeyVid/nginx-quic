@@ -99,7 +99,7 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
     cd /src/lua-resty-lrucache && \
     make install PREFIX=/usr/local/nginx
 
-FROM python:3.11.3-alpine3.18
+FROM python:3.11.4-alpine3.18
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
 COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
 RUN apk add --no-cache ca-certificates tzdata zlib luajit pcre libstdc++ yajl libxml2 lua5.1-libs && \
