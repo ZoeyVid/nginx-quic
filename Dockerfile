@@ -3,12 +3,12 @@ ARG BUILD
 
 ARG LUAJIT_INC=/usr/include/luajit-2.1
 ARG LUAJIT_LIB=/usr/lib
-ARG NGINX_VER=1.25.0
+ARG NGINX_VER=1.25.1
 
 WORKDIR /src
 # Requirements
 RUN apk add --no-cache ca-certificates build-base patch cmake git perl libtool autoconf automake \
-    libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev libxml2-dev lua5.1-dev openssl-dev && \
+    libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev libxml2-dev lua5.1-dev && \
 # Openssl
     git clone --recursive https://github.com/quictls/openssl --branch openssl-3.1.0+quic+locks /src/openssl && \
     cd /src/openssl && \
