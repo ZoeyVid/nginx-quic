@@ -8,7 +8,7 @@ ARG NGINX_VER=1.25.0
 WORKDIR /src
 # Requirements
 RUN apk add --no-cache ca-certificates build-base patch cmake git perl libtool autoconf automake \
-    libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev libxml2-dev lua5.1-dev && \
+    libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev libxml2-dev lua5.1-dev openssl-dev && \
 # Openssl
     git clone --recursive https://github.com/quictls/openssl --branch openssl-3.1.0+quic+locks /src/openssl && \
     cd /src/openssl && \
