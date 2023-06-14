@@ -26,14 +26,14 @@ RUN git clone --recursive https://github.com/SpiderLabs/ModSecurity /src/ModSecu
 RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /src && \
     mv /src/nginx-"$NGINX_VER" /src/nginx && \
     wget https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.25.1%2B.patch -O /src/nginx/1.patch && \
-    wget https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -O /src/nginx/2.patch && \
+#    wget https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -O /src/nginx/2.patch && \
     wget https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx-1.23.0-resolver_conf_parsing.patch -O /src/nginx/3.patch && \
 #    sed -i "s|nginx/|nginx-proxy-manager/|g" /src/nginx/src/core/nginx.h && \
 #    sed -i "s|Server: nginx|Server: nginx-proxy-manager|g" /src/nginx/src/http/ngx_http_header_filter_module.c && \
 #    sed -i "s|<hr><center>nginx</center>|<hr><center>nginx-proxy-manager</center>|g" /src/nginx/src/http/ngx_http_special_response.c && \
     cd /src/nginx && \
     patch -p1 </src/nginx/1.patch && \
-    patch -p1 </src/nginx/2.patch && \
+#    patch -p1 </src/nginx/2.patch && \
     patch -p1 </src/nginx/3.patch && \
     rm /src/nginx/*.patch && \
 # modules
