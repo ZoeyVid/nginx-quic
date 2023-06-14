@@ -72,7 +72,7 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
 #    --with-stream_realip_module \
 #    --with-stream_ssl_preread_module \
     --with-http_v2_module \
-    --with-http_v2_hpack_enc \
+#    --with-http_v2_hpack_enc \
     --with-http_v3_module \
     --with-http_ssl_module \
     --with-http_realip_module \
