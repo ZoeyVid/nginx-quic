@@ -12,7 +12,7 @@ RUN apk add --no-cache ca-certificates build-base patch cmake git perl libtool a
 # Openssl
 RUN git clone --recursive https://github.com/quictls/openssl --branch openssl-3.1.0+quic+locks /src/openssl
 RUN cd /src/openssl && \
-    /src/openssl/Configure && \
+    /src/openssl/Configure no-ssl3 no-ssl3-method linux-"$(uname -m)"  && \
     make -j "$(nproc)"
 # modsecurity
 RUN git clone --recursive https://github.com/SpiderLabs/ModSecurity /src/ModSecurity && \
