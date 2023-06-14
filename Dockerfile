@@ -1,4 +1,4 @@
-FROM alpine:3.18.0 as build
+FROM alpine:3.18.2 as build
 ARG BUILD
 
 ARG LUAJIT_INC=/usr/include/luajit-2.1
