@@ -81,8 +81,8 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
     --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
     --add-module=/src/ngx_security_headers \
-    --add-module=/src/ngx_http_limit_traffic_ratefilter_module \
-    --add-module=/src/njs/nginx \
+#    --add-module=/src/ngx_http_limit_traffic_ratefilter_module \
+#    --add-module=/src/njs/nginx \
     --add-module=/src/ngx_devel_kit \
     --add-module=/src/lua-nginx-module \
     --add-module=/src/ModSecurity-nginx && \
