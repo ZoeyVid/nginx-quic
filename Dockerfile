@@ -7,7 +7,7 @@ ARG NGINX_VER=1.25.1
 
 WORKDIR /src
 # Requirements
-RUN apk add --no-cache ca-certificates build-base patch cmake git perl libtool autoconf automake \
+RUN apk add --no-cache ca-certificates build-base patch cmake git mercurial perl libtool autoconf automake \
     libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev libxml2-dev lua5.1-dev
 # Openssl
 RUN git clone --recursive https://github.com/quictls/openssl --branch openssl-3.1.0+quic+locks /src/openssl
@@ -72,6 +72,7 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
 #    --with-http_v2_hpack_enc \
     --with-http_v3_module \
     --with-http_ssl_module \
+    --with-http_perl_module \
     --with-http_realip_module \
     --with-http_gunzip_module \
     --with-http_addition_module \
