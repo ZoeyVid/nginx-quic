@@ -26,24 +26,22 @@ RUN git clone --recursive https://github.com/SpiderLabs/ModSecurity /src/ModSecu
 RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /src && \
     mv /src/nginx-"$NGINX_VER" /src/nginx && \
     wget https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.25.1%2B.patch -O /src/nginx/1.patch && \
-#    wget https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -O /src/nginx/2.patch && \
-    wget https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx-1.23.0-resolver_conf_parsing.patch -O /src/nginx/3.patch && \
+    wget https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx-1.23.0-resolver_conf_parsing.patch -O /src/nginx/2.patch && \
+#    wget https://github.com/angristan/nginx-autoinstall/raw/master/patches/nginx_hpack_push_with_http3.patch -O /src/nginx/3.patch && \
 #    sed -i "s|nginx/|nginx-proxy-manager/|g" /src/nginx/src/core/nginx.h && \
 #    sed -i "s|Server: nginx|Server: nginx-proxy-manager|g" /src/nginx/src/http/ngx_http_header_filter_module.c && \
 #    sed -i "s|<hr><center>nginx</center>|<hr><center>nginx-proxy-manager</center>|g" /src/nginx/src/http/ngx_http_special_response.c && \
     cd /src/nginx && \
     patch -p1 </src/nginx/1.patch && \
-#    patch -p1 </src/nginx/2.patch && \
-    patch -p1 </src/nginx/3.patch && \
+    patch -p1 </src/nginx/2.patch && \
+#    patch -p1 </src/nginx/3.patch && \
     rm /src/nginx/*.patch && \
 # modules
-#    git clone --recursive https://github.com/itoffshore/nginx-upstream-fair /src/nginx-upstream-fair && \
-#    git clone --recursive https://github.com/kyprizel/testcookie-nginx-module /src/testcookie-nginx-module && \
-#    git clone --recursive https://github.com/dvershinin/ngx_http_js_challenge_module /src/ngx_http_js_challenge_module && \
     git clone --recursive https://github.com/google/ngx_brotli /src/ngx_brotli && \
     git clone --recursive https://github.com/aperezdc/ngx-fancyindex /src/ngx-fancyindex && \
     git clone --recursive https://github.com/GetPageSpeed/ngx_security_headers /src/ngx_security_headers && \
-#    hg clone http://hg.nginx.org/njs /src/njs && \
+    git clone --recursive https://github.com/nginx-modules/ngx_http_limit_traffic_ratefilter_module /src/ngx_http_limit_traffic_ratefilter_module && \
+    hg clone http://hg.nginx.org/njs /src/njs && \
     git clone --recursive https://github.com/vision5/ngx_devel_kit /src/ngx_devel_kit && \
     git clone --recursive https://github.com/openresty/lua-nginx-module /src/lua-nginx-module && \
     git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx /src/ModSecurity-nginx && \
@@ -68,7 +66,6 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
 #    --with-mail_ssl_module \
     --with-stream \
 #    --with-stream_ssl_module \
-#    --with-stream_quic_module \
 #    --with-stream_realip_module \
 #    --with-stream_ssl_preread_module \
     --with-http_v2_module \
@@ -83,13 +80,11 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
     --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
     --add-module=/src/ngx_security_headers \
-#    --add-module=/src/njs/nginx \
+    --add-module=/src/ngx_http_limit_traffic_ratefilter_module \
+    --add-module=/src/njs/nginx \
     --add-module=/src/ngx_devel_kit \
     --add-module=/src/lua-nginx-module \
     --add-module=/src/ModSecurity-nginx && \
-#    --add-module=/src/nginx-upstream-fair \
-#    --add-module=/src/testcookie-nginx-module \
-#    --add-module=/src/ngx_http_js_challenge_module \
 # Build & Install
     make -j "$(nproc)" && \
     make -j "$(nproc)" install && \
