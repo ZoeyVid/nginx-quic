@@ -7,8 +7,8 @@ ARG NGINX_VER=1.25.1
 
 WORKDIR /src
 # Requirements
-RUN apk add --no-cache ca-certificates build-base patch cmake git mercurial libtool autoconf automake \
-    libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev libxslt-dev libxml2-dev perl-dev lua5.1-dev
+RUN apk add --no-cache ca-certificates build-base patch cmake git libtool autoconf automake \
+    libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev ibxml2-dev perl-dev lua5.1-dev
 # Openssl
 RUN git clone --recursive https://github.com/quictls/openssl --branch openssl-3.1.0+quic+locks /src/openssl
 RUN cd /src/openssl && \
@@ -41,7 +41,7 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
     git clone --recursive https://github.com/aperezdc/ngx-fancyindex /src/ngx-fancyindex && \
     git clone --recursive https://github.com/GetPageSpeed/ngx_security_headers /src/ngx_security_headers && \
     git clone --recursive https://github.com/nginx-modules/ngx_http_limit_traffic_ratefilter_module /src/ngx_http_limit_traffic_ratefilter_module && \
-    hg clone http://hg.nginx.org/njs /src/njs && \
+#    hg clone http://hg.nginx.org/njs /src/njs && \
     git clone --recursive https://github.com/vision5/ngx_devel_kit /src/ngx_devel_kit && \
     git clone --recursive https://github.com/openresty/lua-nginx-module /src/lua-nginx-module && \
     git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx /src/ModSecurity-nginx && \
@@ -81,7 +81,7 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
     --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
     --add-module=/src/ngx_security_headers \
-#    --add-module=/src/ngx_http_limit_traffic_ratefilter_module \
+    --add-module=/src/ngx_http_limit_traffic_ratefilter_module \
 #    --add-module=/src/njs/nginx \
     --add-module=/src/ngx_devel_kit \
     --add-module=/src/lua-nginx-module \
@@ -98,7 +98,7 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
 FROM python:3.11.4-alpine3.18
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
 COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
-RUN apk add --no-cache ca-certificates tzdata zlib luajit pcre libstdc++ yajl libxml2 lua5.1-libs && \
+RUN apk add --no-cache ca-certificates tzdata zlib luajit pcre libstdc++ yajl libxml2 perl lua5.1-libs && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 ENTRYPOINT ["nginx"]
 CMD ["-g", "daemon off;"]
