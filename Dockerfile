@@ -8,7 +8,7 @@ ARG NGINX_VER=1.25.1
 WORKDIR /src
 # Requirements
 RUN apk add --no-cache ca-certificates build-base patch cmake git libtool autoconf automake \
-    libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev libxml2-dev libxslt-dev perl-dev lua5.1-dev lmdb-dev curl-dev
+    libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev libxml2-dev libxslt-dev perl-dev curl-dev lua5.1-dev lmdb-dev
 # Openssl
 RUN git clone --recursive https://github.com/quictls/openssl --branch openssl-3.1.0+quic+locks /src/openssl
 # modsecurity
@@ -90,7 +90,7 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
 FROM python:3.11.4-alpine3.18
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
 COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
-RUN apk add --no-cache ca-certificates tzdata zlib luajit pcre libstdc++ yajl libxml2 libxslt perl lua5.1-libs && \
+RUN apk add --no-cache ca-certificates tzdata zlib luajit pcre libstdc++ yajl libxml2 libxslt perl libcurl lua5.1-libs && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 ENTRYPOINT ["nginx"]
 CMD ["-g", "daemon off;"]
