@@ -89,6 +89,8 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
 
 FROM python:3.11.4-alpine3.18
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
+COPY --from=build /usr/local/lib/perl5                           /usr/local/lib/perl5
+COPY --from=build /usr/lib/perl5/core_perl/perllocal.pod         /usr/lib/perl5/core_perl/perllocal.pod
 COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
 RUN apk add --no-cache ca-certificates tzdata zlib luajit pcre libstdc++ yajl libxml2 libxslt perl libcurl lua5.1-libs && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
