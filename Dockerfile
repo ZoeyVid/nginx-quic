@@ -87,7 +87,7 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
     cd /src/lua-resty-lrucache && \
     make install PREFIX=/usr/local/nginx
 
-FROM python:3.11.4-alpine3.18
+FROM python:3.11.5-alpine3.18
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
 COPY --from=build /usr/local/lib/perl5                           /usr/local/lib/perl5
 COPY --from=build /usr/lib/perl5/core_perl/perllocal.pod         /usr/lib/perl5/core_perl/perllocal.pod
