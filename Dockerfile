@@ -34,7 +34,7 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
 # modules
     git clone --recursive https://github.com/google/ngx_brotli /src/ngx_brotli && \
     git clone --recursive https://github.com/aperezdc/ngx-fancyindex /src/ngx-fancyindex && \
-    git clone --recursive https://github.com/GetPageSpeed/ngx_security_headers /src/ngx_security_headers && \
+    git clone --recursive -b 0.0.11 https://github.com/GetPageSpeed/ngx_security_headers /src/ngx_security_headers && \
 #    git clone --recursive https://github.com/nginx-modules/ngx_http_limit_traffic_ratefilter_module /src/ngx_http_limit_traffic_ratefilter_module && \
     git clone --recursive https://github.com/nginx/njs /src/njs && \
     git clone --recursive https://github.com/vision5/ngx_devel_kit /src/ngx_devel_kit && \
