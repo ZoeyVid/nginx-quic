@@ -70,13 +70,17 @@ jobs:
         run: |
           docker run -d --pull always --platform amd64 --name nginx-x86_64 ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
           docker cp nginx-x86_64:/usr/local/nginx nginx
+          docker cp nginx-x86_64:/usr/local/lib/perl5 nginx/perl5
           docker cp nginx-x86_64:/usr/local/nginx/sbin/nginx nginx-x86_64
+          docker cp nginx-x86_64:/usr/lib/perl5/core_perl/perllocal.pod nginx/perllocal.pod
           docker cp nginx-x86_64:/usr/local/modsecurity/lib/libmodsecurity.so.3 nginx/libmodsecurity.so.3
           tar -cJf nginx-x86_64.tar.xz nginx
           rm -r nginx
           docker run -d --pull always --platform arm64 --name nginx-aarch64 ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
           docker cp nginx-aarch64:/usr/local/nginx nginx
+          docker cp nginx-aarch64:/usr/local/lib/perl5 nginx/perl5
           docker cp nginx-aarch64:/usr/local/nginx/sbin/nginx nginx-aarch64
+          docker cp nginx-aarch64:/usr/lib/perl5/core_perl/perllocal.pod nginx/perllocal.pod
           docker cp nginx-aarch64:/usr/local/modsecurity/lib/libmodsecurity.so.3 nginx/libmodsecurity.so.3
           tar -cJf nginx-aarch64.tar.xz nginx
           rm -r nginx
@@ -124,13 +128,17 @@ jobs:
         run: |
           docker run -d --pull always --platform amd64 --name nginx-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}
           docker cp nginx-x86_64:/usr/local/nginx nginx
+          docker cp nginx-x86_64:/usr/local/lib/perl5 nginx/perl5
           docker cp nginx-x86_64:/usr/local/nginx/sbin/nginx nginx-x86_64
+          docker cp nginx-x86_64:/usr/lib/perl5/core_perl/perllocal.pod nginx/perllocal.pod
           docker cp nginx-x86_64:/usr/local/modsecurity/lib/libmodsecurity.so.3 nginx/libmodsecurity.so.3
           tar -cJf nginx-x86_64.tar.xz nginx
           rm -r nginx
           docker run -d --pull always --platform arm64 --name nginx-aarch64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}
           docker cp nginx-aarch64:/usr/local/nginx nginx
+          docker cp nginx-aarch64:/usr/local/lib/perl5 nginx/perl5
           docker cp nginx-aarch64:/usr/local/nginx/sbin/nginx nginx-aarch64
+          docker cp nginx-aarch64:/usr/lib/perl5/core_perl/perllocal.pod nginx/perllocal.pod
           docker cp nginx-aarch64:/usr/local/modsecurity/lib/libmodsecurity.so.3 nginx/libmodsecurity.so.3
           tar -cJf nginx-aarch64.tar.xz nginx
           rm -r nginx
