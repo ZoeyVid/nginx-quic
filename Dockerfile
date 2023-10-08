@@ -65,6 +65,7 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
     --with-http_v3_module \
     --with-http_ssl_module \
     --with-http_perl_module \
+    --with-http_geoip_module \
     --with-http_realip_module \
     --with-http_gunzip_module \
     --with-http_addition_module \
