@@ -8,7 +8,7 @@ ARG NGINX_VER=1.25.2
 WORKDIR /src
 # Requirements
 RUN apk add --no-cache ca-certificates build-base patch cmake git libtool autoconf automake \
-    libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev libxml2-dev libxslt-dev perl-dev curl-dev lua5.1-dev lmdb-dev
+    libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev libxml2-dev libxslt-dev perl-dev curl-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev
 # Openssl
 RUN git clone --recursive https://github.com/quictls/openssl --branch openssl-3.1.2+quic /src/openssl
 # modsecurity
@@ -24,9 +24,9 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
     mv /src/nginx-"$NGINX_VER" /src/nginx && \
     wget https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_1.25.1%2B.patch -O /src/nginx/1.patch && \
     wget https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx-1.23.0-resolver_conf_parsing.patch -O /src/nginx/2.patch && \
-    sed -i "s|nginx/|nginx-quic/|g" /src/nginx/src/core/nginx.h && \
-    sed -i "s|Server: nginx|Server: nginx-quic|g" /src/nginx/src/http/ngx_http_header_filter_module.c && \
-    sed -i "s|<hr><center>nginx</center>|<hr><center>nginx-quic</center>|g" /src/nginx/src/http/ngx_http_special_response.c && \
+#    sed -i "s|nginx/|nginx-quic/|g" /src/nginx/src/core/nginx.h && \
+#    sed -i "s|Server: nginx|Server: nginx-quic|g" /src/nginx/src/http/ngx_http_header_filter_module.c && \
+#    sed -i "s|<hr><center>nginx</center>|<hr><center>nginx-quic</center>|g" /src/nginx/src/http/ngx_http_special_response.c && \
     cd /src/nginx && \
     patch -p1 </src/nginx/1.patch && \
     patch -p1 </src/nginx/2.patch && \
@@ -37,6 +37,7 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
     git clone --recursive https://github.com/GetPageSpeed/ngx_security_headers /src/ngx_security_headers && \
 #    git clone --recursive https://github.com/nginx-modules/ngx_http_limit_traffic_ratefilter_module /src/ngx_http_limit_traffic_ratefilter_module && \
     git clone --recursive https://github.com/nginx/njs /src/njs && \
+    git clone --recursive https://github.com/maxmind/libmaxminddb /src/libmaxminddb && \
     git clone --recursive https://github.com/vision5/ngx_devel_kit /src/ngx_devel_kit && \
     git clone --recursive https://github.com/openresty/lua-nginx-module /src/lua-nginx-module && \
     git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx /src/ModSecurity-nginx && \
@@ -76,6 +77,7 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
     --add-module=/src/ngx_security_headers \
 #    --add-module=/src/ngx_http_limit_traffic_ratefilter_module \
     --add-module=/src/njs/nginx \
+    --add-module=/src/libmaxminddb \
     --add-module=/src/ngx_devel_kit \
     --add-module=/src/lua-nginx-module \
     --add-module=/src/ModSecurity-nginx && \
@@ -93,7 +95,7 @@ COPY --from=build /usr/local/nginx                               /usr/local/ngin
 COPY --from=build /usr/local/lib/perl5                           /usr/local/lib/perl5
 COPY --from=build /usr/lib/perl5/core_perl/perllocal.pod         /usr/lib/perl5/core_perl/perllocal.pod
 COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
-RUN apk add --no-cache ca-certificates tzdata tini zlib luajit pcre libstdc++ yajl libxml2 libxslt perl libcurl lua5.1-libs && \
+RUN apk add --no-cache ca-certificates tzdata tini zlib luajit pcre libstdc++ yajl libxml2 libxslt perl libcurl lua5.1-libs geoip libmaxminddb-libs && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 ENTRYPOINT ["tini", "--", "nginx"]
 CMD ["-g", "daemon off;"]
