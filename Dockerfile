@@ -37,12 +37,12 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
     git clone --recursive https://github.com/GetPageSpeed/ngx_security_headers /src/ngx_security_headers && \
 #    git clone --recursive https://github.com/nginx-modules/ngx_http_limit_traffic_ratefilter_module /src/ngx_http_limit_traffic_ratefilter_module && \
     git clone --recursive https://github.com/nginx/njs /src/njs && \
-    git clone --recursive https://github.com/maxmind/libmaxminddb /src/libmaxminddb && \
     git clone --recursive https://github.com/vision5/ngx_devel_kit /src/ngx_devel_kit && \
     git clone --recursive https://github.com/openresty/lua-nginx-module /src/lua-nginx-module && \
     git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx /src/ModSecurity-nginx && \
     git clone --recursive https://github.com/openresty/lua-resty-core /src/lua-resty-core && \
     git clone --recursive https://github.com/openresty/lua-resty-lrucache /src/lua-resty-lrucache && \
+    git clone --recursive https://github.com/leev/ngx_http_geoip2_module /src/ngx_http_geoip2_module && \
 # Configure
     cd /src/nginx && \
     /src/nginx/configure \
@@ -77,10 +77,10 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
     --add-module=/src/ngx_security_headers \
 #    --add-module=/src/ngx_http_limit_traffic_ratefilter_module \
     --add-module=/src/njs/nginx \
-    --add-module=/src/libmaxminddb \
     --add-module=/src/ngx_devel_kit \
     --add-module=/src/lua-nginx-module \
-    --add-module=/src/ModSecurity-nginx && \
+    --add-module=/src/ModSecurity-nginx \
+    --add-module=/src/ngx_http_geoip2_module && \
 # Build & Install
     make -j "$(nproc)" && \
     make -j "$(nproc)" install && \
