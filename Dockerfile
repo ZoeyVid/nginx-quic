@@ -56,7 +56,7 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
     --without-poll_module \
     --without-select_module \
     --with-openssl="/src/openssl" \
-    --with-openssl-opt="no-ssl3 no-ssl3-method no-weak-ssl-ciphers" \
+#    --with-openssl-opt="no-ssl3 no-ssl3-method no-weak-ssl-ciphers" \
     --with-mail \
     --with-mail_ssl_module \
     --with-stream \
