@@ -3,7 +3,7 @@ ARG BUILD
 
 ARG LUAJIT_INC=/usr/include/luajit-2.1
 ARG LUAJIT_LIB=/usr/lib
-ARG NGINX_VER=1.25.2
+ARG NGINX_VER=1.25.3
 
 WORKDIR /src
 # Requirements
