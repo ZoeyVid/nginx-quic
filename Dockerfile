@@ -10,7 +10,7 @@ WORKDIR /src
 RUN apk add --no-cache ca-certificates build-base patch cmake git libtool autoconf automake \
     libatomic_ops-dev zlib-dev luajit-dev pcre-dev linux-headers yajl-dev libxml2-dev libxslt-dev perl-dev curl-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev
 # Openssl
-RUN git clone --recursive https://github.com/quictls/openssl --branch openssl-3.1.2+quic /src/openssl
+RUN git clone --recursive https://github.com/quictls/openssl --branch openssl-3.1.4+quic /src/openssl
 # modsecurity
 RUN git clone --recursive https://github.com/SpiderLabs/ModSecurity /src/ModSecurity && \
     cd /src/ModSecurity && \
