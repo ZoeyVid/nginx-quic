@@ -95,7 +95,7 @@ COPY --from=build /usr/local/nginx                               /usr/local/ngin
 COPY --from=build /usr/local/lib/perl5                           /usr/local/lib/perl5
 COPY --from=build /usr/lib/perl5/core_perl/perllocal.pod         /usr/lib/perl5/core_perl/perllocal.pod
 COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
-RUN apk add --no-cache ca-certificates tzdata tini zlib luajit pcre libstdc++ yajl libxml2 libxslt perl libcurl lua5.1-libs geoip libmaxminddb-libs && \
+RUN apk add --no-cache ca-certificates tzdata tini zlib luajit pcre2 libstdc++ yajl libxml2 libxslt perl libcurl lmdb lua5.1-libs geoip libmaxminddb-libs && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 ENTRYPOINT ["tini", "--", "nginx"]
 CMD ["-g", "daemon off;"]
