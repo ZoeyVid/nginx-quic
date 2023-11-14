@@ -15,7 +15,7 @@ RUN git clone --recursive https://github.com/quictls/openssl --branch openssl-3.
 RUN git clone --recursive https://github.com/SpiderLabs/ModSecurity /src/ModSecurity && \
     cd /src/ModSecurity && \
     /src/ModSecurity/build.sh && \
-    /src/ModSecurity/configure && \
+    /src/ModSecurity/configure --with-pcre2 && \
     make -j "$(nproc)" && \
     make -j "$(nproc)" install && \
     strip -s /usr/local/modsecurity/lib/libmodsecurity.so.3
