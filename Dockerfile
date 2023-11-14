@@ -8,14 +8,14 @@ ARG NGINX_VER=1.25.3
 WORKDIR /src
 # Requirements
 RUN apk add --no-cache ca-certificates build-base patch cmake git libtool autoconf automake \
-    libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev perl-dev curl-dev lmdb-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev ssdeep
+    libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev perl-dev curl-dev lmdb-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev
 # Openssl
 RUN git clone --recursive https://github.com/quictls/openssl --branch openssl-3.1.4+quic /src/openssl
 # modsecurity
 RUN git clone --recursive https://github.com/SpiderLabs/ModSecurity /src/ModSecurity && \
     cd /src/ModSecurity && \
     /src/ModSecurity/build.sh && \
-    /src/ModSecurity/configure --with-pcre2 --with-lmdb --with-ssdeep && \
+    /src/ModSecurity/configure --with-pcre2 --with-lmdb && \
     make -j "$(nproc)" && \
     make -j "$(nproc)" install && \
     strip -s /usr/local/modsecurity/lib/libmodsecurity.so.3
