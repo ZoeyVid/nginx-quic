@@ -30,6 +30,8 @@ RUN apk add --no-cache ca-certificates build-base patch cmake git libtool autoco
 RUN git clone --recursive https://github.com/quictls/openssl --branch "$OPENSSL_VER" /src/openssl
 # modsecurity
 RUN git clone --recursive https://github.com/SpiderLabs/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
+    sed -i "s|SecRuleEngine.*|SecRuleEngine On|g" /src/ModSecurity/modsecurity.conf.example && \
+    sed -i "s|unicode.mapping|/usr/local/nginx/conf/conf.d/include/unicode.mapping|g" /src/ModSecurity/modsecurity.conf.example && \
     cd /src/ModSecurity && \
     /src/ModSecurity/build.sh && \
     /src/ModSecurity/configure --with-pcre2 --with-lmdb && \
