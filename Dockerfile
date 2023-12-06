@@ -109,6 +109,8 @@ COPY --from=build /usr/local/nginx                               /usr/local/ngin
 COPY --from=build /usr/local/lib/perl5                           /usr/local/lib/perl5
 COPY --from=build /usr/lib/perl5/core_perl/perllocal.pod         /usr/lib/perl5/core_perl/perllocal.pod
 COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
+COPY --from=build /src/ModSecurity/unicode.mapping               /usr/local/nginx/conf/conf.d/include/unicode.mapping
+COPY --from=build /src/ModSecurity/modsecurity.conf-recommended  /usr/local/nginx/conf/conf.d/include/modsecurity.conf.example
 RUN apk add --no-cache ca-certificates tzdata tini zlib luajit pcre2 libstdc++ yajl libxml2 libxslt perl libcurl lmdb lua5.1-libs geoip libmaxminddb-libs && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 ENTRYPOINT ["tini", "--", "nginx"]
