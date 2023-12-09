@@ -25,7 +25,7 @@ ARG NHG2M_VER=3.4
 WORKDIR /src
 # Requirements
 RUN apk add --no-cache ca-certificates build-base patch cmake git libtool autoconf automake \
-    libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev perl-dev curl-dev lmdb-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev
+    libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev perl-dev curl-dev lmdb-dev lua5.1-dev lmdb-dev geoip-dev libfuzzy2-dev libmaxminddb-dev
 # Openssl
 RUN git clone --recursive https://github.com/quictls/openssl --branch "$OPENSSL_VER" /src/openssl
 # modsecurity
@@ -60,9 +60,9 @@ RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /sr
     git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx --branch "$MODSECNGX_VER" /src/ModSecurity-nginx && \
     git clone --recursive https://github.com/openresty/lua-resty-core --branch "$LRC_VER" /src/lua-resty-core && \
     git clone --recursive https://github.com/openresty/lua-resty-lrucache --branch "$LRL_VER" /src/lua-resty-lrucache && \
-    git clone --recursive https://github.com/leev/ngx_http_geoip2_module --branch "$NHG2M_VER" /src/ngx_http_geoip2_module && \
+    git clone --recursive https://github.com/leev/ngx_http_geoip2_module --branch "$NHG2M_VER" /src/ngx_http_geoip2_module
 # Configure
-    cd /src/nginx && \
+RUN cd /src/nginx && \
     /src/nginx/configure \
     --build="$BUILD" \
     --with-compat \
