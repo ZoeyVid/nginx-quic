@@ -89,6 +89,7 @@ RUN cd /src/nginx && \
     --with-http_addition_module \
     --with-http_gzip_static_module \
     --with-http_auth_request_module \
+    --with-http_stub_status_module \
     --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
     --add-module=/src/headers-more-nginx-module \
