@@ -83,6 +83,58 @@ jobs:
           branch: update-modsecurity-version
           title: update modsecurity version to ${{ steps.update.outputs.version }}
           body: update modsecurity version to ${{ steps.update.outputs.version }}
+  dynamic_tls_records-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: update dynamic_tls_records version
+        id: update
+        run: |
+          git clone https://github.com/nginx-modules/ngx_http_tls_dyn_size
+          DTR_VER="$(
+          ls ngx_http_tls_dyn_size/nginx__dynamic_tls_records_*.patch \
+              | sed "s|ngx_http_tls_dyn_size/nginx__dynamic_tls_records_\([0-9.]\+\)+.patch|\1|g" \
+              | sort -V \
+              | tail -1
+          )"
+          sed -i "s|ARG DTR_VER=.*|ARG DTR_VER=$DTR_VER|" Dockerfile
+          echo "version=$DTR_VER" >> $GITHUB_OUTPUT
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          signoff: true
+          delete-branch: true
+          commit-message: update dynamic_tls_records version to ${{ steps.update.outputs.version }}
+          branch: update-dynamic_tls_records-version
+          title: update dynamic_tls_records version to ${{ steps.update.outputs.version }}
+          body: update dynamic_tls_records version to ${{ steps.update.outputs.version }}
+  resolver_conf_parsing-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: update resolver_conf_parsing version
+        id: update
+        run: |
+          git clone https://github.com/openresty/openresty
+          RCP_VER="$(
+          ls openresty/patches/nginx-*-resolver_conf_parsing.patch \
+              | sed "s|openresty/patches/nginx-\([0-9.]\+\)-resolver_conf_parsing.patch|\1|g" \
+              | sort -V \
+              | tail -1
+          )"
+          sed -i "s|ARG RCP_VER=.*|ARG RCP_VER=$RCP_VER|" Dockerfile
+          echo "version=$RCP_VER" >> $GITHUB_OUTPUT
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          signoff: true
+          delete-branch: true
+          commit-message: update resolver_conf_parsing version to ${{ steps.update.outputs.version }}
+          branch: update-resolver_conf_parsing-version
+          title: update resolver_conf_parsing version to ${{ steps.update.outputs.version }}
+          body: update resolver_conf_parsing version to ${{ steps.update.outputs.version }}
   ngx_brotli-update:
     runs-on: ubuntu-latest
     steps:
