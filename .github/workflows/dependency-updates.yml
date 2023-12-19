@@ -325,7 +325,7 @@ jobs:
       - name: update ngx_http_geoip2_module version
         id: update
         run: |
-          CSNB_VER="$(
+          NHG2M_VER="$(
           git ls-remote --tags https://github.com/leev/ngx_http_geoip2_module \
               | cut -d/ -f3 \
               | sort -V \
