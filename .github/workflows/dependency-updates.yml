@@ -91,13 +91,14 @@ jobs:
       - name: update dynamic_tls_records version
         id: update
         run: |
-          git clone https://github.com/nginx-modules/ngx_http_tls_dyn_size
+          git clone https://github.com/nginx-modules/ngx_http_tls_dyn_size ngx_http_tls_dyn_size
           DTR_VER="$(
           ls ngx_http_tls_dyn_size/nginx__dynamic_tls_records_*.patch \
               | sed "s|ngx_http_tls_dyn_size/nginx__dynamic_tls_records_\([0-9.]\+\)+.patch|\1|g" \
               | sort -V \
               | tail -1
           )"
+          rm -r ngx_http_tls_dyn_size
           sed -i "s|ARG DTR_VER=.*|ARG DTR_VER=$DTR_VER|" Dockerfile
           echo "version=$DTR_VER" >> $GITHUB_OUTPUT
       - name: Create Pull Request
@@ -117,13 +118,14 @@ jobs:
       - name: update resolver_conf_parsing version
         id: update
         run: |
-          git clone https://github.com/openresty/openresty
+          git clone https://github.com/openresty/openresty openresty
           RCP_VER="$(
           ls openresty/patches/nginx-*-resolver_conf_parsing.patch \
               | sed "s|openresty/patches/nginx-\([0-9.]\+\)-resolver_conf_parsing.patch|\1|g" \
               | sort -V \
               | tail -1
           )"
+          rm -r openresty
           sed -i "s|ARG RCP_VER=.*|ARG RCP_VER=$RCP_VER|" Dockerfile
           echo "version=$RCP_VER" >> $GITHUB_OUTPUT
       - name: Create Pull Request
