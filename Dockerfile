@@ -105,9 +105,9 @@ RUN cd /src/nginx && \
     make -j "$(nproc)" install && \
     strip -s /usr/local/nginx/sbin/nginx && \
     cd /src/lua-resty-core && \
-    make install PREFIX=/usr/local/nginx && \
+    make -j "$(nproc)" install PREFIX=/usr/local/nginx && \
     cd /src/lua-resty-lrucache && \
-    make install PREFIX=/usr/local/nginx
+    make -j "$(nproc)" install PREFIX=/usr/local/nginx
 
 FROM python:3.12.1-alpine3.19
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
