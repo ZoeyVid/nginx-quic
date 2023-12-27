@@ -107,7 +107,8 @@ RUN cd /src/nginx && \
     cd /src/lua-resty-core && \
     make -j "$(nproc)" install PREFIX=/usr/local/nginx && \
     cd /src/lua-resty-lrucache && \
-    make -j "$(nproc)" install PREFIX=/usr/local/nginx
+    make -j "$(nproc)" install PREFIX=/usr/local/nginx && \
+    perl /src/openssl/configdata.pm --dump
 
 FROM python:3.12.1-alpine3.19
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
