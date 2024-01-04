@@ -80,6 +80,7 @@ RUN cd /src/nginx && \
     --with-stream_ssl_module \
     --with-stream_ssl_preread_module \
     --with-stream_geoip_module \
+    --with-stream_realip_module \
     --with-http_v2_module \
     --with-http_v3_module \
     --with-http_ssl_module \
