@@ -31,7 +31,7 @@ RUN git clone --recursive https://github.com/quictls/openssl --branch "$OPENSSL_
 # modsecurity
 RUN git clone --recursive https://github.com/SpiderLabs/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
     sed -i "s|SecRuleEngine .*|SecRuleEngine On|g" /src/ModSecurity/modsecurity.conf-recommended && \
-    sed -i "s|SecAuditLog |#SecAuditLog |g" /src/ModSecurity/modsecurity.conf-recommended && \
+    sed -i "s|^SecAudit|#SecAudit|g" /src/ModSecurity/modsecurity.conf-recommended && \
     sed -i "s|unicode.mapping|/usr/local/nginx/conf/conf.d/include/unicode.mapping|g" /src/ModSecurity/modsecurity.conf-recommended && \
     cd /src/ModSecurity && \
     /src/ModSecurity/build.sh && \
