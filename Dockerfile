@@ -6,7 +6,7 @@ ARG LUAJIT_LIB=/usr/lib
 
 ARG NGINX_VER=1.25.3
 ARG OPENSSL_VER=openssl-3.1.4+quic
-ARG MODSEC_VER=v3.0.11
+ARG MODSEC_VER=v3.0.12
 
 ARG DTR_VER=1.25.1
 ARG RCP_VER=1.25.3
@@ -29,7 +29,7 @@ RUN apk add --no-cache ca-certificates build-base patch cmake git libtool autoco
 # Openssl
 RUN git clone --recursive https://github.com/quictls/openssl --branch "$OPENSSL_VER" /src/openssl
 # modsecurity
-RUN git clone --recursive https://github.com/SpiderLabs/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
+RUN git clone --recursive https://github.com/owasp-modsecurity/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
     sed -i "s|SecRuleEngine .*|SecRuleEngine On|g" /src/ModSecurity/modsecurity.conf-recommended && \
     sed -i "s|^SecAudit|#SecAudit|g" /src/ModSecurity/modsecurity.conf-recommended && \
     sed -i "s|unicode.mapping|/usr/local/nginx/conf/conf.d/include/unicode.mapping|g" /src/ModSecurity/modsecurity.conf-recommended && \
