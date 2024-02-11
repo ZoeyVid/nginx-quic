@@ -73,8 +73,6 @@ RUN cd /src/nginx && \
     --with-libatomic \
     --with-pcre \
     --with-pcre-jit \
-    --without-poll_module \
-    --without-select_module \
     --with-openssl="/src/openssl" \
     --with-mail \
     --with-mail_ssl_module \
