@@ -89,7 +89,7 @@ jobs:
             nginx-x86_64.tar.xz
             nginx-aarch64
             nginx-aarch64.tar.xz
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - uses: crowbarmaster/GH-Automatic-Releases@latest
         if: ${{ github.event_name != 'pull_request' }}
         with:
           prerelease: false
