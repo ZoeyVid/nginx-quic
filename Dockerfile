@@ -26,7 +26,7 @@ WORKDIR /src
 # Requirements
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates build-base patch cmake git libtool autoconf automake \
-    libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev
+    libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.4-dev lmdb-dev geoip-dev libmaxminddb-dev
 # Openssl
 RUN git clone https://github.com/quictls/openssl --branch "$OPENSSL_VER" /src/openssl
 # modsecurity
@@ -120,7 +120,7 @@ COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/mods
 COPY --from=build /src/ModSecurity/unicode.mapping               /usr/local/nginx/conf/conf.d/include/unicode.mapping
 COPY --from=build /src/ModSecurity/modsecurity.conf-recommended  /usr/local/nginx/conf/conf.d/include/modsecurity.conf.example
 RUN apk upgrade --no-cache -a && \
-    apk add --no-cache ca-certificates tzdata tini zlib luajit pcre2 libstdc++ yajl libxml2 libxslt libcurl lmdb libfuzzy2 lua5.1-libs geoip libmaxminddb-libs && \
+    apk add --no-cache ca-certificates tzdata tini zlib luajit pcre2 libstdc++ yajl libxml2 libxslt libcurl lmdb libfuzzy2 lua5.4-libs geoip libmaxminddb-libs && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 ENTRYPOINT ["tini", "--", "nginx"]
 CMD ["-g", "daemon off;"]
