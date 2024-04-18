@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:labs
 FROM alpine:3.19.1 as build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 ARG BUILD
