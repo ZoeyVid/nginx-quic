@@ -20,7 +20,6 @@ jobs:
               | cut -d/ -f3 \
               | sort -V \
               | tail -1 \
-              | sed -E "s/\^\{\}//" \
               | sed "s|release-||g"
           )"
           sed -i "s|ARG NGINX_VER=.*|ARG NGINX_VER=$NGINX_VER|" Dockerfile
@@ -72,7 +71,7 @@ jobs:
               | cut -d/ -f3 \
               | sort -V \
               | tail -1 \
-              | sed -E "s/\^\{\}//"
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG MODSEC_VER=.*|ARG MODSEC_VER=$MODSEC_VER|" Dockerfile
           echo "version=$MODSEC_VER" >> $GITHUB_OUTPUT
@@ -151,8 +150,7 @@ jobs:
           git ls-remote --tags https://github.com/google/ngx_brotli \
               | cut -d/ -f3 \
               | sort -V \
-              | tail -1 \
-              | sed -E "s/\^\{\}//"
+              | tail -1
           )"
           sed -i "s|ARG NB_VER=.*|ARG NB_VER=$NB_VER|" Dockerfile
           echo "version=$NB_VER" >> $GITHUB_OUTPUT
@@ -178,7 +176,7 @@ jobs:
               | cut -d/ -f3 \
               | sort -V \
               | tail -1 \
-              | sed -E "s/\^\{\}//"
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG NF_VER=.*|ARG NF_VER=$NF_VER|" Dockerfile
           echo "version=$NF_VER" >> $GITHUB_OUTPUT
@@ -203,8 +201,7 @@ jobs:
           git ls-remote --tags https://github.com/openresty/headers-more-nginx-module \
               | cut -d/ -f3 \
               | sort -V \
-              | tail -1 \
-              | sed -E "s/\^\{\}//"
+              | tail -1
           )"
           sed -i "s|ARG HMNM_VER=.*|ARG HMNM_VER=$HMNM_VER|" Dockerfile
           echo "version=$HMNM_VER" >> $GITHUB_OUTPUT
@@ -229,8 +226,7 @@ jobs:
           git ls-remote --tags https://github.com/nginx/njs \
               | cut -d/ -f3 \
               | sort -V \
-              | tail -1 \
-              | sed -E "s/\^\{\}//"
+              | tail -1
           )"
           sed -i "s|ARG NJS_VER=.*|ARG NJS_VER=$NJS_VER|" Dockerfile
           echo "version=$NJS_VER" >> $GITHUB_OUTPUT
@@ -256,7 +252,7 @@ jobs:
               | cut -d/ -f3 \
               | sort -V \
               | tail -1 \
-              | sed -E "s/\^\{\}//"
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG NDK_VER=.*|ARG NDK_VER=$NDK_VER|" Dockerfile
           echo "version=$NDK_VER" >> $GITHUB_OUTPUT
@@ -281,8 +277,7 @@ jobs:
           git ls-remote --tags https://github.com/openresty/lua-nginx-module \
               | cut -d/ -f3 \
               | sort -V \
-              | tail -1 \
-              | sed -E "s/\^\{\}//"
+              | tail -1
           )"
           sed -i "s|ARG LNM_VER=.*|ARG LNM_VER=$LNM_VER|" Dockerfile
           echo "version=$LNM_VER" >> $GITHUB_OUTPUT
@@ -308,7 +303,7 @@ jobs:
               | cut -d/ -f3 \
               | sort -V \
               | tail -1 \
-              | sed -E "s/\^\{\}//"
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG MODSECNGX_VER=.*|ARG MODSECNGX_VER=$MODSECNGX_VER|" Dockerfile
           echo "version=$MODSECNGX_VER" >> $GITHUB_OUTPUT
@@ -333,8 +328,7 @@ jobs:
           git ls-remote --tags https://github.com/openresty/lua-resty-core \
               | cut -d/ -f3 \
               | sort -V \
-              | tail -1 \
-              | sed -E "s/\^\{\}//"
+              | tail -1
           )"
           sed -i "s|ARG LRC_VER=.*|ARG LRC_VER=$LRC_VER|" Dockerfile
           echo "version=$LRC_VER" >> $GITHUB_OUTPUT
@@ -360,7 +354,7 @@ jobs:
               | cut -d/ -f3 \
               | sort -V \
               | tail -1 \
-              | sed -E "s/\^\{\}//"
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG LRL_VER=.*|ARG LRL_VER=$LRL_VER|" Dockerfile
           echo "version=$LRL_VER" >> $GITHUB_OUTPUT
@@ -385,8 +379,7 @@ jobs:
           git ls-remote --tags https://github.com/leev/ngx_http_geoip2_module \
               | cut -d/ -f3 \
               | sort -V \
-              | tail -1 \
-              | sed -E "s/\^\{\}//"
+              | tail -1
           )"
           sed -i "s|ARG NHG2M_VER=.*|ARG NHG2M_VER=$NHG2M_VER|" Dockerfile
           echo "version=$NHG2M_VER" >> $GITHUB_OUTPUT
