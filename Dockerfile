@@ -1,4 +1,5 @@
 FROM alpine:3.19.1 as build
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 ARG BUILD
 
 ARG LUAJIT_INC=/usr/include/luajit-2.1
@@ -41,10 +42,10 @@ RUN git clone --recursive https://github.com/owasp-modsecurity/ModSecurity --bra
     make -j "$(nproc)" install && \
     strip -s /usr/local/modsecurity/lib/libmodsecurity.so.3
 # Nginx
-RUN wget https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /src && \
+RUN wget -q https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /src && \
     mv /src/nginx-"$NGINX_VER" /src/nginx && \
-    wget https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_"$DTR_VER"%2B.patch -O /src/nginx/1.patch && \
-    wget https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx-"$RCP_VER"-resolver_conf_parsing.patch -O /src/nginx/2.patch && \
+    wget -q https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_"$DTR_VER"%2B.patch -O /src/nginx/1.patch && \
+    wget -q https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx-"$RCP_VER"-resolver_conf_parsing.patch -O /src/nginx/2.patch && \
     sed -i "s|nginx/|NPMplus/|g" /src/nginx/src/core/nginx.h && \
     sed -i "s|Server: nginx|Server: NPMplus|g" /src/nginx/src/http/ngx_http_header_filter_module.c && \
     sed -i "s|<hr><center>nginx</center>|<hr><center>NPMplus</center>|g" /src/nginx/src/http/ngx_http_special_response.c && \
