@@ -114,7 +114,7 @@ RUN cd /src/nginx && \
     make -j "$(nproc)" install PREFIX=/usr/local/nginx && \
     perl /src/openssl/configdata.pm --dump
 
-FROM python:3.12.3-alpine3.19
+FROM alpine:3.19.1
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
 #COPY --from=build /usr/local/lib/perl5                           /usr/local/lib/perl5 # perl in apk add needed
 #COPY --from=build /usr/lib/perl5/core_perl/perllocal.pod         /usr/lib/perl5/core_perl/perllocal.pod # perl in apk add needed
