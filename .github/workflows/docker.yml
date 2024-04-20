@@ -8,10 +8,12 @@ on:
       - develop
     paths:
       - Dockerfile
+      - python.Dockerfile
       - .github/workflows/docker.yml
   pull_request:
     paths:
       - Dockerfile
+      - python.Dockerfile
       - .github/workflows/docker.yml
   workflow_dispatch:
 jobs:
