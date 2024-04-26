@@ -43,17 +43,17 @@ RUN git clone --recursive https://github.com/owasp-modsecurity/ModSecurity --bra
     make -j "$(nproc)" install && \
     strip -s /usr/local/modsecurity/lib/libmodsecurity.so.3
 # Nginx
-RUN wget -q https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC /src && \
-    mv /src/nginx-"$NGINX_VER" /src/nginx && \
-    wget -q https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_"$DTR_VER"%2B.patch -O /src/nginx/1.patch && \
-    wget -q https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx-"$RCP_VER"-resolver_conf_parsing.patch -O /src/nginx/2.patch && \
-    sed -i "s|nginx/|NPMplus/|g" /src/nginx/src/core/nginx.h && \
-    sed -i "s|Server: nginx|Server: NPMplus|g" /src/nginx/src/http/ngx_http_header_filter_module.c && \
-    sed -i "s|<hr><center>nginx</center>|<hr><center>NPMplus</center>|g" /src/nginx/src/http/ngx_http_special_response.c && \
-    cd /src/nginx && \
-    patch -p1 </src/nginx/1.patch && \
-    patch -p1 </src/nginx/2.patch && \
-    rm /src/nginx/*.patch && \
+RUN wget -q https://freenginx.org/download/freenginx-"$NGINX_VER".tar.gz -O - | tar xzC /src && \
+    mv /src/freenginx-"$NGINX_VER" /src/freenginx && \
+    wget -q https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_"$DTR_VER"%2B.patch -O /src/freenginx/1.patch && \
+    wget -q https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx-"$RCP_VER"-resolver_conf_parsing.patch -O /src/freenginx/2.patch && \
+    sed -i "s|freenginx/|NPMplus/|g" /src/freenginx/src/core/nginx.h && \
+    sed -i "s|Server: freenginx|Server: NPMplus|g" /src/freenginx/src/http/ngx_http_header_filter_module.c && \
+    sed -i "s|<hr><center>freenginx</center>|<hr><center>NPMplus</center>|g" /src/freenginx/src/http/ngx_http_special_response.c && \
+    cd /src/freenginx && \
+    patch -p1 </src/freenginx/1.patch && \
+    patch -p1 </src/freenginx/2.patch && \
+    rm /src/freenginx/*.patch && \
 # modules
     git clone --recursive https://github.com/google/ngx_brotli --branch "$NB_VER" /src/ngx_brotli && \
     git clone --recursive https://github.com/aperezdc/ngx-fancyindex --branch "$NF_VER" /src/ngx-fancyindex && \
@@ -66,8 +66,8 @@ RUN wget -q https://nginx.org/download/nginx-"$NGINX_VER".tar.gz -O - | tar xzC 
     git clone --recursive https://github.com/openresty/lua-resty-lrucache --branch "$LRL_VER" /src/lua-resty-lrucache && \
     git clone --recursive https://github.com/leev/ngx_http_geoip2_module --branch "$NHG2M_VER" /src/ngx_http_geoip2_module
 # Configure
-RUN cd /src/nginx && \
-    /src/nginx/configure \
+RUN cd /src/freenginx && \
+    /src/freenginx/configure \
     --build="$BUILD" \
     --with-compat \
     --with-threads \
