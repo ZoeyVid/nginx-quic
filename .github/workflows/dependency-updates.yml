@@ -16,7 +16,7 @@ jobs:
         id: update
         run: |
           NGINX_VER="$(
-          git ls-remote --tags https://github.com/nginx/nginx \
+          git ls-remote --tags https://github.com/freenginx/nginx \
               | cut -d/ -f3 \
               | sort -V \
               | tail -1 \
