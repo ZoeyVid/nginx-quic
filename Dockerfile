@@ -47,9 +47,7 @@ RUN wget -q https://freenginx.org/download/freenginx-"$NGINX_VER".tar.gz -O - | 
     mv /src/freenginx-"$NGINX_VER" /src/freenginx && \
     wget -q https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_"$DTR_VER"%2B.patch -O /src/freenginx/1.patch && \
     wget -q https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx-"$RCP_VER"-resolver_conf_parsing.patch -O /src/freenginx/2.patch && \
-    sed -i "s|freenginx/|NPMplus/|g" /src/freenginx/src/core/nginx.h && \
-    sed -i "s|Server: freenginx|Server: NPMplus|g" /src/freenginx/src/http/ngx_http_header_filter_module.c && \
-    sed -i "s|<hr><center>freenginx</center>|<hr><center>NPMplus</center>|g" /src/freenginx/src/http/ngx_http_special_response.c && \
+    sed -i "s|freenginx|NPMplus|g" /src/freenginx/src/core/nginx.h && \
     cd /src/freenginx && \
     patch -p1 </src/freenginx/1.patch && \
     patch -p1 </src/freenginx/2.patch && \
