@@ -66,7 +66,7 @@ RUN wget -q https://freenginx.org/download/freenginx-"$NGINX_VER".tar.gz -O - | 
 # Configure
 RUN cd /src/freenginx && \
     /src/freenginx/configure \
-    --build="$BUILD" \
+    --build=free"$BUILD" \
     --with-compat \
     --with-threads \
     --with-file-aio \
