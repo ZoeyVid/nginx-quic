@@ -1,7 +1,6 @@
 # syntax=docker/dockerfile:labs
 FROM alpine:3.19.1 as build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
-ARG BUILD
 
 ARG LUAJIT_INC=/usr/include/luajit-2.1
 ARG LUAJIT_LIB=/usr/lib
@@ -66,7 +65,7 @@ RUN wget -q https://freenginx.org/download/freenginx-"$NGINX_VER".tar.gz -O - | 
 # Configure
 RUN cd /src/freenginx && \
     /src/freenginx/configure \
-    --build=free"$BUILD" \
+    --build=freenginx \
     --with-compat \
     --with-threads \
     --with-file-aio \
