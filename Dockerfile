@@ -26,7 +26,7 @@ ARG NHG2M_VER=3.4
 WORKDIR /src
 # Requirements
 RUN apk upgrade --no-cache -a && \
-    apk add --no-cache ca-certificates build-base patch cmake git libtool autoconf automake \
+    apk add --no-cache ca-certificates build-base patch cmake git libtool autoconf automake perl \
     libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev
 # Openssl
 RUN git clone https://github.com/quictls/openssl --branch "$OPENSSL_VER" /src/openssl
@@ -83,7 +83,6 @@ RUN cd /src/freenginx && \
     --with-http_v2_module \
     --with-http_v3_module \
     --with-http_ssl_module \
-#    --with-http_perl_module \ # perl-dev in apk add needed
     --with-http_geoip_module \
     --with-http_realip_module \
     --with-http_gunzip_module \
@@ -113,8 +112,6 @@ RUN cd /src/freenginx && \
 
 FROM alpine:3.19.1
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
-#COPY --from=build /usr/local/lib/perl5                           /usr/local/lib/perl5 # perl in apk add needed
-#COPY --from=build /usr/lib/perl5/core_perl/perllocal.pod         /usr/lib/perl5/core_perl/perllocal.pod # perl in apk add needed
 COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
 COPY --from=build /src/ModSecurity/unicode.mapping               /usr/local/nginx/conf/conf.d/include/unicode.mapping
 COPY --from=build /src/ModSecurity/modsecurity.conf-recommended  /usr/local/nginx/conf/conf.d/include/modsecurity.conf.example
@@ -123,3 +120,7 @@ RUN apk upgrade --no-cache -a && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 ENTRYPOINT ["tini", "--", "nginx"]
 CMD ["-g", "daemon off;"]
+EXPOSE 80/tcp
+EXPOSE 81/tcp
+EXPOSE 443/tcp
+EXPOSE 443/udp
