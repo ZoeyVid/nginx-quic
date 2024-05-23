@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:labs
-FROM python:3.12.3-alpine3.19
+FROM python:3.12.3-alpine3.20
 COPY --from=zoeyvid/nginx-quic:latest /usr/local/nginx                               /usr/local/nginx
 #COPY --from=zoeyvid/nginx-quic:latest /usr/local/lib/perl5                           /usr/local/lib/perl5 # perl in apk add needed
 #COPY --from=zoeyvid/nginx-quic:latest /usr/lib/perl5/core_perl/perllocal.pod         /usr/lib/perl5/core_perl/perllocal.pod # perl in apk add needed
