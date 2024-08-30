@@ -6,7 +6,7 @@ ARG LUAJIT_INC=/usr/include/luajit-2.1
 ARG LUAJIT_LIB=/usr/lib
 
 ARG NGINX_VER=1.27.3
-ARG OPENSSL_VER=openssl-3.1.6+quic1
+ARG OPENSSL_VER=openssl-3.1.6-quic1
 ARG MODSEC_VER=v3.0.12
 
 ARG DTR_VER=1.25.1
