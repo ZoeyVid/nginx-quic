@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:labs
-FROM alpine:3.20.2 AS build
+FROM alpine:3.20.3 AS build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 ARG LUAJIT_INC=/usr/include/luajit-2.1
@@ -110,7 +110,7 @@ RUN cd /src/freenginx && \
     make -j "$(nproc)" install PREFIX=/usr/local/nginx && \
     perl /src/openssl/configdata.pm --dump
 
-FROM alpine:3.20.2
+FROM alpine:3.20.3
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
 COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
 COPY --from=build /src/ModSecurity/unicode.mapping               /usr/local/nginx/conf/conf.d/include/unicode.mapping
