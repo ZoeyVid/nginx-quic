@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:labs
 FROM alpine:3.20.3 AS build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
@@ -23,13 +22,16 @@ ARG LRC_VER=v0.1.29rc1
 ARG LRL_VER=v0.14rc1
 ARG NHG2M_VER=3.4
 
+ARG LIBOQS_VER=0.10.1
+ARG OQSPROVIDER_VER=0.6.1
+
 WORKDIR /src
 # Requirements
 RUN apk upgrade --no-cache -a && \
-    apk add --no-cache ca-certificates build-base patch cmake git libtool autoconf automake perl bash \
+    apk add --no-cache ca-certificates build-base patch cmake git libtool autoconf automake perl bash cmake \
     libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev
 # Openssl
-RUN git clone https://github.com/quictls/openssl --branch "$OPENSSL_VER" /src/openssl
+RUN git clone https://github.com/quictls/openssl --branch "$OPENSSL_VER" /usr/local/openssl
 # modsecurity
 RUN git clone --recursive https://github.com/owasp-modsecurity/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
     sed -i "s|SecRuleEngine .*|SecRuleEngine On|g" /src/ModSecurity/modsecurity.conf-recommended && \
@@ -72,7 +74,7 @@ RUN cd /src/freenginx && \
     --with-libatomic \
     --with-pcre \
     --with-pcre-jit \
-    --with-openssl="/src/openssl" \
+    --with-openssl="/usr/local/openssl" \
     --with-mail \
     --with-mail_ssl_module \
     --with-stream \
@@ -108,16 +110,33 @@ RUN cd /src/freenginx && \
     make -j "$(nproc)" install PREFIX=/usr/local/nginx && \
     cd /src/lua-resty-lrucache && \
     make -j "$(nproc)" install PREFIX=/usr/local/nginx && \
-    perl /src/openssl/configdata.pm --dump
+    perl /usr/local/openssl/configdata.pm --dump
+# OQS
+RUN git clone https://github.com/open-quantum-safe/liboqs --branch "$LIBOQS_VER" /src/liboqs && \
+    cd /src/liboqs && \
+    cmake -DCMAKE_BUILD_TYPE=Release && \
+    make -j "$(nproc)" && \
+    make -j "$(nproc)" install
+RUN git clone https://github.com/open-quantum-safe/oqs-provider --branch "$OQSPROVIDER_VER" /src/oqs-provider && \
+    cd /src/oqs-provider && \
+    cmake -DCMAKE_BUILD_TYPE=Release -DOPENSSL_ROOT_DIR=/usr/local/openssl/.openssl && \
+    make -j "$(nproc)" && \
+    mv -v /usr/local/openssl/.openssl/lib /usr/local/openssl/.openssl/lib64 && \
+    mv -v /src/oqs-provider/lib/oqsprovider.so /usr/local/openssl/.openssl/lib64/ossl-modules
+RUN cp -v /usr/local/openssl/apps/openssl.cnf /usr/local/openssl/.openssl/openssl.cnf && \
+    sed -i "s|default = default_sect|default = default_sect\noqsprovider = oqsprovider_sect|g" /usr/local/openssl/.openssl/openssl.cnf && \
+    sed -i "s|\[default_sect\]|\[default_sect\]\nactivate = 1\n\[oqsprovider_sect\]\nactivate = 1\n|g" /usr/local/openssl/.openssl/openssl.cnf
 
 FROM alpine:3.20.3
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
+COPY --from=build /usr/local/openssl/.openssl                    /usr/local/openssl/.openssl
 COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
 COPY --from=build /src/ModSecurity/unicode.mapping               /usr/local/nginx/conf/conf.d/include/unicode.mapping
 COPY --from=build /src/ModSecurity/modsecurity.conf-recommended  /usr/local/nginx/conf/conf.d/include/modsecurity.conf.example
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates tzdata tini zlib luajit pcre2 libstdc++ yajl libxml2 libxslt libcurl lmdb libfuzzy2 lua5.1-libs geoip libmaxminddb-libs && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
+ENV OPENSSL_CONF=/usr/local/openssl/.openssl/openssl.cnf
 ENTRYPOINT ["tini", "--", "nginx"]
 CMD ["-g", "daemon off;"]
 EXPOSE 80/tcp
