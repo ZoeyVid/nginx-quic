@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:lab
 FROM alpine:3.20.3 AS build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
@@ -28,7 +29,7 @@ ARG OQSPROVIDER_VER=0.6.1
 WORKDIR /src
 # Requirements
 RUN apk upgrade --no-cache -a && \
-    apk add --no-cache ca-certificates build-base patch cmake git libtool autoconf automake perl bash cmake \
+    apk add --no-cache ca-certificates build-base patch cmake git libtool autoconf automake perl bash \
     libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev
 # Openssl
 RUN git clone https://github.com/quictls/openssl --branch "$OPENSSL_VER" /usr/local/openssl
