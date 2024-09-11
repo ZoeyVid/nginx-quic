@@ -392,3 +392,55 @@ jobs:
           branch: update-ngx_http_geoip2_module-version
           title: update ngx_http_geoip2_module version to ${{ steps.update.outputs.version }}
           body: update ngx_http_geoip2_module version to ${{ steps.update.outputs.version }}
+  liboqs-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: update liboqs version
+        id: update
+        run: |
+          LIBOQS_VER="$(
+          git ls-remote --tags https://github.com/open-quantum-safe/liboqs \
+              | cut -d/ -f3 \
+              | sort -V \
+              | grep "^v\?[0-9]" \
+              | tail -1
+          )"
+          sed -i "s|ARG LIBOQS_VER=.*|ARG LIBOQS_VER=$LIBOQS_VER|" Dockerfile
+          echo "version=$LIBOQS_VER" >> $GITHUB_OUTPUT
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          signoff: true
+          delete-branch: true
+          commit-message: update liboqs version to ${{ steps.update.outputs.version }}
+          branch: update-liboqs-version
+          title: update liboqs version to ${{ steps.update.outputs.version }}
+          body: update liboqs version to ${{ steps.update.outputs.version }}
+  oqs-provider-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: update oqs-provider version
+        id: update
+        run: |
+          OQSPROVIDER_VER="$(
+          git ls-remote --tags https://github.com/open-quantum-safe/oqs-provider \
+              | cut -d/ -f3 \
+              | sort -V \
+              | grep "^v\?[0-9]" \
+              | tail -1
+          )"
+          sed -i "s|ARG OQSPROVIDER_VER=.*|ARG OQSPROVIDER_VER=$OQSPROVIDER_VER|" Dockerfile
+          echo "version=$OQSPROVIDER_VER" >> $GITHUB_OUTPUT
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          signoff: true
+          delete-branch: true
+          commit-message: update oqs-provider version to ${{ steps.update.outputs.version }}
+          branch: update-oqs-provider-version
+          title: update oqs-provider version to ${{ steps.update.outputs.version }}
+          body: update oqs-provider version to ${{ steps.update.outputs.version }}
