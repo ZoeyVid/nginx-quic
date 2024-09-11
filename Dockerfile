@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:lab
+# syntax=docker/dockerfile:labs
 FROM alpine:3.20.3 AS build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
