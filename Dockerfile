@@ -52,6 +52,7 @@ RUN wget -q https://freenginx.org/download/freenginx-"$NGINX_VER".tar.gz -O - | 
     wget -q https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx-"$RCP_VER"-resolver_conf_parsing.patch -O /src/freenginx/2.patch && \
     sed -i "s|freenginx|NPMplus|g" /src/freenginx/src/core/nginx.h && \
     sed -i "s|install_sw LIBDIR=lib|install_sw|g" /src/freenginx/auto/lib/openssl/make && \
+    sed -i "s|/.openssl/lib/|/.openssl/lib64/|g" /src/freenginx/auto/lib/openssl/conf && \
     cd /src/freenginx && \
     patch -p1 </src/freenginx/1.patch && \
     patch -p1 </src/freenginx/2.patch && \
