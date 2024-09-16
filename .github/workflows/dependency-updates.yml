@@ -392,6 +392,31 @@ jobs:
           branch: update-ngx_http_geoip2_module-version
           title: update ngx_http_geoip2_module version to ${{ steps.update.outputs.version }}
           body: update ngx_http_geoip2_module version to ${{ steps.update.outputs.version }}
+  nginx-ntlm-module-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: update nginx-ntlm-module version
+        id: update
+        run: |
+          NNTLM_VER="$(
+          git ls-remote --tags https://github.com/gabihodoroaga/nginx-ntlm-module \
+              | cut -d/ -f3 \
+              | sort -V \
+              | tail -1
+          )"
+          sed -i "s|ARG NNTLM_VER=.*|ARG NNTLM_VER=$NNTLM_VER|" Dockerfile
+          echo "version=$NNTLM_VER" >> $GITHUB_OUTPUT
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          signoff: true
+          delete-branch: true
+          commit-message: update nginx-ntlm-module version to ${{ steps.update.outputs.version }}
+          branch: update-nginx-ntlm-module-version
+          title: update nginx-ntlm-module version to ${{ steps.update.outputs.version }}
+          body: update nginx-ntlm-module version to ${{ steps.update.outputs.version }}
   liboqs-update:
     runs-on: ubuntu-latest
     steps:
