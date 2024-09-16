@@ -22,6 +22,7 @@ ARG MODSECNGX_VER=v1.0.3
 ARG LRC_VER=v0.1.29rc1
 ARG LRL_VER=v0.14rc1
 ARG NHG2M_VER=3.4
+ARG NNTLM_VER=master
 
 ARG LIBOQS_VER=0.10.1
 ARG OQSPROVIDER_VER=0.6.1
@@ -65,7 +66,8 @@ RUN wget -q https://freenginx.org/download/freenginx-"$NGINX_VER".tar.gz -O - | 
     git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx --branch "$MODSECNGX_VER" /src/ModSecurity-nginx && \
     git clone --recursive https://github.com/openresty/lua-resty-core --branch "$LRC_VER" /src/lua-resty-core && \
     git clone --recursive https://github.com/openresty/lua-resty-lrucache --branch "$LRL_VER" /src/lua-resty-lrucache && \
-    git clone --recursive https://github.com/leev/ngx_http_geoip2_module --branch "$NHG2M_VER" /src/ngx_http_geoip2_module
+    git clone --recursive https://github.com/leev/ngx_http_geoip2_module --branch "$NHG2M_VER" /src/ngx_http_geoip2_module && \
+    git clone --recursive https://github.com/gabihodoroaga/nginx-ntlm-module --branch "$NNTLM_VER" /src/nginx-ntlm-module
 # Configure
 RUN cd /src/freenginx && \
     /src/freenginx/configure \
@@ -104,7 +106,8 @@ RUN cd /src/freenginx && \
     --add-module=/src/ngx_devel_kit \
     --add-module=/src/lua-nginx-module \
     --add-module=/src/ModSecurity-nginx \
-    --add-module=/src/ngx_http_geoip2_module
+    --add-module=/src/ngx_http_geoip2_module \
+    --add-module=/src/nginx-ntlm-module
 # Build & Install
 RUN cd /src/freenginx && \
     make -j "$(nproc)" && \
