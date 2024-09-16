@@ -23,13 +23,16 @@ ARG LRC_VER=v0.1.29rc1
 ARG LRL_VER=v0.14rc1
 ARG NHG2M_VER=3.4
 
+ARG LIBOQS_VER=0.10.1
+ARG OQSPROVIDER_VER=0.6.1
+
 WORKDIR /src
 # Requirements
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates build-base patch cmake git libtool autoconf automake perl bash \
     libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev
 # Openssl
-RUN git clone https://github.com/quictls/openssl --branch "$OPENSSL_VER" /src/openssl
+RUN git clone https://github.com/quictls/openssl --branch "$OPENSSL_VER" /usr/local/openssl
 # modsecurity
 RUN git clone --recursive https://github.com/owasp-modsecurity/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
     sed -i "s|SecRuleEngine .*|SecRuleEngine On|g" /src/ModSecurity/modsecurity.conf-recommended && \
@@ -47,6 +50,7 @@ RUN wget -q https://freenginx.org/download/freenginx-"$NGINX_VER".tar.gz -O - | 
     wget -q https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_"$DTR_VER"%2B.patch -O /src/freenginx/1.patch && \
     wget -q https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx-"$RCP_VER"-resolver_conf_parsing.patch -O /src/freenginx/2.patch && \
     sed -i "s|freenginx|NPMplus|g" /src/freenginx/src/core/nginx.h && \
+    sed -i "s|install_sw LIBDIR=lib|install_sw|g" /src/freenginx/auto/lib/openssl/make && \
     cd /src/freenginx && \
     patch -p1 </src/freenginx/1.patch && \
     patch -p1 </src/freenginx/2.patch && \
@@ -72,7 +76,8 @@ RUN cd /src/freenginx && \
     --with-libatomic \
     --with-pcre \
     --with-pcre-jit \
-    --with-openssl="/src/openssl" \
+    --with-openssl-opt="no-legacy" \
+    --with-openssl="/usr/local/openssl" \
     --with-mail \
     --with-mail_ssl_module \
     --with-stream \
@@ -99,25 +104,48 @@ RUN cd /src/freenginx && \
     --add-module=/src/ngx_devel_kit \
     --add-module=/src/lua-nginx-module \
     --add-module=/src/ModSecurity-nginx \
-    --add-module=/src/ngx_http_geoip2_module && \
+    --add-module=/src/ngx_http_geoip2_module
 # Build & Install
+RUN cd /src/freenginx && \
     make -j "$(nproc)" && \
     make -j "$(nproc)" install && \
-    strip -s /usr/local/nginx/sbin/nginx && \
     cd /src/lua-resty-core && \
     make -j "$(nproc)" install PREFIX=/usr/local/nginx && \
     cd /src/lua-resty-lrucache && \
     make -j "$(nproc)" install PREFIX=/usr/local/nginx && \
-    perl /src/openssl/configdata.pm --dump
+    perl /usr/local/openssl/configdata.pm --dump
+# OQS
+RUN git clone https://github.com/open-quantum-safe/liboqs --branch "$LIBOQS_VER" /src/liboqs && \
+    cd /src/liboqs && \
+    cmake -DCMAKE_BUILD_TYPE=Release && \
+    make -j "$(nproc)" && \
+    make -j "$(nproc)" install
+RUN git clone https://github.com/open-quantum-safe/oqs-provider --branch "$OQSPROVIDER_VER" /src/oqs-provider && \
+    cd /src/oqs-provider && \
+    cmake -DCMAKE_BUILD_TYPE=Release -DOPENSSL_ROOT_DIR=/usr/local/openssl/.openssl && \
+    make -j "$(nproc)" && \
+    mv -v /usr/local/openssl/.openssl/lib /usr/local/openssl/.openssl/lib64 && \
+    mv -v /src/oqs-provider/lib/oqsprovider.so /usr/local/openssl/.openssl/lib64/ossl-modules
+RUN cp -v /usr/local/openssl/apps/openssl.cnf /usr/local/openssl/.openssl/openssl.cnf && \
+    sed -i "s|default = default_sect|default = default_sect\noqsprovider = oqsprovider_sect|g" /usr/local/openssl/.openssl/openssl.cnf && \
+    sed -i "s|\[default_sect\]|\[default_sect\]\nactivate = 1\n\[oqsprovider_sect\]\nactivate = 1\n|g" /usr/local/openssl/.openssl/openssl.cnf
+# strip files
+RUN strip -s /usr/local/nginx/sbin/nginx && \
+    strip -s /usr/local/openssl/.openssl/bin/openssl && \
+    strip -s /usr/local/openssl/.openssl/lib64/ossl-modules/oqsprovider.so && \
+    find /usr/local -exec file {} \; | grep "not stripped"
 
 FROM alpine:3.20.3
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
+COPY --from=build /usr/local/openssl/.openssl                    /usr/local/openssl/.openssl
 COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
 COPY --from=build /src/ModSecurity/unicode.mapping               /usr/local/nginx/conf/conf.d/include/unicode.mapping
 COPY --from=build /src/ModSecurity/modsecurity.conf-recommended  /usr/local/nginx/conf/conf.d/include/modsecurity.conf.example
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates tzdata tini zlib luajit pcre2 libstdc++ yajl libxml2 libxslt libcurl lmdb libfuzzy2 lua5.1-libs geoip libmaxminddb-libs && \
-    ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
+    ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && \
+    ln -s  /usr/local/openssl/.openssl/bin/openssl /usr/local/bin/openssl
+ENV OPENSSL_CONF=/usr/local/openssl/.openssl/openssl.cnf
 ENTRYPOINT ["tini", "--", "nginx"]
 CMD ["-g", "daemon off;"]
 EXPOSE 80/tcp
