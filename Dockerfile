@@ -143,10 +143,12 @@ COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/mods
 COPY --from=build /src/ModSecurity/unicode.mapping               /usr/local/nginx/conf/conf.d/include/unicode.mapping
 COPY --from=build /src/ModSecurity/modsecurity.conf-recommended  /usr/local/nginx/conf/conf.d/include/modsecurity.conf.example
 RUN apk upgrade --no-cache -a && \
-    apk add --no-cache ca-certificates tzdata tini zlib luajit pcre2 libstdc++ yajl libxml2 libxslt libcurl lmdb libfuzzy2 lua5.1-libs geoip libmaxminddb-libs && \
+    apk add --no-cache ca-certificates tzdata tini file \
+                       zlib luajit pcre2 libstdc++ yajl libxml2 libxslt libcurl lmdb libfuzzy2 lua5.1-libs geoip libmaxminddb-libs && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && \
     ln -s /usr/local/openssl/.openssl/bin/openssl /usr/local/bin/openssl && \
-    find /usr/local -exec file {} \; | grep "not stripped"
+    find /usr/local -exec file {} \; | grep "not stripped" && \
+    apk del --no-cache file
 
 ENV OPENSSL_CONF=/usr/local/openssl/.openssl/openssl.cnf
 ENTRYPOINT ["tini", "--", "nginx"]
