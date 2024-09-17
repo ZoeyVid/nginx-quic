@@ -126,15 +126,14 @@ RUN git clone https://github.com/open-quantum-safe/oqs-provider --branch "$OQSPR
     cd /src/oqs-provider && \
     cmake -DCMAKE_BUILD_TYPE=Release -DOPENSSL_ROOT_DIR=/usr/local/openssl/.openssl && \
     make -j "$(nproc)" && \
-    mv -v /usr/local/openssl/.openssl/lib /usr/local/openssl/.openssl/lib64 && \
-    mv -v /src/oqs-provider/lib/oqsprovider.so /usr/local/openssl/.openssl/lib64/ossl-modules
+    mv -v /src/oqs-provider/lib/oqsprovider.so /usr/local/openssl/.openssl/lib/ossl-modules
 RUN cp -v /usr/local/openssl/apps/openssl.cnf /usr/local/openssl/.openssl/openssl.cnf && \
     sed -i "s|default = default_sect|default = default_sect\noqsprovider = oqsprovider_sect|g" /usr/local/openssl/.openssl/openssl.cnf && \
     sed -i "s|\[default_sect\]|\[default_sect\]\nactivate = 1\n\[oqsprovider_sect\]\nactivate = 1\n|g" /usr/local/openssl/.openssl/openssl.cnf
 # strip files
 RUN strip -s /usr/local/nginx/sbin/nginx && \
     strip -s /usr/local/openssl/.openssl/bin/openssl && \
-    strip -s /usr/local/openssl/.openssl/lib64/ossl-modules/oqsprovider.so && \
+    strip -s /usr/local/openssl/.openssl/lib/ossl-modules/oqsprovider.so && \
     find /usr/local -exec file {} \; | grep "not stripped"
 
 FROM alpine:3.20.3
