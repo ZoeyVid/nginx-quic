@@ -134,9 +134,11 @@ RUN strip -s /usr/local/nginx/sbin/nginx && \
     strip -s /usr/local/openssl/.openssl/bin/openssl && \
     strip -s /usr/local/openssl/.openssl/lib/ossl-modules/oqsprovider.so && \
     strip -s /usr/local/modsecurity/lib/libmodsecurity.so.3
-RUN find /usr/local/nginx -exec file {} \; | grep "not stripped"
-RUN find /usr/local/openssl/.openssl -exec file {} \; | grep "not stripped"
+RUN find /usr/local/nginx -exec file {} \; | grep "not stripped" || true
+RUN find /usr/local/openssl/.openssl -exec file {} \; | grep "not stripped" || true
 RUN file /usr/local/modsecurity/lib/libmodsecurity.so.3
+RUN file /src/ModSecurity/unicode.mapping
+RUN file /src/ModSecurity/modsecurity.conf-recommended
 
 FROM alpine:3.20.3
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
