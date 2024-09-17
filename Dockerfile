@@ -43,8 +43,7 @@ RUN git clone --recursive https://github.com/owasp-modsecurity/ModSecurity --bra
     /src/ModSecurity/build.sh && \
     /src/ModSecurity/configure --with-pcre2 --with-lmdb && \
     make -j "$(nproc)" && \
-    make -j "$(nproc)" install && \
-    strip -s /usr/local/modsecurity/lib/libmodsecurity.so.3
+    make -j "$(nproc)" install
 # Nginx
 RUN wget -q https://freenginx.org/download/freenginx-"$NGINX_VER".tar.gz -O - | tar xzC /src && \
     mv /src/freenginx-"$NGINX_VER" /src/freenginx && \
