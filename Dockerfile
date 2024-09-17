@@ -137,6 +137,7 @@ RUN strip -s /usr/local/nginx/sbin/nginx && \
     strip -s /usr/local/modsecurity/lib/libmodsecurity.so.3
 
 FROM alpine:3.20.3
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
 COPY --from=build /usr/local/openssl/.openssl                    /usr/local/openssl/.openssl
 COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
