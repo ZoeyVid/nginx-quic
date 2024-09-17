@@ -134,7 +134,7 @@ RUN cp -v /usr/local/openssl/apps/openssl.cnf /usr/local/openssl/.openssl/openss
 RUN strip -s /usr/local/nginx/sbin/nginx && \
     strip -s /usr/local/openssl/.openssl/bin/openssl && \
     strip -s /usr/local/openssl/.openssl/lib/ossl-modules/oqsprovider.so && \
-    find /usr/local -exec file {} \; | grep "not stripped"
+    strip -s /usr/local/modsecurity/lib/libmodsecurity.so.3
 
 FROM alpine:3.20.3
 COPY --from=build /usr/local/nginx                               /usr/local/nginx
@@ -145,7 +145,9 @@ COPY --from=build /src/ModSecurity/modsecurity.conf-recommended  /usr/local/ngin
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates tzdata tini zlib luajit pcre2 libstdc++ yajl libxml2 libxslt libcurl lmdb libfuzzy2 lua5.1-libs geoip libmaxminddb-libs && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && \
-    ln -s  /usr/local/openssl/.openssl/bin/openssl /usr/local/bin/openssl
+    ln -s /usr/local/openssl/.openssl/bin/openssl /usr/local/bin/openssl && \
+    find /usr/local -exec file {} \; | grep "not stripped"
+
 ENV OPENSSL_CONF=/usr/local/openssl/.openssl/openssl.cnf
 ENTRYPOINT ["tini", "--", "nginx"]
 CMD ["-g", "daemon off;"]
