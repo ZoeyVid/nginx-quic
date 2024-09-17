@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:labs
 FROM python:3.12.6-alpine3.20
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=zoeyvid/nginx-quic:latest /usr/local/nginx                               /usr/local/nginx
 COPY --from=zoeyvid/nginx-quic:latest /usr/local/openssl/.openssl                    /usr/local/openssl/.openssl
 COPY --from=zoeyvid/nginx-quic:latest /usr/local/modsecurity/lib/libmodsecurity.so.3 /usr/local/modsecurity/lib/libmodsecurity.so.3
