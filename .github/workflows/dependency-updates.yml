@@ -19,8 +19,7 @@ jobs:
           git ls-remote --tags https://github.com/freenginx/nginx \
               | cut -d/ -f3 \
               | sort -V \
-              | tail -1 \
-              | sed "s|release-||g"
+              | tail -1
           )"
           sed -i "s|ARG NGINX_VER=.*|ARG NGINX_VER=$NGINX_VER|" Dockerfile
           echo "version=$NGINX_VER" >> $GITHUB_OUTPUT
