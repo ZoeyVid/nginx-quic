@@ -51,7 +51,7 @@ RUN git clone --recursive https://github.com/freenginx/nginx --branch "$NGINX_VE
     sed -i "s|freenginx|NPMplus|g" /src/nginx/src/core/nginx.h && \
     cd /src/nginx && \
     patch -p1 </src/nginx/1.patch && \
-    patch -p1 </src/ginx/2.patch && \
+    patch -p1 </src/nginx/2.patch && \
     rm /src/nginx/*.patch && \
 # modules
     git clone --recursive https://github.com/google/ngx_brotli --branch "$NB_VER" /src/ngx_brotli && \
