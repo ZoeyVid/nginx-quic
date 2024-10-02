@@ -225,7 +225,8 @@ jobs:
           git ls-remote --tags https://github.com/nginx/njs \
               | cut -d/ -f3 \
               | sort -V \
-              | tail -1
+              | tail -1 \
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG NJS_VER=.*|ARG NJS_VER=$NJS_VER|" Dockerfile
           echo "version=$NJS_VER" >> $GITHUB_OUTPUT
