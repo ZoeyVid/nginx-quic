@@ -19,6 +19,7 @@ jobs:
           git ls-remote --tags https://github.com/freenginx/nginx \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | tail -1
           )"
           sed -i "s|ARG NGINX_VER=.*|ARG NGINX_VER=$NGINX_VER|" Dockerfile
@@ -44,6 +45,7 @@ jobs:
           git ls-remote --heads https://github.com/quictls/openssl openssl-*.*.*+quic \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | tail -1
           )"
           sed -i "s|ARG OPENSSL_VER=.*|ARG OPENSSL_VER=$OPENSSL_VER|" Dockerfile
@@ -69,6 +71,7 @@ jobs:
           git ls-remote --tags https://github.com/SpiderLabs/ModSecurity \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | tail -1 \
               | sed "s|\^{}||g"
           )"
@@ -96,6 +99,7 @@ jobs:
           ls ngx_http_tls_dyn_size/nginx__dynamic_tls_records_*.patch \
               | sed "s|ngx_http_tls_dyn_size/nginx__dynamic_tls_records_\([0-9.]\+\)+.patch|\1|g" \
               | sort -V \
+              | grep -v rc \
               | tail -1
           )"
           rm -r ngx_http_tls_dyn_size
@@ -123,6 +127,7 @@ jobs:
           ls openresty/patches/nginx-*-resolver_conf_parsing.patch \
               | sed "s|openresty/patches/nginx-\([0-9.]\+\)-resolver_conf_parsing.patch|\1|g" \
               | sort -V \
+              | grep -v rc \
               | tail -1
           )"
           rm -r openresty
@@ -149,6 +154,7 @@ jobs:
           git ls-remote --tags https://github.com/google/ngx_brotli \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | tail -1
           )"
           sed -i "s|ARG NB_VER=.*|ARG NB_VER=$NB_VER|" Dockerfile
@@ -174,6 +180,7 @@ jobs:
           git ls-remote --tags https://github.com/aperezdc/ngx-fancyindex \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | tail -1 \
               | sed "s|\^{}||g"
           )"
@@ -200,6 +207,7 @@ jobs:
           git ls-remote --tags https://github.com/openresty/headers-more-nginx-module \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | tail -1
           )"
           sed -i "s|ARG HMNM_VER=.*|ARG HMNM_VER=$HMNM_VER|" Dockerfile
@@ -225,6 +233,7 @@ jobs:
           git ls-remote --tags https://github.com/nginx/njs \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | tail -1 \
               | sed "s|\^{}||g"
           )"
@@ -251,6 +260,7 @@ jobs:
           git ls-remote --tags https://github.com/vision5/ngx_devel_kit \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | tail -1 \
               | sed "s|\^{}||g"
           )"
@@ -277,6 +287,7 @@ jobs:
           git ls-remote --tags https://github.com/openresty/lua-nginx-module \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | tail -1
           )"
           sed -i "s|ARG LNM_VER=.*|ARG LNM_VER=$LNM_VER|" Dockerfile
@@ -302,6 +313,7 @@ jobs:
           git ls-remote --tags https://github.com/SpiderLabs/ModSecurity-nginx \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | tail -1 \
               | sed "s|\^{}||g"
           )"
@@ -328,6 +340,7 @@ jobs:
           git ls-remote --tags https://github.com/openresty/lua-resty-core \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | tail -1
           )"
           sed -i "s|ARG LRC_VER=.*|ARG LRC_VER=$LRC_VER|" Dockerfile
@@ -353,6 +366,7 @@ jobs:
           git ls-remote --tags https://github.com/openresty/lua-resty-lrucache \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | tail -1 \
               | sed "s|\^{}||g"
           )"
@@ -379,6 +393,7 @@ jobs:
           git ls-remote --tags https://github.com/leev/ngx_http_geoip2_module \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | tail -1
           )"
           sed -i "s|ARG NHG2M_VER=.*|ARG NHG2M_VER=$NHG2M_VER|" Dockerfile
@@ -404,6 +419,7 @@ jobs:
           git ls-remote --tags https://github.com/gabihodoroaga/nginx-ntlm-module \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | tail -1
           )"
           sed -i "s|ARG NNTLM_VER=.*|ARG NNTLM_VER=$NNTLM_VER|" Dockerfile
@@ -429,6 +445,7 @@ jobs:
           git ls-remote --tags https://github.com/open-quantum-safe/liboqs \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | grep "^v\?[0-9]" \
               | tail -1
           )"
@@ -455,6 +472,7 @@ jobs:
           git ls-remote --tags https://github.com/open-quantum-safe/oqs-provider \
               | cut -d/ -f3 \
               | sort -V \
+              | grep -v rc \
               | grep "^v\?[0-9]" \
               | tail -1
           )"
