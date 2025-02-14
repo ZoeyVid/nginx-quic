@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:labs
-FROM alpine:3.21.2 AS build
+FROM alpine:3.21.3 AS build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 ARG LUAJIT_INC=/usr/include/luajit-2.1
@@ -140,7 +140,7 @@ RUN apk upgrade --no-cache -a && \
     strip -s /src/oqs-provider/lib/oqsprovider.so && \
     strip -s /usr/local/modsecurity/lib/libmodsecurity.so.3
 
-FROM alpine:3.21.2
+FROM alpine:3.21.3
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=build /usr/local/nginx                                /usr/local/nginx
 COPY --from=build /usr/local/modsecurity/lib/libmodsecurity.so.3  /usr/local/lib/libmodsecurity.so.3
