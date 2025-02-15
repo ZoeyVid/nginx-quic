@@ -31,7 +31,8 @@ COPY attachment.patch /src/attachment.patch
 # Requirements
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates build-base cmake git libtool autoconf automake bash \
-    libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev && \
+    libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev \
+    gtest-dev benchmark-dev protobuf-dev grpc-dev && \
 # ModSecurity
     git clone --recursive https://github.com/owasp-modsecurity/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
     cd /src/ModSecurity && \
@@ -54,6 +55,14 @@ RUN apk upgrade --no-cache -a && \
     git apply /src/nginx/1.patch && \
     git apply /src/nginx/2.patch && \
     rm -v /src/nginx/*.patch && \
+# Opentelemetry-cpp
+    git clone --recurse-submodules https://github.com/open-telemetry/opentelemetry-cpp /src/opentelemetry-cpp && \
+    mkdir -p /src/opentelemetry-cpp/build && \
+    cd /src/opentelemetry-cpp/build && \
+    cmake -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DWITH_OTLP_GRPC=ON -DWITH_OTLP_HTTP=ON .. && \
+    cmake --build . --target all && \
+    ctest && \
+    cmake --install . && \
 # modules
     git clone --recursive https://github.com/google/ngx_brotli --branch "$NB_VER" /src/ngx_brotli && \
     git clone --recursive https://github.com/aperezdc/ngx-fancyindex --branch "$NF_VER" /src/ngx-fancyindex && \
@@ -65,6 +74,12 @@ RUN apk upgrade --no-cache -a && \
     git clone --recursive https://github.com/openresty/lua-resty-lrucache --branch "$LRL_VER" /src/lua-resty-lrucache && \
     git clone --recursive https://github.com/leev/ngx_http_geoip2_module --branch "$NHG2M_VER" /src/ngx_http_geoip2_module && \
     git clone --recursive https://github.com/gabihodoroaga/nginx-ntlm-module --branch "$NNTLM_VER" /src/nginx-ntlm-module && \
+# opentelemetry module for nginx
+    git clone https://github.com/open-telemetry/opentelemetry-cpp-contrib.git /src/opentelemetry-cpp-contrib && \
+    mkdir -p /src/opentelemetry-cpp-contrib/instrumentation/nginx/build && \
+    cd /src/opentelemetry-cpp-contrib/instrumentation/nginx/build && \
+    cmake -DNGINX_VERSION=$(echo "$NGINX_VER" | grep -o "[1-9]*\.[1-9]*\.[0-9]*") .. && \
+    make && \
 # patch ModSecurity-nginx
     git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx --branch "$MODSECNGX_VER" /src/ModSecurity-nginx && \
     cd /src/ModSecurity-nginx && \
@@ -149,6 +164,8 @@ COPY --from=build /usr/local/lib/libngx_module.so                 /usr/local/lib
 COPY --from=build /usr/local/lib/libosrc_shmem_ipc.so             /usr/local/lib/libosrc_shmem_ipc.so
 COPY --from=build /usr/local/lib/libosrc_compression_utils.so     /usr/local/lib/libosrc_compression_utils.so
 COPY --from=build /usr/local/lib/libosrc_nginx_attachment_util.so /usr/local/lib/libosrc_nginx_attachment_util.so
+COPY --from=build /usr/local/lib/libopentelemetry_proto.so        /usr/local/lib/libopentelemetry_proto.so
+COPY --from=build /src/opentelemetry-cpp-contrib/instrumentation/nginx/build/otel_ngx_module.so /usr/local/lib/libnginx_otel_module.so
 COPY --from=build /src/ModSecurity/unicode.mapping                /usr/local/nginx/conf/conf.d/include/unicode.mapping
 COPY --from=build /src/ModSecurity/modsecurity.conf-recommended   /usr/local/nginx/conf/conf.d/include/modsecurity.conf.example
 RUN apk upgrade --no-cache -a && \
