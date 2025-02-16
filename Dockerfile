@@ -78,7 +78,7 @@ RUN apk upgrade --no-cache -a && \
     git clone https://github.com/open-telemetry/opentelemetry-cpp-contrib.git /src/opentelemetry-cpp-contrib && \
     mkdir -p /src/opentelemetry-cpp-contrib/instrumentation/nginx/build && \
     cd /src/opentelemetry-cpp-contrib/instrumentation/nginx/build && \
-    cmake -DNGINX_VERSION=$(echo "$NGINX_VER" | grep -o "[1-9]*\.[1-9]*\.[0-9]*") .. && \
+    cmake -DNGINX_VERSION=$(echo "$NGINX_VER" | grep -o "[0-9]*\.[0-9]*\.[0-9]*") .. && \
     make && \
 # patch ModSecurity-nginx
     git clone --recursive https://github.com/SpiderLabs/ModSecurity-nginx --branch "$MODSECNGX_VER" /src/ModSecurity-nginx && \
