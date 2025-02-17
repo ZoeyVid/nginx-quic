@@ -19,7 +19,7 @@ COPY --from=zoeyvid/nginx-quic:latest /usr/local/lib/libosrc_compression_utils.s
 COPY --from=zoeyvid/nginx-quic:latest /usr/local/lib/libosrc_nginx_attachment_util.so /usr/local/lib/libosrc_nginx_attachment_util.so
 COPY --from=zoeyvid/nginx-quic:latest /usr/local/lib/libngx_otel_module.so /usr/local/lib/libngx_otel_module.so
 COPY --from=zoeyvid/nginx-quic:latest /usr/local/lib/libopentelemetry_proto.so /usr/local/lib/libopentelemetry_proto.so
-COPY --from=zoeyvid/nginx-quic:latest /usr/lib/libabsl_flags_marshalling.so.2407.0.0  /usr/lib/libabsl_flags_marshalling.so.2407.0.0 
+COPY --from=zoeyvid/nginx-quic:latest /usr/lib/libabsl_flags_marshalling.so*  /usr/lib/
 
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates tzdata tini zlib luajit pcre2 libstdc++ yajl libxml2 libxslt libcurl lmdb libfuzzy2 lua5.1-libs geoip libmaxminddb-libs openssl protobuf grpc && \
