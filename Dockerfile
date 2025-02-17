@@ -165,7 +165,8 @@ COPY --from=build /usr/local/lib/libosrc_shmem_ipc.so             /usr/local/lib
 COPY --from=build /usr/local/lib/libosrc_compression_utils.so     /usr/local/lib/libosrc_compression_utils.so
 COPY --from=build /usr/local/lib/libosrc_nginx_attachment_util.so /usr/local/lib/libosrc_nginx_attachment_util.so
 COPY --from=build /usr/local/lib/libopentelemetry_proto.so        /usr/local/lib/libopentelemetry_proto.so
-COPY --from=build /src/opentelemetry-cpp-contrib/instrumentation/nginx/build/otel_ngx_module.so /usr/local/lib/libnginx_otel_module.so
+COPY --from=build /usr/lib/libabsl_flags_marshalling.so.2407.0.0  /usr/lib/libabsl_flags_marshalling.so.2407.0.0
+COPY --from=build /src/opentelemetry-cpp-contrib/instrumentation/nginx/build/otel_ngx_module.so /usr/local/lib/libngx_otel_module.so
 COPY --from=build /src/ModSecurity/unicode.mapping                /usr/local/nginx/conf/conf.d/include/unicode.mapping
 COPY --from=build /src/ModSecurity/modsecurity.conf-recommended   /usr/local/nginx/conf/conf.d/include/modsecurity.conf.example
 RUN apk upgrade --no-cache -a && \
