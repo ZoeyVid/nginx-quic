@@ -29,7 +29,7 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
-          platforms: arm64 #all
+          platforms: all
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
@@ -55,7 +55,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/amd64,linux/arm64 #,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4 #,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
+          platforms: linux/amd64,linux/arm64,linux/arm/v7 #,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4 #,linux/ppc64le,linux/s390x,linux/386,linux/arm/v6
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
@@ -68,7 +68,7 @@ jobs:
         with:
           context: .
           file: ./python.Dockerfile
-          platforms: linux/amd64,linux/arm64 #,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4 #,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
+          platforms: linux/amd64,linux/arm64,linux/arm/v7 #,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4 #,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python
@@ -103,6 +103,13 @@ jobs:
           docker cp nginx-aarch64:/usr/local/nginx/sbin/nginx nginx-aarch64
           tar -cJf nginx-aarch64.tar.xz nginx lib
           rm -vr nginx lib
+          docker run -d --pull always --platform arm/v7 --name nginx-armv7l ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
+          docker cp nginx-armv7l:/usr/local/nginx nginx
+          docker cp nginx-armv7l:/usr/local/lib lib
+          docker cp nginx-armv7l:/usr/lib/ossl-modules/oqsprovider.so lib/oqsprovider.so
+          docker cp nginx-armv7l:/usr/local/nginx/sbin/nginx nginx-armv7l
+          tar -cJf nginx-armv7l.tar.xz nginx lib
+          rm -vr nginx lib
       - uses: actions/upload-artifact@v4
         if: ${{ github.event_name != 'pull_request' }}
         with:
@@ -112,6 +119,8 @@ jobs:
             nginx-x86_64.tar.xz
             nginx-aarch64
             nginx-aarch64.tar.xz
+            nginx-armv7l
+            nginx-armv7l.tar.xz
       - uses: crowbarmaster/GH-Automatic-Releases@latest
         if: ${{ github.event_name != 'pull_request' }}
         with:
@@ -124,6 +133,8 @@ jobs:
             nginx-x86_64.tar.xz
             nginx-aarch64
             nginx-aarch64.tar.xz
+            nginx-armv7l
+            nginx-armv7l.tar.xz
       - name: Set PR-Number (PR)
         if: ${{ github.event_name == 'pull_request' }}
         id: pr
@@ -134,7 +145,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/amd64,linux/arm64 #,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4 #,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
+          platforms: linux/amd64,linux/arm64,linux/arm/v7 #,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4 #,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
           push: ${{ github.event_name == 'pull_request' }}
           tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}
       - name: Build (PR)
@@ -143,7 +154,7 @@ jobs:
         with:
           context: .
           file: ./python.Dockerfile
-          platforms: linux/amd64,linux/arm64 #,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4 #,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
+          platforms: linux/amd64,linux/arm64,linux/arm/v7 #,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4 #,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
           push: ${{ github.event_name == 'pull_request' }}
           tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-python
       - name: show version (PR)
@@ -168,6 +179,13 @@ jobs:
           docker cp nginx-aarch64:/usr/local/nginx/sbin/nginx nginx-aarch64
           tar -cJf nginx-aarch64.tar.xz nginx lib
           rm -vr nginx lib
+          docker run -d --pull always --platform arm/v7 --name nginx-armv7l ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
+          docker cp nginx-armv7l:/usr/local/nginx nginx
+          docker cp nginx-armv7l:/usr/local/lib lib
+          docker cp nginx-armv7l:/usr/lib/ossl-modules/oqsprovider.so lib/oqsprovider.so
+          docker cp nginx-armv7l:/usr/local/nginx/sbin/nginx nginx-armv7l
+          tar -cJf nginx-armv7l.tar.xz nginx lib
+          rm -vr nginx lib
       - uses: actions/upload-artifact@v4
         if: ${{ github.event_name == 'pull_request' }}
         with:
@@ -177,6 +195,8 @@ jobs:
             nginx-x86_64.tar.xz
             nginx-aarch64
             nginx-aarch64.tar.xz
+            nginx-armv7l
+            nginx-armv7l.tar.xz
       - name: add comment (PR)
         uses: mshick/add-pr-comment@v2
         if: ${{ github.event_name == 'pull_request' }}
