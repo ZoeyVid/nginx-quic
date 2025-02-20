@@ -2,7 +2,7 @@
 FROM python:3.13.2-alpine3.21 AS certbot
 COPY requirements.txt /tmp/requirements.txt
 RUN apk upgrade --no-cache -a && \
-    apk add --no-cache ca-certificates build-base libffi-dev && \
+    apk add --no-cache ca-certificates build-base libffi-dev cargo && \
     python3 -m venv /usr/local && \
     pip install --no-cache-dir -r /tmp/requirements.txt
 
