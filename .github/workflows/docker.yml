@@ -103,7 +103,7 @@ jobs:
           docker cp nginx-aarch64:/usr/local/nginx/sbin/nginx nginx-aarch64
           tar -cJf nginx-aarch64.tar.xz nginx lib
           rm -vr nginx lib
-          docker run -d --pull always --platform arm/v7 --name nginx-armv7l ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
+          docker run -d --pull always --platform armhf --name nginx-armv7l ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
           docker cp nginx-armv7l:/usr/local/nginx nginx
           docker cp nginx-armv7l:/usr/local/lib lib
           docker cp nginx-armv7l:/usr/lib/ossl-modules/oqsprovider.so lib/oqsprovider.so
@@ -179,7 +179,7 @@ jobs:
           docker cp nginx-aarch64:/usr/local/nginx/sbin/nginx nginx-aarch64
           tar -cJf nginx-aarch64.tar.xz nginx lib
           rm -vr nginx lib
-          docker run -d --pull always --platform arm/v7 --name nginx-armv7l ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
+          docker run -d --pull always --platform armhf --name nginx-armv7l ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
           docker cp nginx-armv7l:/usr/local/nginx nginx
           docker cp nginx-armv7l:/usr/local/lib lib
           docker cp nginx-armv7l:/usr/lib/ossl-modules/oqsprovider.so lib/oqsprovider.so
