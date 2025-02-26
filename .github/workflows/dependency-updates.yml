@@ -299,10 +299,36 @@ jobs:
         with:
           signoff: true
           delete-branch: true
-          commit-message: update modsecurity-ngin version to ${{ steps.update.outputs.version }}
+          commit-message: update modsecurity-nginx version to ${{ steps.update.outputs.version }}
           branch: update-modsecurity-nginx-version
           title: update modsecurity-nginx version to ${{ steps.update.outputs.version }}
           body: update modsecurity-nginx version to ${{ steps.update.outputs.version }}
+  vts-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: update vts version
+        id: update
+        run: |
+          VTS_VER="$(
+          git ls-remote --tags https://github.com/vozlt/nginx-module-vts \
+              | cut -d/ -f3 \
+              | sort -V \
+              | grep -v rc \
+              | tail -1
+          )"
+          sed -i "s|ARG VTS_VER=.*|ARG VTS_VER=$VTS_VER|" Dockerfile
+          echo "version=$VTS_VER" >> $GITHUB_OUTPUT
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          signoff: true
+          delete-branch: true
+          commit-message: update vts version to ${{ steps.update.outputs.version }}
+          branch: update-vts-version
+          title: update vts version to ${{ steps.update.outputs.version }}
+          body: update vtsversion to ${{ steps.update.outputs.version }}
   lua-resty-core-update:
     runs-on: ubuntu-latest
     steps:
