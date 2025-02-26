@@ -18,6 +18,7 @@ ARG NJS_VER=0.8.9
 ARG NDK_VER=v0.3.4
 ARG LNM_VER=v0.10.28
 ARG MODSECNGX_VER=v1.0.3
+ARG VTS_VER=v0.2.3
 ARG LRC_VER=v0.1.31
 ARG LRL_VER=v0.15
 ARG NHG2M_VER=3.4
@@ -66,6 +67,7 @@ RUN apk upgrade --no-cache -a && \
     git clone https://github.com/openresty/lua-resty-lrucache --branch "$LRL_VER" /src/lua-resty-lrucache && \
     git clone https://github.com/leev/ngx_http_geoip2_module --branch "$NHG2M_VER" /src/ngx_http_geoip2_module && \
     git clone https://github.com/gabihodoroaga/nginx-ntlm-module --branch "$NNTLM_VER" /src/nginx-ntlm-module && \
+    git clone https://github.com/vozlt/nginx-module-vts --branch "$VTS_VER" /src/nginx-module-vts && \
 # patch ModSecurity-nginx
     git clone https://github.com/SpiderLabs/ModSecurity-nginx --branch "$MODSECNGX_VER" /src/ModSecurity-nginx && \
     cd /src/ModSecurity-nginx && \
@@ -110,7 +112,8 @@ RUN apk upgrade --no-cache -a && \
     --add-module=/src/lua-nginx-module \
     --add-module=/src/ModSecurity-nginx \
     --add-module=/src/ngx_http_geoip2_module \
-    --add-module=/src/nginx-ntlm-module && \
+    --add-module=/src/nginx-ntlm-module \
+    --add-module=/src/nginx-module-vts && \
 # Build & Install
     make -j "$(nproc)" install && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && \
