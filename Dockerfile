@@ -36,7 +36,7 @@ RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates build-base cmake ninja git libtool autoconf automake bash \
     libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev gtest-dev benchmark-dev protobuf-dev && \
 # ModSecurity
-    git clone --recursive https://github.com/owasp-modsecurity/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
+    git clone --recurse-submodules https://github.com/owasp-modsecurity/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
     cd /src/ModSecurity && \
     sed -i "s|SecRuleEngine .*|SecRuleEngine On|g" /src/ModSecurity/modsecurity.conf-recommended && \
     sed -i "s|^SecAudit|#SecAudit|g" /src/ModSecurity/modsecurity.conf-recommended && \
@@ -57,7 +57,7 @@ RUN apk upgrade --no-cache -a && \
     git apply /src/nginx/2.patch && \
     rm -v /src/nginx/*.patch && \
 # modules
-    git clone --recursive https://github.com/google/ngx_brotli --branch "$NB_VER" /src/ngx_brotli && \
+    git clone --recurse-submodules https://github.com/google/ngx_brotli --branch "$NB_VER" /src/ngx_brotli && \
     git clone https://github.com/aperezdc/ngx-fancyindex --branch "$NF_VER" /src/ngx-fancyindex && \
     git clone https://github.com/openresty/headers-more-nginx-module --branch "$HMNM_VER" /src/headers-more-nginx-module && \
     git clone https://github.com/nginx/njs --branch "$NJS_VER" /src/njs && \
@@ -105,15 +105,15 @@ RUN apk upgrade --no-cache -a && \
     --with-http_sub_module \
     --with-http_stub_status_module \
     --add-module=/src/ngx_brotli \
-    --add-module=/src/ngx-fancyindex \
-    --add-module=/src/headers-more-nginx-module \
-    --add-module=/src/njs/nginx \
     --add-module=/src/ngx_devel_kit \
     --add-module=/src/lua-nginx-module \
     --add-module=/src/ModSecurity-nginx \
-    --add-module=/src/ngx_http_geoip2_module \
-    --add-module=/src/nginx-ntlm-module \
-    --add-module=/src/nginx-module-vts && \
+    --add-module=/src/headers-more-nginx-module \
+    --add-dynamic-module=/src/ngx-fancyindex \
+    --add-dynamic-module=/src/ngx_http_geoip2_module \
+    --add-dynamic-module=/src/njs/nginx \
+    --add-dynamic-module=/src/nginx-ntlm-module \
+    --add-dynamic-module=/src/nginx-module-vts && \
 # Build & Install
     make -j "$(nproc)" install && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && \
