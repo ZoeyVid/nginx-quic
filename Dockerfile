@@ -27,7 +27,7 @@ ARG NNTLM_VER=master
 ARG LIBOQS_VER=0.12.0
 ARG OQSPROVIDER_VER=0.8.0
 
-ARG OT_VER=v1.19.0
+ARG OT_VER=v1.20.0
 
 WORKDIR /src
 COPY attachment.patch /src/attachment.patch
