@@ -1,12 +1,12 @@
 # syntax=docker/dockerfile:labs
-FROM python:3.13.2-alpine3.21 AS certbot
+FROM python:3.13.3-alpine3.21 AS certbot
 COPY requirements.txt /tmp/requirements.txt
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates build-base libffi-dev && \
     python3 -m venv /usr/local && \
     pip install --no-cache-dir -r /tmp/requirements.txt
 
-FROM python:3.13.2-alpine3.21
+FROM python:3.13.3-alpine3.21
 ENV PYTHONUNBUFFERED=1
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=zoeyvid/nginx-quic:latest /usr/local/nginx                                /usr/local/nginx
