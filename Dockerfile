@@ -3,26 +3,28 @@ FROM alpine:3.21.3 AS build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 ARG LUAJIT_INC=/usr/include/luajit-2.1
-ARG LUAJIT_LIB=/usr/lib
+ARG LUAJIT_LIB=/usr/libowasp-modsecurity/ModSecurity-nginx/releases/tag/v1.0.4
 
-ARG NGINX_VER=release-1.28.0
 ARG MODSEC_VER=v3.0.14
+ARG NGINX_VER=release-1.28.0
 
 ARG DTR_VER=1.27.5
 ARG RCP_VER=1.27.1
 
-ARG NB_VER=master
+ARG NB_VER=masterowasp-modsecurity/ModSecurity-nginx/releases/tag/v1.0.4
 ARG NF_VER=master
-ARG HMNM_VER=v0.38
-ARG NJS_VER=0.9.0
 ARG NDK_VER=v0.3.4
 ARG LNM_VER=v0.10.28
 ARG MODSECNGX_VER=v1.0.4
+ARG HMNM_VER=v0.38
+
+ARG NJS_VER=0.9.0
 ARG VTS_VER=v0.2.4
+ARG NNTLM_VER=master
+ARG NHG2M_VER=3.4
+
 ARG LRC_VER=v0.1.31
 ARG LRL_VER=v0.15
-ARG NHG2M_VER=3.4
-ARG NNTLM_VER=master
 
 ARG LIBOQS_VER=0.13.0
 ARG OQSPROVIDER_VER=0.8.0
@@ -59,21 +61,14 @@ RUN apk upgrade --no-cache -a && \
 # modules
     git clone --recurse-submodules https://github.com/google/ngx_brotli --branch "$NB_VER" /src/ngx_brotli && \
     git clone https://github.com/Zoey2936/ngx-fancyindex --branch "$NF_VER" /src/ngx-fancyindex && \
-    git clone https://github.com/openresty/headers-more-nginx-module --branch "$HMNM_VER" /src/headers-more-nginx-module && \
-    git clone https://github.com/nginx/njs --branch "$NJS_VER" /src/njs && \
     git clone https://github.com/vision5/ngx_devel_kit --branch "$NDK_VER" /src/ngx_devel_kit && \
     git clone https://github.com/openresty/lua-nginx-module --branch "$LNM_VER" /src/lua-nginx-module && \
-    git clone https://github.com/openresty/lua-resty-core --branch "$LRC_VER" /src/lua-resty-core && \
-    git clone https://github.com/openresty/lua-resty-lrucache --branch "$LRL_VER" /src/lua-resty-lrucache && \
-    git clone https://github.com/leev/ngx_http_geoip2_module --branch "$NHG2M_VER" /src/ngx_http_geoip2_module && \
-    git clone https://github.com/gabihodoroaga/nginx-ntlm-module --branch "$NNTLM_VER" /src/nginx-ntlm-module && \
-    git clone https://github.com/vozlt/nginx-module-vts --branch "$VTS_VER" /src/nginx-module-vts && \
-# patch ModSecurity-nginx
     git clone https://github.com/SpiderLabs/ModSecurity-nginx --branch "$MODSECNGX_VER" /src/ModSecurity-nginx && \
-    cd /src/ModSecurity-nginx && \
-    wget -q https://patch-diff.githubusercontent.com/raw/owasp-modsecurity/ModSecurity-nginx/pull/320.patch -O /src/ModSecurity-nginx/1.patch && \
-    git apply /src/ModSecurity-nginx/1.patch && \
-    rm -v /src/ModSecurity-nginx/*.patch && \
+    git clone https://github.com/openresty/headers-more-nginx-module --branch "$HMNM_VER" /src/headers-more-nginx-module && \
+    git clone https://github.com/nginx/njs --branch "$NJS_VER" /src/njs && \
+    git clone https://github.com/vozlt/nginx-module-vts --branch "$VTS_VER" /src/nginx-module-vts && \
+    git clone https://github.com/gabihodoroaga/nginx-ntlm-module --branch "$NNTLM_VER" /src/nginx-ntlm-module && \
+    git clone https://github.com/leev/ngx_http_geoip2_module --branch "$NHG2M_VER" /src/ngx_http_geoip2_module && \
 # Configure
     cd /src/nginx && \
     /src/nginx/auto/configure \
@@ -109,15 +104,17 @@ RUN apk upgrade --no-cache -a && \
     --add-module=/src/lua-nginx-module \
     --add-module=/src/ModSecurity-nginx \
     --add-module=/src/headers-more-nginx-module \
-    --add-dynamic-module=/src/ngx_http_geoip2_module \
     --add-dynamic-module=/src/njs/nginx \
+    --add-dynamic-module=/src/nginx-module-vts \
     --add-dynamic-module=/src/nginx-ntlm-module \
-    --add-dynamic-module=/src/nginx-module-vts && \
+    --add-dynamic-module=/src/ngx_http_geoip2_module && \
 # Build & Install
     make -j "$(nproc)" install && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && \
+    git clone https://github.com/openresty/lua-resty-core --branch "$LRC_VER" /src/lua-resty-core && \
     cd /src/lua-resty-core && \
     make -j "$(nproc)" install PREFIX=/usr/local/nginx && \
+    git clone https://github.com/openresty/lua-resty-lrucache --branch "$LRL_VER" /src/lua-resty-lrucache && \
     cd /src/lua-resty-lrucache && \
     make -j "$(nproc)" install PREFIX=/usr/local/nginx && \
 # openappsec attachment
