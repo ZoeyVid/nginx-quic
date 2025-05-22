@@ -11,7 +11,7 @@ ARG NGINX_VER=release-1.28.0
 ARG DTR_VER=1.27.5
 ARG RCP_VER=1.27.1
 
-ARG NB_VER=masterowasp-modsecurity/ModSecurity-nginx/releases/tag/v1.0.4
+ARG NB_VER=master
 ARG NF_VER=master
 ARG NDK_VER=v0.3.4
 ARG LNM_VER=v0.10.28
