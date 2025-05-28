@@ -2,7 +2,7 @@
 FROM alpine:3.21.3 AS build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
-#ARG LUAJIT_INC=/usr/include/luajit-2.1
+ARG LUAJIT_INC=/usr/include/luajit-2.1
 #ARG LUAJIT_LIB=/usr/lib
 
 ARG MODSEC_VER=v3.0.14
