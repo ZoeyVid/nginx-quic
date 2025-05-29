@@ -29,7 +29,7 @@ ARG LRL_VER=v0.15
 ARG LIBOQS_VER=0.13.0
 ARG OQSPROVIDER_VER=0.9.0
 
-ARG OT_VER=v1.20.0
+ARG OT_VER=v1.21.0
 
 WORKDIR /src
 COPY attachment.patch /src/attachment.patch
