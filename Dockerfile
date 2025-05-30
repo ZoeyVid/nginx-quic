@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:labs
-FROM alpine:3.21.3 AS build
+FROM alpine:3.22.0 AS build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 ARG LUAJIT_INC=/usr/include/luajit-2.1
@@ -156,7 +156,7 @@ RUN apk upgrade --no-cache -a && \
     strip -s /src/attachment/core/compression/libosrc_compression_utils.so && \
     strip -s /src/attachment/attachments/nginx/nginx_attachment_util/libosrc_nginx_attachment_util.so
 
-FROM alpine:3.21.3
+FROM alpine:3.22.0
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=build /usr/local/nginx                                                                         /usr/local/nginx
 COPY --from=build /src/oqs-provider/lib/oqsprovider.so                                                     /usr/lib/ossl-modules/oqsprovider.so
