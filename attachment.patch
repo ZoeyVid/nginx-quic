@@ -8,18 +8,18 @@ index 745f969..0adec66 100644
  add_subdirectory(attachments)
 -add_subdirectory(docker)
 -add_subdirectory(nodes)
++#add_subdirectory(docker)
++#add_subdirectory(nodes)
 diff --git a/attachments/CMakeLists.txt b/attachments/CMakeLists.txt
-index a790d8f..4b7921f 100644
+index 7f4dd13..d6cbaee 100644
 --- a/attachments/CMakeLists.txt
 +++ b/attachments/CMakeLists.txt
-@@ -1,6 +1 @@
+@@ -1,4 +1,4 @@
 -add_subdirectory(nano_attachment)
--if ("${ATTACHMENT_TYPE}" STREQUAL "envoy")
--    add_subdirectory(envoy)
--else()
--    add_subdirectory(nginx)
--endif()
-+add_subdirectory(nginx)
++#add_subdirectory(nano_attachment)
+ if ("${ATTACHMENT_TYPE}" STREQUAL "envoy")
+     add_subdirectory(envoy)
+ else()
 diff --git a/attachments/nginx/ngx_module/CMakeLists.txt b/attachments/nginx/ngx_module/CMakeLists.txt
 index 8c8ae92..e8f700a 100644
 --- a/attachments/nginx/ngx_module/CMakeLists.txt
@@ -80,5 +80,7 @@ index 8285065..19cdc99 100644
 @@ -1,4 +1,4 @@
  add_subdirectory(shmem_ipc)
 -add_subdirectory(shmem_ipc_2)
++#add_subdirectory(shmem_ipc_2)
  add_subdirectory(compression)
  add_subdirectory(attachments)
+
