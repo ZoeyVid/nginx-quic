@@ -136,20 +136,9 @@ RUN apk upgrade --no-cache -a && \
     cmake -G Ninja && \
     ninja && \
     mv -v /src/opentelemetry-cpp-contrib/instrumentation/nginx/otel_ngx_module.so /usr/local/nginx/modules/otel_ngx_module.so && \
-# liboqs
-    git clone https://github.com/open-quantum-safe/liboqs --branch "$LIBOQS_VER" /src/liboqs && \
-    cd /src/liboqs && \
-    cmake -G Ninja && \
-    ninja install && \
-# oqs-provider
-    git clone https://github.com/open-quantum-safe/oqs-provider --branch "$OQSPROVIDER_VER" /src/oqs-provider && \
-    cd /src/oqs-provider && \
-    cmake -DOQS_KEM_ENCODERS=ON -G Ninja && \
-    ninja && \
 # strip files
     strip -s /usr/local/nginx/sbin/nginx && \
     find /usr/local/nginx/modules -name "*.so" -exec strip -s {} \; && \
-    strip -s /src/oqs-provider/lib/oqsprovider.so && \
     strip -s /src/ModSecurity/src/.libs/libmodsecurity.so.3 && \
     strip -s /src/opentelemetry-cpp/libopentelemetry_proto.so && \
     strip -s /src/attachment/core/shmem_ipc/libosrc_shmem_ipc.so && \
@@ -159,7 +148,6 @@ RUN apk upgrade --no-cache -a && \
 FROM alpine:3.22.0
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=build /usr/local/nginx                                                                         /usr/local/nginx
-COPY --from=build /src/oqs-provider/lib/oqsprovider.so                                                     /usr/lib/ossl-modules/oqsprovider.so
 COPY --from=build /src/ModSecurity/src/.libs/libmodsecurity.so.3                                           /usr/local/lib/libmodsecurity.so.3
 COPY --from=build /src/ModSecurity/unicode.mapping                                                         /usr/local/nginx/conf/conf.d/include/unicode.mapping
 COPY --from=build /src/ModSecurity/modsecurity.conf-recommended                                            /usr/local/nginx/conf/conf.d/include/modsecurity.conf.example
@@ -169,9 +157,7 @@ COPY --from=build /src/attachment/core/compression/libosrc_compression_utils.so 
 COPY --from=build /src/attachment/attachments/nginx/nginx_attachment_util/libosrc_nginx_attachment_util.so /usr/local/lib/libosrc_nginx_attachment_util.so
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates tzdata tini zlib luajit pcre2 libstdc++ yajl libxml2 libxslt libcurl lmdb libfuzzy2 lua5.1-libs geoip libmaxminddb-libs libprotobuf openssl && \
-    ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && \
-    sed -i "s|default = default_sect|default = default_sect\noqsprovider = oqsprovider_sect|g" /etc/ssl/openssl.cnf && \
-    sed -i "s|\[default_sect\]|\[default_sect\]\nactivate = 1\n\[oqsprovider_sect\]\nactivate = 1\n|g" /etc/ssl/openssl.cnf
+    ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 
 ENTRYPOINT ["tini", "--", "nginx"]
 CMD ["-g", "daemon off;"]
