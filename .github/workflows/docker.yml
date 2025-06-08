@@ -155,14 +155,12 @@ jobs:
           docker run -d --pull always --platform amd64 --name nginx-x86_64 ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
           docker cp nginx-x86_64:/usr/local/nginx nginx
           docker cp nginx-x86_64:/usr/local/lib lib
-          docker cp nginx-x86_64:/usr/lib/ossl-modules/oqsprovider.so lib/oqsprovider.so
           docker cp nginx-x86_64:/usr/local/nginx/sbin/nginx nginx-x86_64
           tar -cJf nginx-x86_64.tar.xz nginx lib
           rm -vr nginx lib
           docker run -d --pull always --platform arm64 --name nginx-aarch64 ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
           docker cp nginx-aarch64:/usr/local/nginx nginx
           docker cp nginx-aarch64:/usr/local/lib lib
-          docker cp nginx-aarch64:/usr/lib/ossl-modules/oqsprovider.so lib/oqsprovider.so
           docker cp nginx-aarch64:/usr/local/nginx/sbin/nginx nginx-aarch64
           tar -cJf nginx-aarch64.tar.xz nginx lib
           rm -vr nginx lib
@@ -214,14 +212,12 @@ jobs:
           docker run -d --pull always --platform amd64 --name nginx-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}
           docker cp nginx-x86_64:/usr/local/nginx nginx
           docker cp nginx-x86_64:/usr/local/lib lib
-          docker cp nginx-x86_64:/usr/lib/ossl-modules/oqsprovider.so lib/oqsprovider.so
           docker cp nginx-x86_64:/usr/local/nginx/sbin/nginx nginx-x86_64
           tar -cJf nginx-x86_64.tar.xz nginx lib
           rm -vr nginx lib
           docker run -d --pull always --platform arm64 --name nginx-aarch64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}
           docker cp nginx-aarch64:/usr/local/nginx nginx
           docker cp nginx-aarch64:/usr/local/lib lib
-          docker cp nginx-aarch64:/usr/lib/ossl-modules/oqsprovider.so lib/oqsprovider.so
           docker cp nginx-aarch64:/usr/local/nginx/sbin/nginx nginx-aarch64
           tar -cJf nginx-aarch64.tar.xz nginx lib
           rm -vr nginx lib
