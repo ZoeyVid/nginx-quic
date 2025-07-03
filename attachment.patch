@@ -19,7 +19,7 @@ index 7f4dd13..d6cbaee 100644
 +#add_subdirectory(nano_attachment)
  if ("${ATTACHMENT_TYPE}" STREQUAL "envoy")
      add_subdirectory(envoy)
- else()
+ elseif("${ATTACHMENT_TYPE}" STREQUAL "kong")
 diff --git a/attachments/nginx/ngx_module/CMakeLists.txt b/attachments/nginx/ngx_module/CMakeLists.txt
 index 8c8ae92..e8f700a 100644
 --- a/attachments/nginx/ngx_module/CMakeLists.txt
