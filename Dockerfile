@@ -69,6 +69,7 @@ RUN apk upgrade --no-cache -a && \
 # Configure
     cd /src/nginx && \
     /src/nginx/auto/configure \
+    --with-cc-opt="-DNGX_QUIC_OPENSSL_API=1" \
     --build=nginx \
     --with-debug \
     --with-compat \
