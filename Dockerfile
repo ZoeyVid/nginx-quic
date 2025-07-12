@@ -26,7 +26,7 @@ ARG NHG2M_VER=3.4
 ARG LRC_VER=v0.1.31
 ARG LRL_VER=v0.15
 
-ARG OT_VER=v1.21.0
+ARG OT_VER=v1.22.0
 
 WORKDIR /src
 COPY attachment.patch /src/attachment.patch
