@@ -29,9 +29,9 @@ ARG LRL_VER=v0.15
 ARG OT_VER=v1.22.0
 
 ARG CC=clang
-ARG CFLAGS="-O3"
+ARG CFLAGS="-O2"
 ARG CXX=clang++
-ARG CXXFLAGS="-O3"
+ARG CXXFLAGS="-O2"
 
 WORKDIR /src
 COPY attachment.patch /src/attachment.patch
