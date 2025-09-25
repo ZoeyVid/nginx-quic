@@ -133,7 +133,7 @@ ARG CXX=g++
 # OpenTelemetry lib
 RUN git clone https://github.com/open-telemetry/opentelemetry-cpp --branch "$OT_VER" /src/opentelemetry-cpp && \
     cd /src/opentelemetry-cpp && \
-    cmake -DCMAKE_EXE_LINKER_FLAGS="-stdlib=libstdc++" -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DWITH_OTLP_HTTP=ON -G Ninja && \
+    cmake -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DWITH_OTLP_HTTP=ON -G Ninja && \
     ninja install && \
 # OpenTelemetry module
     git clone https://github.com/open-telemetry/opentelemetry-cpp-contrib /src/opentelemetry-cpp-contrib && \
