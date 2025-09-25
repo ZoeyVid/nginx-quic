@@ -127,9 +127,11 @@ RUN apk upgrade --no-cache -a && \
     rm -v /src/attachment.patch && \
     cmake /src/attachment -G Ninja && \
     ninja && \
-    mv -v /src/attachment/attachments/nginx/ngx_module/libngx_module.so /usr/local/nginx/modules/libngx_module.so && \
+    mv -v /src/attachment/attachments/nginx/ngx_module/libngx_module.so /usr/local/nginx/modules/libngx_module.so
+ARG CC=gcc
+ARG CXX=g++
 # OpenTelemetry lib
-    git clone https://github.com/open-telemetry/opentelemetry-cpp --branch "$OT_VER" /src/opentelemetry-cpp && \
+RUN git clone https://github.com/open-telemetry/opentelemetry-cpp --branch "$OT_VER" /src/opentelemetry-cpp && \
     cd /src/opentelemetry-cpp && \
     cmake -DCMAKE_EXE_LINKER_FLAGS="-stdlib=libstdc++" -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DWITH_OTLP_HTTP=ON -G Ninja && \
     ninja install && \
