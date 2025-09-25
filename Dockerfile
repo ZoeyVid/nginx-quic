@@ -1,5 +1,5 @@
-# syntax=docker/dockerfile:labs
-FROM alpine:3.22.1 AS build
+# syntax=docker/dockerfile:labs                                                                                                                                                             
+FROM alpine:3.22.1 AS build                                                                                                                                                                 
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 ARG LUAJIT_INC=/usr/include/luajit-2.1
@@ -131,7 +131,7 @@ RUN apk upgrade --no-cache -a && \
 # OpenTelemetry lib
     git clone https://github.com/open-telemetry/opentelemetry-cpp --branch "$OT_VER" /src/opentelemetry-cpp && \
     cd /src/opentelemetry-cpp && \
-    cmake -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DWITH_OTLP_HTTP=ON -G Ninja && \
+    cmake -DCMAKE_EXE_LINKER_FLAGS="-stdlib=libstdc++" -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DWITH_OTLP_HTTP=ON -G Ninja && \
     ninja install && \
 # OpenTelemetry module
     git clone https://github.com/open-telemetry/opentelemetry-cpp-contrib /src/opentelemetry-cpp-contrib && \
