@@ -28,6 +28,11 @@ ARG LRL_VER=v0.15
 
 ARG OT_VER=v1.22.0
 
+ARG CC=clang
+ARG CFLAGS="-O3"
+ARG CXX=clang++
+ARG CXXFLAGS="-O3"
+
 WORKDIR /src
 COPY attachment.patch /src/attachment.patch
 # Requirements
@@ -105,7 +110,7 @@ RUN apk upgrade --no-cache -a && \
     --add-dynamic-module=/src/nginx-module-vts \
     --add-dynamic-module=/src/nginx-ntlm-module \
     --add-dynamic-module=/src/ngx_http_geoip2_module \
-    --with-cc=clang --with-cpp=clang++ --with-cc-opt="-Wno-sign-compare" && \
+    --with-cc-opt="-Wno-sign-compare" && \
 # Build & Install
     make -j "$(nproc)" install && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && \
