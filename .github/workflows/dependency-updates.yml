@@ -134,6 +134,7 @@ jobs:
           echo "version=$NB_VER" >> $GITHUB_OUTPUT
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
+        if: ${{ steps.update.outputs.version != "" }}
         with:
           signoff: true
           delete-branch: true
@@ -161,6 +162,7 @@ jobs:
           echo "version=$NF_VER" >> $GITHUB_OUTPUT
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
+        if: ${{ steps.update.outputs.version != "v0.5.2" }}
         with:
           signoff: true
           delete-branch: true
@@ -425,6 +427,7 @@ jobs:
           echo "version=$NNTLM_VER" >> $GITHUB_OUTPUT
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
+        if: ${{ steps.update.outputs.version != "v1.19.3-beta.1" }}
         with:
           signoff: true
           delete-branch: true
