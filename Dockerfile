@@ -32,6 +32,7 @@ ARG CC=clang
 ARG CFLAGS="-O2"
 ARG CXX=clang++
 ARG CXXFLAGS="-O2"
+ARG LDFLAGS="-s"
 
 WORKDIR /src
 COPY attachment.patch /src/attachment.patch
