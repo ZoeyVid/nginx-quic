@@ -40,7 +40,7 @@ RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates build-base clang cmake ninja git libtool autoconf automake bash \
     libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev gtest-dev benchmark-dev protobuf-dev
 # ModSecurity
-RUN git clone --recurse-submodules https://github.com/owasp-modsecurity/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
+RUN git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/owasp-modsecurity/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
     cd /src/ModSecurity && \
     sed -i "s|SecRuleEngine .*|SecRuleEngine On|g" /src/ModSecurity/modsecurity.conf-recommended && \
     sed -i "s|^SecAudit|#SecAudit|g" /src/ModSecurity/modsecurity.conf-recommended && \
@@ -49,7 +49,7 @@ RUN git clone --recurse-submodules https://github.com/owasp-modsecurity/ModSecur
     /src/ModSecurity/configure --with-pcre2 --with-lmdb && \
     make -j "$(nproc)" install
 # Nginx
-RUN git clone https://github.com/nginx/nginx --branch "$NGINX_VER" /src/nginx && \
+RUN git clone --depth 1 https://github.com/nginx/nginx --branch "$NGINX_VER" /src/nginx && \
     cd /src/nginx && \
     wget -q https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_"$DTR_VER"%2B.patch -O /src/nginx/1.patch && \
     wget -q https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx/"$RCP_VER"/nginx-"$RCP_VER"-resolver_conf_parsing.patch -O /src/nginx/2.patch && \
@@ -61,16 +61,16 @@ RUN git clone https://github.com/nginx/nginx --branch "$NGINX_VER" /src/nginx &&
     git apply /src/nginx/2.patch && \
     rm -v /src/nginx/*.patch && \
 # modules
-    git clone --recurse-submodules https://github.com/google/ngx_brotli --branch "$NB_VER" /src/ngx_brotli && \
-    git clone https://github.com/Zoey2936/ngx-fancyindex --branch "$NF_VER" /src/ngx-fancyindex && \
-    git clone https://github.com/vision5/ngx_devel_kit --branch "$NDK_VER" /src/ngx_devel_kit && \
-    git clone https://github.com/openresty/lua-nginx-module --branch "$LNM_VER" /src/lua-nginx-module && \
-    git clone https://github.com/SpiderLabs/ModSecurity-nginx --branch "$MODSECNGX_VER" /src/ModSecurity-nginx && \
-    git clone https://github.com/openresty/headers-more-nginx-module --branch "$HMNM_VER" /src/headers-more-nginx-module && \
-    git clone https://github.com/nginx/njs --branch "$NJS_VER" /src/njs && \
-    git clone https://github.com/vozlt/nginx-module-vts --branch "$VTS_VER" /src/nginx-module-vts && \
-    git clone https://github.com/gabihodoroaga/nginx-ntlm-module --branch "$NNTLM_VER" /src/nginx-ntlm-module && \
-    git clone https://github.com/leev/ngx_http_geoip2_module --branch "$NHG2M_VER" /src/ngx_http_geoip2_module
+    git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/google/ngx_brotli --branch "$NB_VER" /src/ngx_brotli && \
+    git clone --depth 1 https://github.com/Zoey2936/ngx-fancyindex --branch "$NF_VER" /src/ngx-fancyindex && \
+    git clone --depth 1 https://github.com/vision5/ngx_devel_kit --branch "$NDK_VER" /src/ngx_devel_kit && \
+    git clone --depth 1 https://github.com/openresty/lua-nginx-module --branch "$LNM_VER" /src/lua-nginx-module && \
+    git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx --branch "$MODSECNGX_VER" /src/ModSecurity-nginx && \
+    git clone --depth 1 https://github.com/openresty/headers-more-nginx-module --branch "$HMNM_VER" /src/headers-more-nginx-module && \
+    git clone --depth 1 https://github.com/nginx/njs --branch "$NJS_VER" /src/njs && \
+    git clone --depth 1 https://github.com/vozlt/nginx-module-vts --branch "$VTS_VER" /src/nginx-module-vts && \
+    git clone --depth 1 https://github.com/gabihodoroaga/nginx-ntlm-module --branch "$NNTLM_VER" /src/nginx-ntlm-module && \
+    git clone --depth 1 https://github.com/leev/ngx_http_geoip2_module --branch "$NHG2M_VER" /src/ngx_http_geoip2_module
 # Configure
 RUN cd /src/nginx && \
     /src/nginx/auto/configure \
@@ -114,14 +114,14 @@ RUN cd /src/nginx && \
 # Build & Install
     make -j "$(nproc)" install && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && \
-    git clone https://github.com/openresty/lua-resty-core --branch "$LRC_VER" /src/lua-resty-core && \
+    git clone --depth 1 https://github.com/openresty/lua-resty-core --branch "$LRC_VER" /src/lua-resty-core && \
     cd /src/lua-resty-core && \
     make -j "$(nproc)" install PREFIX=/usr/local/nginx && \
-    git clone https://github.com/openresty/lua-resty-lrucache --branch "$LRL_VER" /src/lua-resty-lrucache && \
+    git clone --depth 1 https://github.com/openresty/lua-resty-lrucache --branch "$LRL_VER" /src/lua-resty-lrucache && \
     cd /src/lua-resty-lrucache && \
     make -j "$(nproc)" install PREFIX=/usr/local/nginx
 # openappsec attachment
-RUN git clone https://github.com/openappsec/attachment /src/attachment && \
+RUN git clone --depth 1 https://github.com/openappsec/attachment /src/attachment && \
     cd /src/attachment && \
     git apply /src/attachment.patch && \
     rm -v /src/attachment.patch && \
@@ -131,14 +131,14 @@ RUN git clone https://github.com/openappsec/attachment /src/attachment && \
 # OpenTelemetry lib
 ARG CC=gcc
 ARG CXX=g++
-RUN git clone https://github.com/open-telemetry/opentelemetry-cpp --branch "$OT_VER" /src/opentelemetry-cpp && \
+RUN git clone --depth 1 https://github.com/open-telemetry/opentelemetry-cpp --branch "$OT_VER" /src/opentelemetry-cpp && \
     cd /src/opentelemetry-cpp && \
     cmake -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DWITH_OTLP_HTTP=ON -G Ninja && \
     ninja install
 # OpenTelemetry module
 ARG CC=clang
 ARG CXX=clang++
-RUN git clone https://github.com/open-telemetry/opentelemetry-cpp-contrib /src/opentelemetry-cpp-contrib && \
+RUN git clone --depth 1 https://github.com/open-telemetry/opentelemetry-cpp-contrib /src/opentelemetry-cpp-contrib && \
     cd /src/opentelemetry-cpp-contrib/instrumentation/nginx && \
     cmake -G Ninja && \
     ninja && \
