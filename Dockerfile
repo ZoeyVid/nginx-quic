@@ -104,7 +104,6 @@ RUN cd /src/nginx && \
     --add-module=/src/headers-more-nginx-module \
     --add-module=/src/ngx_devel_kit \
     --add-module=/src/lua-nginx-module \
-    --with-http_perl_module=dynamic \
     --with-http_geoip_module=dynamic \
     --with-stream_geoip_module=dynamic \
     --add-dynamic-module=/src/njs/nginx \
