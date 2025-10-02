@@ -83,17 +83,15 @@ RUN cd /src/nginx && \
     --with-libatomic \
     --with-pcre \
     --with-pcre-jit \
-    --with-select_module \
-    --with-poll_module \
+    --without-select_module \
+    --without-poll_module \
     --with-stream \
     --with-stream_ssl_module \
     --with-stream_ssl_preread_module \
-    --with-stream_geoip_module \
     --with-stream_realip_module \
     --with-http_v2_module \
     --with-http_v3_module \
     --with-http_ssl_module \
-    --with-http_geoip_module \
     --with-http_realip_module \
     --with-http_gunzip_module \
     --with-http_gzip_static_module \
@@ -103,9 +101,12 @@ RUN cd /src/nginx && \
     --with-http_auth_request_module \
     --add-module=/src/ngx_brotli \
     --add-module=/src/ngx-fancyindex \
+    --add-module=/src/headers-more-nginx-module \
     --add-module=/src/ngx_devel_kit \
     --add-module=/src/lua-nginx-module \
-    --add-module=/src/headers-more-nginx-module \
+    --with-http_perl_module=dynamic \
+    --with-http_geoip_module=dynamic \
+    --with-stream_geoip_module=dynamic \
     --add-dynamic-module=/src/njs/nginx \
     --add-dynamic-module=/src/nginx-module-vts \
     --add-dynamic-module=/src/nginx-ntlm-module \
@@ -156,6 +157,7 @@ RUN strip -s /usr/local/nginx/sbin/nginx && \
 FROM alpine:3.22.1
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=build /usr/local/nginx                                                                         /usr/local/nginx
+COPY --from=build /usr/local/share/lua/5.1                                                                 /usr/local/share/lua/5.1
 COPY --from=build /src/ModSecurity/src/.libs/libmodsecurity.so.3                                           /usr/local/lib/libmodsecurity.so.3
 COPY --from=build /src/ModSecurity/unicode.mapping                                                         /usr/local/nginx/conf/conf.d/include/unicode.mapping
 COPY --from=build /src/ModSecurity/modsecurity.conf-recommended                                            /usr/local/nginx/conf/conf.d/include/modsecurity.conf.example
