@@ -117,10 +117,10 @@ RUN cd /src/nginx && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && \
     git clone --depth 1 https://github.com/openresty/lua-resty-core --branch "$LRC_VER" /src/lua-resty-core && \
     cd /src/lua-resty-core && \
-    make -j "$(nproc)" install PREFIX=/usr/local/nginx && \
+    make -j "$(nproc)" install LUA_LIB_DIR=/usr/local/share/lua/5.1 && \
     git clone --depth 1 https://github.com/openresty/lua-resty-lrucache --branch "$LRL_VER" /src/lua-resty-lrucache && \
     cd /src/lua-resty-lrucache && \
-    make -j "$(nproc)" install PREFIX=/usr/local/nginx
+    make -j "$(nproc)" install LUA_LIB_DIR=/usr/local/share/lua/5.1
 # openappsec attachment
 RUN git clone --depth 1 https://github.com/openappsec/attachment /src/attachment && \
     cd /src/attachment && \
