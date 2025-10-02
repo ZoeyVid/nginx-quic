@@ -105,11 +105,11 @@ RUN cd /src/nginx && \
     --add-module=/src/ngx-fancyindex \
     --add-module=/src/ngx_devel_kit \
     --add-module=/src/lua-nginx-module \
-    --add-module=/src/ModSecurity-nginx \
     --add-module=/src/headers-more-nginx-module \
     --add-dynamic-module=/src/njs/nginx \
     --add-dynamic-module=/src/nginx-module-vts \
     --add-dynamic-module=/src/nginx-ntlm-module \
+    --add-dynamic-module=/src/ModSecurity-nginx \
     --add-dynamic-module=/src/ngx_http_geoip2_module \
     --with-cc-opt="-Wno-sign-compare" && \
 # Build & Install
