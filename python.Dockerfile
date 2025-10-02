@@ -10,6 +10,7 @@ FROM python:3.13.7-alpine3.22
 ENV PYTHONUNBUFFERED=1
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=zoeyvid/nginx-quic:latest /usr/local/nginx                                /usr/local/nginx
+COPY --from=zoeyvid/nginx-quic:latest /usr/local/share/lua/5.1                        /usr/local/share/lua/5.1
 COPY --from=zoeyvid/nginx-quic:latest /usr/local/lib/libmodsecurity.so.3              /usr/local/lib/libmodsecurity.so.3
 COPY --from=zoeyvid/nginx-quic:latest /usr/local/lib/libopentelemetry_proto.so        /usr/local/lib/libopentelemetry_proto.so
 COPY --from=zoeyvid/nginx-quic:latest /usr/local/lib/libosrc_shmem_ipc.so             /usr/local/lib/libosrc_shmem_ipc.so
