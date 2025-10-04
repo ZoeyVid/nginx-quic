@@ -29,10 +29,9 @@ ARG LRL_VER=v0.15
 ARG OT_VER=v1.23.0
 
 ARG CC=clang
-ARG CFLAGS="-O3"
+ARG CFLAGS="-pipe -flto=thin -O2 -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough -Werror=format-security -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -ftrivial-auto-var-init=zero -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-s"
 ARG CXX=clang++
-ARG CXXFLAGS="-O3"
-ARG LDFLAGS="-s"
+ARG CXXFLAGS="-pipe -flto=thin -O2 -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough -Werror=format-security -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -ftrivial-auto-var-init=zero -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-s"
 
 WORKDIR /src
 COPY attachment.patch /src/attachment.patch
