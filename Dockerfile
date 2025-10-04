@@ -133,9 +133,11 @@ RUN git clone --depth 1 https://github.com/openappsec/attachment /src/attachment
     mv -v /src/attachment/attachments/nginx/ngx_module/libngx_module.so /usr/local/nginx/modules/libngx_module.so
 # OpenTelemetry lib
 ARG CC=gcc
-ARG CFLAGS="-Wtrampolines -fzero-init-padding-bits=all -Wbidi-chars=any -O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
+ARG CFLAGS="-Wtrampolines -Wbidi-chars=any -O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
+#-fzero-init-padding-bits=all
 ARG CXX=g++
-ARG CXXFLAGS="-Wtrampolines -fzero-init-padding-bits=all -Wbidi-chars=any -O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
+ARG CXXFLAGS="-Wtrampolines -Wbidi-chars=any -O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
+#-fzero-init-padding-bits=all
 ARG LD=ld
 ARG LDFLAGS="-Wl,-s -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries"
 RUN git clone --depth 1 https://github.com/open-telemetry/opentelemetry-cpp --branch "$OT_VER" /src/opentelemetry-cpp && \
