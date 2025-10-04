@@ -32,7 +32,7 @@ ARG CC=clang
 ARG CFLAGS="-O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
 ARG CXX=clang++
 ARG CXXFLAGS="-O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
-ARG LD="lld"
+ARG LD="ld.lld"
 ARG LDFLAGS="-fuse-ld=lld -Wl,-s -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries"
 
 WORKDIR /src
@@ -112,7 +112,8 @@ RUN cd /src/nginx && \
     --add-dynamic-module=/src/nginx-ntlm-module \
     --add-dynamic-module=/src/ModSecurity-nginx \
     --add-dynamic-module=/src/ngx_http_geoip2_module \
-    --with-cc-opt="-Wno-sign-compare" && \
+    --with-cc-opt="-Wno-sign-compare" \
+    --with-ld-opt="-fuse-ld=lld" && \
 # Build & Install
     make -j "$(nproc)" install && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && \
