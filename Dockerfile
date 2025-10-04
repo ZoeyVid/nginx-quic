@@ -32,7 +32,8 @@ ARG CC=clang
 ARG CFLAGS="-O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
 ARG CXX=clang++
 ARG CXXFLAGS="-O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
-ARG LDFLAGS="-flto=thin -Wl,-s -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries"
+ARG LD="lld"
+ARG LDFLAGS="-Wl,-s -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries"
 
 WORKDIR /src
 COPY attachment.patch /src/attachment.patch
