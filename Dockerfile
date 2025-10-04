@@ -112,8 +112,7 @@ RUN cd /src/nginx && \
     --add-dynamic-module=/src/nginx-ntlm-module \
     --add-dynamic-module=/src/ModSecurity-nginx \
     --add-dynamic-module=/src/ngx_http_geoip2_module \
-    --with-cc-opt="-Wno-sign-compare" \
-    --with-ld-opt="-L /usr/local/lib" && \
+    --with-cc-opt="-Wno-sign-compare" && \
 # Build & Install
     make -j "$(nproc)" install && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && \
