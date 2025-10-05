@@ -28,10 +28,11 @@ ARG LRL_VER=v0.15
 
 ARG OT_VER=v1.23.0
 
+ARG ARCH
 ARG CC=clang
-ARG CFLAGS="-O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
+ARG CFLAGS="$ARCH -O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
 ARG CXX=clang++
-ARG CXXFLAGS="-O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
+ARG CXXFLAGS="$ARCH -O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
 ARG LDFLAGS="-fuse-ld=lld -Wl,-s -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries"
 
 WORKDIR /src
@@ -137,10 +138,10 @@ RUN git clone --depth 1 https://github.com/openappsec/attachment /src/attachment
 # OpenTelemetry lib
 ARG CC=gcc
 #-flto -fzero-init-padding-bits=all
-ARG CFLAGS="-Wtrampolines -Wbidi-chars=any -O2 -pipe -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
+ARG CFLAGS="$ARCH -Wtrampolines -Wbidi-chars=any -O2 -pipe -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
 ARG CXX=g++
 #-flto -fzero-init-padding-bits=all
-ARG CXXFLAGS="-Wtrampolines -Wbidi-chars=any -O2 -pipe -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
+ARG CXXFLAGS="$ARCH -Wtrampolines -Wbidi-chars=any -O2 -pipe -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
 ARG LDFLAGS="-Wl,-s -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries"
 RUN git clone --depth 1 https://github.com/open-telemetry/opentelemetry-cpp --branch "$OT_VER" /src/opentelemetry-cpp && \
     cd /src/opentelemetry-cpp && \
@@ -149,9 +150,9 @@ RUN git clone --depth 1 https://github.com/open-telemetry/opentelemetry-cpp --br
 
 # OpenTelemetry module
 ARG CC=clang
-ARG CFLAGS="-O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
+ARG CFLAGS="$ARCH -O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
 ARG CXX=clang++
-ARG CXXFLAGS="-O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
+ARG CXXFLAGS="$ARCH -O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
 ARG LDFLAGS="-fuse-ld=lld -Wl,-s -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries"
 RUN git clone --depth 1 https://github.com/open-telemetry/opentelemetry-cpp-contrib /src/opentelemetry-cpp-contrib && \
     cd /src/opentelemetry-cpp-contrib/instrumentation/nginx && \
