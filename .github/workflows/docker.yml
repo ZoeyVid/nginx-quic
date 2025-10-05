@@ -81,7 +81,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-aarch64
           build-args: |
-            ARCH=-march=generic -mtune=generic -mbranch-protection=standard
+            ARCH=-mbranch-protection=standard
       - name: Set PR-Number (PR)
         if: ${{ github.event_name == 'pull_request' }}
         id: pr
@@ -95,7 +95,7 @@ jobs:
           push: ${{ github.event_name == 'pull_request' }}
           tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-aarch64
           build-args: |
-            ARCH=-march=generic -mtune=generic -mbranch-protection=standard
+            ARCH=-mbranch-protection=standard
 
   merge-python:
     needs: [build-x86_64, build-aarch64]
