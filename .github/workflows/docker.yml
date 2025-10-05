@@ -41,6 +41,8 @@ jobs:
           file: ./Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-x86_64
+          build-args: |
+            ARCH=-march=x86-64-v3 -mtune=generic -fcf-protection=full
       - name: Set PR-Number (PR)
         if: ${{ github.event_name == 'pull_request' }}
         id: pr
@@ -88,6 +90,8 @@ jobs:
           file: ./Dockerfile
           push: ${{ github.event_name == 'pull_request' }}
           tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-aarch64
+          build-args: |
+            ARCH=-march=generic -mtune=generic -mbranch-protection=standard
 
   merge-python:
     needs: [build-x86_64, build-aarch64]
