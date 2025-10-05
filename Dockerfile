@@ -32,15 +32,14 @@ ARG CC=clang
 ARG CFLAGS="-O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
 ARG CXX=clang++
 ARG CXXFLAGS="-O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
-ARG LD=ld.lld
 ARG LDFLAGS="-fuse-ld=lld -Wl,-s -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries"
 
 WORKDIR /src
 COPY attachment.patch /src/attachment.patch
-# Requirements
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates build-base clang lld cmake ninja git libtool autoconf automake bash \
     libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev gtest-dev benchmark-dev protobuf-dev
+
 # ModSecurity
 RUN git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/owasp-modsecurity/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
     cd /src/ModSecurity && \
@@ -50,7 +49,8 @@ RUN git clone --depth 1 --shallow-submodules --recurse-submodules https://github
     /src/ModSecurity/build.sh && \
     /src/ModSecurity/configure --with-pcre2 --with-lmdb && \
     make -j "$(nproc)" install
-# Nginx
+
+# Download nginx
 RUN git clone --depth 1 https://github.com/nginx/nginx --branch "$NGINX_VER" /src/nginx && \
     cd /src/nginx && \
     wget -q https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_"$DTR_VER"%2B.patch -O /src/nginx/1.patch && \
@@ -73,7 +73,8 @@ RUN git clone --depth 1 https://github.com/nginx/nginx --branch "$NGINX_VER" /sr
     git clone --depth 1 https://github.com/vozlt/nginx-module-vts --branch "$VTS_VER" /src/nginx-module-vts && \
     git clone --depth 1 https://github.com/gabihodoroaga/nginx-ntlm-module --branch "$NNTLM_VER" /src/nginx-ntlm-module && \
     git clone --depth 1 https://github.com/leev/ngx_http_geoip2_module --branch "$NHG2M_VER" /src/ngx_http_geoip2_module
-# Configure
+
+# Configure nginx
 RUN cd /src/nginx && \
     /src/nginx/auto/configure \
     --build=nginx \
@@ -114,7 +115,7 @@ RUN cd /src/nginx && \
     --add-dynamic-module=/src/ngx_http_geoip2_module \
     --with-cc-opt="-Wno-sign-compare" \
     --with-ld-opt="-fuse-ld=lld -Wl,-s -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries" && \
-# Build & Install
+# Build nginx
     make -j "$(nproc)" install && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && \
     git clone --depth 1 https://github.com/openresty/lua-resty-core --branch "$LRC_VER" /src/lua-resty-core && \
@@ -123,6 +124,7 @@ RUN cd /src/nginx && \
     git clone --depth 1 https://github.com/openresty/lua-resty-lrucache --branch "$LRL_VER" /src/lua-resty-lrucache && \
     cd /src/lua-resty-lrucache && \
     make -j "$(nproc)" install LUA_LIB_DIR=/usr/local/share/lua/5.1
+
 # openappsec attachment
 RUN git clone --depth 1 https://github.com/openappsec/attachment /src/attachment && \
     cd /src/attachment && \
@@ -131,25 +133,32 @@ RUN git clone --depth 1 https://github.com/openappsec/attachment /src/attachment
     cmake /src/attachment -G Ninja && \
     ninja && \
     mv -v /src/attachment/attachments/nginx/ngx_module/libngx_module.so /usr/local/nginx/modules/libngx_module.so
+
 # OpenTelemetry lib
 ARG CC=gcc
+#-flto -fzero-init-padding-bits=all
 ARG CFLAGS="-Wtrampolines -Wbidi-chars=any -O2 -pipe -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
-#-flto -fzero-init-padding-bits=all
 ARG CXX=g++
-ARG CXXFLAGS="-Wtrampolines -Wbidi-chars=any -O2 -pipe -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
 #-flto -fzero-init-padding-bits=all
-ARG LD=ld
+ARG CXXFLAGS="-Wtrampolines -Wbidi-chars=any -O2 -pipe -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
 ARG LDFLAGS="-Wl,-s -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries"
 RUN git clone --depth 1 https://github.com/open-telemetry/opentelemetry-cpp --branch "$OT_VER" /src/opentelemetry-cpp && \
     cd /src/opentelemetry-cpp && \
     cmake -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DWITH_OTLP_HTTP=ON -G Ninja && \
     ninja install
+
 # OpenTelemetry module
+ARG CC=clang
+ARG CFLAGS="-O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
+ARG CXX=clang++
+ARG CXXFLAGS="-O2 -pipe -flto=thin -fstrict-flex-arrays=3 -fstack-clash-protection -fstack-protector-strong -ftrivial-auto-var-init=zero -fno-delete-null-pointer-checks -fno-strict-overflow -fno-strict-aliasing -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS -Wall -Wformat -Wformat=2 -Werror=format-security"
+ARG LDFLAGS="-fuse-ld=lld -Wl,-s -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries"
 RUN git clone --depth 1 https://github.com/open-telemetry/opentelemetry-cpp-contrib /src/opentelemetry-cpp-contrib && \
     cd /src/opentelemetry-cpp-contrib/instrumentation/nginx && \
     cmake -G Ninja && \
     ninja && \
     mv -v /src/opentelemetry-cpp-contrib/instrumentation/nginx/otel_ngx_module.so /usr/local/nginx/modules/otel_ngx_module.so
+
 # strip files
 RUN strip -s /usr/local/nginx/sbin/nginx && \
     find /usr/local/nginx/modules -name "*.so" -exec strip -s {} \; && \
