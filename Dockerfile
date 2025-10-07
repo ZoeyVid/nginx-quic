@@ -8,7 +8,7 @@ ARG LUAJIT_LIB=/usr/lib
 ARG MODSEC_VER=v3.0.14
 ARG NGINX_VER=release-1.29.2
 
-ARG DTR_VER=1.27.5
+ARG DTR_VER=1.29.2
 ARG RCP_VER=1.27.1
 
 ARG NB_VER=master
@@ -54,7 +54,7 @@ RUN git clone --depth 1 --shallow-submodules --recurse-submodules https://github
 # Download nginx
 RUN git clone --depth 1 https://github.com/nginx/nginx --branch "$NGINX_VER" /src/nginx && \
     cd /src/nginx && \
-    wget -q https://raw.githubusercontent.com/nginx-modules/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_"$DTR_VER"%2B.patch -O /src/nginx/1.patch && \
+    wget -q https://raw.githubusercontent.com/Zoey2936/ngx_http_tls_dyn_size/master/nginx__dynamic_tls_records_"$DTR_VER"%2B.patch -O /src/nginx/1.patch && \
     wget -q https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx/"$RCP_VER"/nginx-"$RCP_VER"-resolver_conf_parsing.patch -O /src/nginx/2.patch && \
     sed -i "s|nginx/|NPMplus/|g" /src/nginx/src/core/nginx.h && \
     sed -i "s|Server: nginx|Server: NPMplus|g" /src/nginx/src/http/ngx_http_header_filter_module.c && \
