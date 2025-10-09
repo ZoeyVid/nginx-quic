@@ -39,7 +39,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-x86_64
           build-args: |
             ARCH=-march=x86-64-v2 -mtune=generic -fcf-protection=full
@@ -53,7 +53,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: ${{ github.event_name == 'pull_request' }}
+          push: true
           tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-x86_64
           build-args: |
             ARCH=-march=x86-64-v2 -mtune=generic -fcf-protection=full
@@ -78,7 +78,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-aarch64
           build-args: |
             ARCH=-mbranch-protection=standard
@@ -92,7 +92,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: ${{ github.event_name == 'pull_request' }}
+          push: true
           tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-aarch64
           build-args: |
             ARCH=-mbranch-protection=standard
