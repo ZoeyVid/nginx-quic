@@ -184,7 +184,7 @@ jobs:
       - name: update zstd-nginx-module version
         id: update
         run: |
-          ZN_VER="$(
+          ZNM_VER="$(
           git ls-remote --tags https://github.com/tokers/zstd-nginx-module \
               | cut -d/ -f3 \
               | sort -V \
@@ -192,8 +192,8 @@ jobs:
               | tail -1 \
               | sed "s|\^{}||g"
           )"
-          sed -i "s|ARG ZN_VER=.*|ARG ZN_VER=$ZN_VER|" Dockerfile
-          echo "version=$ZN_VER" >> $GITHUB_OUTPUT
+          sed -i "s|ARG ZNM_VER=.*|ARG ZNM_VER=$ZNM_VER|" Dockerfile
+          echo "version=$ZNM_VER" >> $GITHUB_OUTPUT
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         if: ${{ steps.update.outputs.version != '0.1.1' }}
@@ -341,7 +341,34 @@ jobs:
           branch: update-njs-version
           title: update njs version to ${{ steps.update.outputs.version }}
           body: update njs version to ${{ steps.update.outputs.version }}
-  vts-update:
+  nginx-auth-ldap-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: update nginx-auth-ldap version
+        id: update
+        run: |
+          NAL_VER="$(
+          git ls-remote --tags https://github.com/kvspb/nginx-auth-ldap \
+              | cut -d/ -f3 \
+              | sort -V \
+              | grep -v rc \
+              | tail -1 \
+              | sed "s|\^{}||g"
+          )"
+          sed -i "s|ARG NAL_VER=.*|ARG NAL_VER=$NAL_VER|" Dockerfile
+          echo "version=$NAL_VER" >> $GITHUB_OUTPUT
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          signoff: true
+          delete-branch: true
+          commit-message: update nginx-auth-ldap version to ${{ steps.update.outputs.version }}
+          branch: update-nginx-auth-ldap-version
+          title: update nginx-auth-ldap version to ${{ steps.update.outputs.version }}
+          body: update nginx-auth-ldap version to ${{ steps.update.outputs.version }}
+  nginx-module-vts-update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
