@@ -12,15 +12,17 @@ ARG DTR_VER=1.29.2
 ARG RCP_VER=1.29.2
 
 ARG NB_VER=master
+ARG NUB_VER=main
+ARG ZN_VER=master
 ARG NF_VER=master
+ARG HMNM_VER=v0.39
 ARG NDK_VER=v0.3.4
 ARG LNM_VER=v0.10.28
-ARG MODSECNGX_VER=v1.0.4
-ARG HMNM_VER=v0.39
 
 ARG NJS_VER=0.9.3
 ARG VTS_VER=v0.2.4
 ARG NNTLM_VER=master
+ARG MODSECNGX_VER=v1.0.4
 ARG NHG2M_VER=3.4
 
 ARG LRC_VER=v0.1.31
@@ -66,14 +68,16 @@ RUN git clone --depth 1 https://github.com/nginx/nginx --branch "$NGINX_VER" /sr
     rm -v /src/nginx/*.patch && \
 # modules
     git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/google/ngx_brotli --branch "$NB_VER" /src/ngx_brotli && \
+    git clone --depth 1 https://github.com/clyfish/ngx_unbrotli --branch "$NUB_VER" /src/ngx_brotli && \
+    git clone --depth 1 https://github.com/tokers/zstd-nginx-module --branch "$ZN_VER" /src/ngx_brotli && \
     git clone --depth 1 https://github.com/Zoey2936/ngx-fancyindex --branch "$NF_VER" /src/ngx-fancyindex && \
+    git clone --depth 1 https://github.com/openresty/headers-more-nginx-module --branch "$HMNM_VER" /src/headers-more-nginx-module && \
     git clone --depth 1 https://github.com/vision5/ngx_devel_kit --branch "$NDK_VER" /src/ngx_devel_kit && \
     git clone --depth 1 https://github.com/openresty/lua-nginx-module --branch "$LNM_VER" /src/lua-nginx-module && \
-    git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx --branch "$MODSECNGX_VER" /src/ModSecurity-nginx && \
-    git clone --depth 1 https://github.com/openresty/headers-more-nginx-module --branch "$HMNM_VER" /src/headers-more-nginx-module && \
     git clone --depth 1 https://github.com/nginx/njs --branch "$NJS_VER" /src/njs && \
     git clone --depth 1 https://github.com/vozlt/nginx-module-vts --branch "$VTS_VER" /src/nginx-module-vts && \
     git clone --depth 1 https://github.com/gabihodoroaga/nginx-ntlm-module --branch "$NNTLM_VER" /src/nginx-ntlm-module && \
+    git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx --branch "$MODSECNGX_VER" /src/ModSecurity-nginx && \
     git clone --depth 1 https://github.com/leev/ngx_http_geoip2_module --branch "$NHG2M_VER" /src/ngx_http_geoip2_module
 
 # Configure nginx
