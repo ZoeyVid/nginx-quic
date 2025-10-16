@@ -361,6 +361,7 @@ jobs:
           echo "version=$NAL_VER" >> $GITHUB_OUTPUT
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
+        if: ${{ steps.update.outputs.version != 'v0.1' }}
         with:
           signoff: true
           delete-branch: true
