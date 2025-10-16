@@ -43,7 +43,7 @@ WORKDIR /src
 COPY attachment.patch /src/attachment.patch
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates build-base clang lld cmake ninja git libtool autoconf automake bash \
-    libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev gtest-dev benchmark-dev protobuf-dev
+    libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev gtest-dev benchmark-dev protobuf-dev openldap-dev
 
 # ModSecurity
 RUN git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/owasp-modsecurity/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
@@ -194,7 +194,7 @@ COPY --from=build /src/attachment/core/shmem_ipc/libosrc_shmem_ipc.so           
 COPY --from=build /src/attachment/core/compression/libosrc_compression_utils.so                            /usr/local/lib/libosrc_compression_utils.so
 COPY --from=build /src/attachment/attachments/nginx/nginx_attachment_util/libosrc_nginx_attachment_util.so /usr/local/lib/libosrc_nginx_attachment_util.so
 RUN apk upgrade --no-cache -a && \
-    apk add --no-cache ca-certificates tzdata tini zlib luajit pcre2 libstdc++ yajl libxml2 libxslt libcurl lmdb libfuzzy2 lua5.1-libs geoip libmaxminddb-libs libprotobuf openssl && \
+    apk add --no-cache ca-certificates tzdata tini zlib luajit pcre2 libstdc++ yajl libxml2 libxslt libcurl lmdb libfuzzy2 lua5.1-libs geoip libmaxminddb-libs libprotobuf openldap openssl && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 
 ENTRYPOINT ["tini", "--", "nginx"]
