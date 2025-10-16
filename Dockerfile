@@ -68,8 +68,8 @@ RUN git clone --depth 1 https://github.com/nginx/nginx --branch "$NGINX_VER" /sr
     rm -v /src/nginx/*.patch && \
 # modules
     git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/google/ngx_brotli --branch "$NB_VER" /src/ngx_brotli && \
-    git clone --depth 1 https://github.com/clyfish/ngx_unbrotli --branch "$NUB_VER" /src/ngx_brotli && \
-    git clone --depth 1 https://github.com/tokers/zstd-nginx-module --branch "$ZN_VER" /src/ngx_brotli && \
+    git clone --depth 1 https://github.com/clyfish/ngx_unbrotli --branch "$NUB_VER" /src/ngx_unbrotli && \
+    git clone --depth 1 https://github.com/tokers/zstd-nginx-module --branch "$ZN_VER" /src/zstd-nginx-module && \
     git clone --depth 1 https://github.com/Zoey2936/ngx-fancyindex --branch "$NF_VER" /src/ngx-fancyindex && \
     git clone --depth 1 https://github.com/openresty/headers-more-nginx-module --branch "$HMNM_VER" /src/headers-more-nginx-module && \
     git clone --depth 1 https://github.com/vision5/ngx_devel_kit --branch "$NDK_VER" /src/ngx_devel_kit && \
@@ -108,6 +108,8 @@ RUN cd /src/nginx && \
     --with-http_stub_status_module \
     --with-http_auth_request_module \
     --add-module=/src/ngx_brotli \
+    --add-module=/src/ngx_unbrotli \
+    --add-module=/src/zstd-nginx-module \
     --add-module=/src/ngx-fancyindex \
     --add-module=/src/headers-more-nginx-module \
     --add-module=/src/ngx_devel_kit \
