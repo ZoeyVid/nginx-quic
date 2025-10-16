@@ -77,7 +77,8 @@ jobs:
               | sed "s|ngx_http_tls_dyn_size/nginx__dynamic_tls_records_\([0-9.]\+\)+.patch|\1|g" \
               | sort -V \
               | grep -v rc \
-              | tail -1
+              | tail -1 \
+              | sed "s|\^{}||g"
           )"
           rm -r ngx_http_tls_dyn_size
           sed -i "s|ARG DTR_VER=.*|ARG DTR_VER=$DTR_VER|" Dockerfile
@@ -103,7 +104,8 @@ jobs:
           RCP_VER="$(
           ls openresty/patches/nginx \
               | sort -V \
-              | tail -1
+              | tail -1 \
+              | sed "s|\^{}||g"
           )"
           rm -r openresty
           sed -i "s|ARG RCP_VER=.*|ARG RCP_VER=$RCP_VER|" Dockerfile
@@ -131,7 +133,8 @@ jobs:
               | cut -d/ -f3 \
               | sort -V \
               | grep -v rc \
-              | tail -1
+              | tail -1 \
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG NB_VER=.*|ARG NB_VER=$NB_VER|" Dockerfile
           echo "version=$NB_VER" >> $GITHUB_OUTPUT
@@ -158,7 +161,8 @@ jobs:
               | cut -d/ -f3 \
               | sort -V \
               | grep -v rc \
-              | tail -1
+              | tail -1 \
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG NUB_VER=.*|ARG NUB_VER=$NUB_VER|" Dockerfile
           echo "version=$NUB_VER" >> $GITHUB_OUTPUT
@@ -181,11 +185,12 @@ jobs:
         id: update
         run: |
           ZN_VER="$(
-          git ls-remote --tags https://github.com/google/zstd-nginx-module \
+          git ls-remote --tags https://github.com/tokers/zstd-nginx-module \
               | cut -d/ -f3 \
               | sort -V \
               | grep -v rc \
-              | tail -1
+              | tail -1 \
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG ZN_VER=.*|ARG ZN_VER=$ZN_VER|" Dockerfile
           echo "version=$ZN_VER" >> $GITHUB_OUTPUT
@@ -240,7 +245,8 @@ jobs:
               | cut -d/ -f3 \
               | sort -V \
               | grep -v rc \
-              | tail -1
+              | tail -1 \
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG HMNM_VER=.*|ARG HMNM_VER=$HMNM_VER|" Dockerfile
           echo "version=$HMNM_VER" >> $GITHUB_OUTPUT
@@ -293,7 +299,8 @@ jobs:
               | cut -d/ -f3 \
               | sort -V \
               | grep -v rc \
-              | tail -1
+              | tail -1 \
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG LNM_VER=.*|ARG LNM_VER=$LNM_VER|" Dockerfile
           echo "version=$LNM_VER" >> $GITHUB_OUTPUT
@@ -347,7 +354,8 @@ jobs:
               | cut -d/ -f3 \
               | sort -V \
               | grep -v rc \
-              | tail -1
+              | tail -1 \
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG VTS_VER=.*|ARG VTS_VER=$VTS_VER|" Dockerfile
           echo "version=$VTS_VER" >> $GITHUB_OUTPUT
@@ -373,7 +381,8 @@ jobs:
               | cut -d/ -f3 \
               | sort -V \
               | grep -v rc \
-              | tail -1
+              | tail -1 \
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG NNTLM_VER=.*|ARG NNTLM_VER=$NNTLM_VER|" Dockerfile
           echo "version=$NNTLM_VER" >> $GITHUB_OUTPUT
@@ -427,7 +436,8 @@ jobs:
               | cut -d/ -f3 \
               | sort -V \
               | grep -v rc \
-              | tail -1
+              | tail -1 \
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG NHG2M_VER=.*|ARG NHG2M_VER=$NHG2M_VER|" Dockerfile
           echo "version=$NHG2M_VER" >> $GITHUB_OUTPUT
@@ -454,7 +464,8 @@ jobs:
               | cut -d/ -f3 \
               | sort -V \
               | grep -v rc \
-              | tail -1
+              | tail -1 \
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG LRC_VER=.*|ARG LRC_VER=$LRC_VER|" Dockerfile
           echo "version=$LRC_VER" >> $GITHUB_OUTPUT
@@ -509,7 +520,8 @@ jobs:
               | sort -V \
               | grep -v rc \
               | grep "^v\?[0-9]" \
-              | tail -1
+              | tail -1 \
+              | sed "s|\^{}||g"
           )"
           sed -i "s|ARG OT_VER=.*|ARG OT_VER=$OT_VER|" Dockerfile
           echo "version=$OT_VER" >> $GITHUB_OUTPUT
