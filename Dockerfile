@@ -80,6 +80,9 @@ RUN git clone --depth 1 https://github.com/nginx/nginx --branch "$NGINX_VER" /sr
     git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx --branch "$MODSECNGX_VER" /src/ModSecurity-nginx && \
     git clone --depth 1 https://github.com/leev/ngx_http_geoip2_module --branch "$NHG2M_VER" /src/ngx_http_geoip2_module
 
+# build_brotli.sh for ngx_unbrotli
+RUN cd /src/ngx_unbrotli && /src/ngx_unbrotli/build_brotli.sh
+
 # Configure nginx
 RUN cd /src/nginx && \
     /src/nginx/auto/configure \
