@@ -4,7 +4,7 @@ COPY requirements.txt /tmp/requirements.txt
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates build-base libffi-dev && \
     python3 -m venv /usr/local && \
-    pip install --no-cache-dir -r /tmp/requirements.txt
+    pip install --root-user-action --no-cache-dir -r /tmp/requirements.txt
 
 FROM python:3.14.0-alpine3.22
 ENV PYTHONUNBUFFERED=1
