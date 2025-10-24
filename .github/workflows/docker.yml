@@ -172,7 +172,7 @@ jobs:
           docker cp nginx-aarch64:/usr/local/nginx/sbin/nginx nginx-aarch64
           tar -cJf nginx-aarch64.tar.xz nginx lib
           rm -vr nginx lib
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: ${{ github.event_name != 'pull_request' }}
         with:
           name: artifacts
@@ -229,7 +229,7 @@ jobs:
           docker cp nginx-aarch64:/usr/local/nginx/sbin/nginx nginx-aarch64
           tar -cJf nginx-aarch64.tar.xz nginx lib
           rm -vr nginx lib
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: ${{ github.event_name == 'pull_request' }}
         with:
           name: artifacts
