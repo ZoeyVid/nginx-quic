@@ -67,6 +67,16 @@ jobs:
           tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-x86_64
           build-args: |
             FLAGS=-march=x86-64-v2 -mtune=generic -fcf-protection=full
+      - name: Build (PR)
+        uses: docker/build-push-action@v6
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          context: .
+          file: ./python.Dockerfile
+          push: true
+          tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-python-x86_64
+          build-args: |
+            IMAGE=ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-x86_64
           
   build-aarch64:
     runs-on: ubuntu-24.04-arm
@@ -116,24 +126,21 @@ jobs:
           tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-aarch64
           build-args: |
             FLAGS=-mbranch-protection=standard
+      - name: Build (PR)
+        uses: docker/build-push-action@v6
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          context: .
+          file: ./python.Dockerfile
+          push: true
+          tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-python-aarch64
+          build-args: |
+            IMAGE=ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-aarch64
 
   merge:
     needs: [build-x86_64, build-aarch64]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: actions/checkout@v6
-      - name: Set up QEMU
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: arm64 #all
-      - name: Set up Docker Buildx
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: docker/setup-buildx-action@v3
-        with:
-          driver-opts: env.BUILDKIT_STEP_LOG_MAX_SIZE=-1
       - name: Login to DockerHub
         if: ${{ github.event_name != 'pull_request' }}
         uses: docker/login-action@v3
@@ -213,16 +220,9 @@ jobs:
         run: echo "pr=$(echo pr-${{ github.ref_name }} | sed "s|refs/pull/:||g" | sed "s|/merge||g")" >> $GITHUB_OUTPUT
       - name: create multiarch
         if: ${{ github.event_name == 'pull_request' }}
-        run: docker buildx imagetools create --tag ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }} ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-aarch64
-      - name: Build (PR)
-        uses: docker/build-push-action@v6
-        if: ${{ github.event_name == 'pull_request' }}
-        with:
-          context: .
-          file: ./python.Dockerfile
-          platforms: linux/amd64,linux/arm64 #,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4 #,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6
-          push: ${{ github.event_name == 'pull_request' }}
-          tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-python
+        run: |
+          docker buildx imagetools create --tag ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }} ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-aarch64
+          docker buildx imagetools create --tag ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-python ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-python-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}-python-aarch64
       - name: show version (PR)
         if: ${{ github.event_name == 'pull_request' }}
         run:  |
