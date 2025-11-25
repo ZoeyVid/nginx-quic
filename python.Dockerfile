@@ -1,4 +1,6 @@
 # syntax=docker/dockerfile:labs
+ARG IMAGE
+
 FROM python:3.14.0-alpine3.22 AS certbot
 COPY requirements.txt /tmp/requirements.txt
 RUN apk upgrade --no-cache -a && \
@@ -8,7 +10,6 @@ RUN apk upgrade --no-cache -a && \
 
 FROM python:3.14.0-alpine3.22
 #ENV PYTHONUNBUFFERED=1
-ARG IMAGE
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=$IMAGE /usr/local/nginx                                /usr/local/nginx
 COPY --from=$IMAGE /usr/local/share/lua/5.1                        /usr/local/share/lua/5.1
