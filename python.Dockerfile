@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:labs
 ARG IMAGE
-FROM $IMAGE AS nginx
+FROM ${IMAGE:-ghcr.io/zoeyvid/nginx-quic:latest} AS nginx
 
 FROM python:3.14.0-alpine3.22 AS certbot
 COPY requirements.txt /tmp/requirements.txt
