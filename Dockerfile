@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:labs
-FROM alpine:3.22.2 AS build
+FROM alpine:3.23.0 AS build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 ARG LUAJIT_INC=/usr/include/luajit-2.1
@@ -182,7 +182,7 @@ RUN strip -s /usr/local/nginx/sbin/nginx && \
     strip -s /src/attachment/core/compression/libosrc_compression_utils.so && \
     strip -s /src/attachment/attachments/nginx/nginx_attachment_util/libosrc_nginx_attachment_util.so
 
-FROM alpine:3.22.2
+FROM alpine:3.23.0
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=build /usr/local/nginx                                                                         /usr/local/nginx
 COPY --from=build /usr/local/share/lua/5.1                                                                 /usr/local/share/lua/5.1
