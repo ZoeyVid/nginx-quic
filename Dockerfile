@@ -44,7 +44,7 @@ COPY ModSecurity.patch /src/ModSecurity.patch
 COPY attachment.patch /src/attachment.patch
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates build-base clang lld cmake ninja git libtool autoconf automake bash \
-    libatomic_ops-dev zlib-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev gtest-dev benchmark-dev protobuf-dev openldap-dev
+    libatomic_ops-dev zlib-dev brotli-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev gtest-dev benchmark-dev protobuf-dev openldap-dev
 
 # ModSecurity
 RUN git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/owasp-modsecurity/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
