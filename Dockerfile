@@ -41,6 +41,8 @@ ARG LDFLAGS="-fuse-ld=lld -m64 -Wl,-s -Wl,-O1 -Wl,--gc-sections -Wl,-z,nodlopen 
 
 WORKDIR /src
 COPY ModSecurity.patch /src/ModSecurity.patch
+COPY ngx_brotli.patch /src/ngx_brotli.patch
+COPY ngx_unbrotli.patch /src/ngx_unbrotli.patch
 COPY attachment.patch /src/attachment.patch
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates build-base clang lld cmake ninja git libtool autoconf automake bash \
@@ -50,7 +52,6 @@ RUN apk upgrade --no-cache -a && \
 RUN git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/owasp-modsecurity/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
     cd /src/ModSecurity && \
     git apply /src/ModSecurity.patch && \
-    rm -v /src/ModSecurity.patch && \
     sed -i "s|SecRuleEngine .*|SecRuleEngine On|g" /src/ModSecurity/modsecurity.conf-recommended && \
     sed -i "s|^SecAudit|#SecAudit|g" /src/ModSecurity/modsecurity.conf-recommended && \
     sed -i "s|unicode.mapping|/usr/local/nginx/conf/conf.d/include/unicode.mapping|g" /src/ModSecurity/modsecurity.conf-recommended && \
@@ -72,7 +73,11 @@ RUN git clone --depth 1 https://github.com/nginx/nginx --branch "$NGINX_VER" /sr
     rm -v /src/nginx/*.patch && \
 # modules
     git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/google/ngx_brotli --branch "$NB_VER" /src/ngx_brotli && \
+    cd /src/ngx_brotli && \
+    git apply /src/ngx_brotli.patch && \
     git clone --depth 1 https://github.com/clyfish/ngx_unbrotli --branch "$NUB_VER" /src/ngx_unbrotli && \
+    cd /src/ngx_unbrotli && \
+    git apply /src/ngx_unbrotli.patch && \
     git clone --depth 1 https://github.com/tokers/zstd-nginx-module --branch "$ZNM_VER" /src/zstd-nginx-module && \
     git clone --depth 1 https://github.com/Zoey2936/ngx-fancyindex --branch "$NF_VER" /src/ngx-fancyindex && \
     git clone --depth 1 https://github.com/openresty/headers-more-nginx-module --branch "$HMNM_VER" /src/headers-more-nginx-module && \
@@ -146,7 +151,6 @@ RUN cd /src/nginx && \
 RUN git clone --depth 1 https://github.com/openappsec/attachment /src/attachment && \
     cd /src/attachment && \
     git apply /src/attachment.patch && \
-    rm -v /src/attachment.patch && \
     cmake /src/attachment -G Ninja && \
     ninja && \
     mv -v /src/attachment/attachments/nginx/ngx_module/libngx_module.so /usr/local/nginx/modules/libngx_module.so
