@@ -1,7 +1,13 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 745f969..0adec66 100644
+index 745f969..88abd76 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 2.8.4)
++cmake_minimum_required(VERSION 3.5.0)
+ project(ngen)
+ 
+ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wno-terminate")
 @@ -10,5 +10,5 @@ include_directories(core/include/attachments)
  
  add_subdirectory(core)
@@ -11,7 +17,7 @@ index 745f969..0adec66 100644
 +#add_subdirectory(docker)
 +#add_subdirectory(nodes)
 diff --git a/attachments/CMakeLists.txt b/attachments/CMakeLists.txt
-index 7f4dd13..d6cbaee 100644
+index 7862ae9..f4b3ba9 100644
 --- a/attachments/CMakeLists.txt
 +++ b/attachments/CMakeLists.txt
 @@ -1,4 +1,4 @@
@@ -83,4 +89,3 @@ index 8285065..19cdc99 100644
 +#add_subdirectory(shmem_ipc_2)
  add_subdirectory(compression)
  add_subdirectory(attachments)
-
