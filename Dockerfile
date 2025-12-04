@@ -72,7 +72,7 @@ RUN git clone --depth 1 https://github.com/nginx/nginx --branch "$NGINX_VER" /sr
     git apply /src/nginx/2.patch && \
     rm -v /src/nginx/*.patch && \
 # modules
-    git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/google/ngx_brotli --branch "$NB_VER" /src/ngx_brotli && \
+    git clone --depth 1 https://github.com/google/ngx_brotli --branch "$NB_VER" /src/ngx_brotli && \
     cd /src/ngx_brotli && \
     git apply /src/ngx_brotli.patch && \
     git clone --depth 1 https://github.com/clyfish/ngx_unbrotli --branch "$NUB_VER" /src/ngx_unbrotli && \
