@@ -1,0 +1,12 @@
+diff --git a/headers/modsecurity/collection/collection.h b/headers/modsecurity/collection/collection.h
+index 25d86b9..845cf4f 100644
+--- a/headers/modsecurity/collection/collection.h
++++ b/headers/modsecurity/collection/collection.h
+@@ -15,6 +15,7 @@
+
+
+ #ifdef __cplusplus
++#include <cstdint>
+ #include <string>
+ #include <unordered_map>
+ #include <list>
