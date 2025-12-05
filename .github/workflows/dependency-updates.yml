@@ -479,61 +479,6 @@ jobs:
           title: update ngx_http_geoip2_module version to ${{ steps.update.outputs.version }}
           body: update ngx_http_geoip2_module version to ${{ steps.update.outputs.version }}
 
-  lua-resty-core-update:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: update lua-resty-core version
-        id: update
-        run: |
-          LRC_VER="$(
-          git ls-remote --tags https://github.com/openresty/lua-resty-core \
-              | cut -d/ -f3 \
-              | sort -V \
-              | grep -v rc \
-              | tail -1 \
-              | sed "s|\^{}||g"
-          )"
-          sed -i "s|ARG LRC_VER=.*|ARG LRC_VER=$LRC_VER|" Dockerfile
-          echo "version=$LRC_VER" >> $GITHUB_OUTPUT
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
-        with:
-          signoff: true
-          delete-branch: true
-          commit-message: update lua-resty-core version to ${{ steps.update.outputs.version }}
-          branch: update-lua-resty-core-version
-          title: update lua-resty-core version to ${{ steps.update.outputs.version }}
-          body: update lua-resty-core version to ${{ steps.update.outputs.version }}
-  lua-resty-lrucache-update:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: update lua-resty-lrucache version
-        id: update
-        run: |
-          LRL_VER="$(
-          git ls-remote --tags https://github.com/openresty/lua-resty-lrucache \
-              | cut -d/ -f3 \
-              | sort -V \
-              | grep -v rc \
-              | tail -1 \
-              | sed "s|\^{}||g"
-          )"
-          sed -i "s|ARG LRL_VER=.*|ARG LRL_VER=$LRL_VER|" Dockerfile
-          echo "version=$LRL_VER" >> $GITHUB_OUTPUT
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
-        with:
-          signoff: true
-          delete-branch: true
-          commit-message: update lua-resty-lrucache version to ${{ steps.update.outputs.version }}
-          branch: update-lua-resty-lrucache-version
-          title: update lua-resty-lrucache version to ${{ steps.update.outputs.version }}
-          body: update lua-resty-lrucache version to ${{ steps.update.outputs.version }}
-
   opentelemetry-update:
     runs-on: ubuntu-latest
     steps:
