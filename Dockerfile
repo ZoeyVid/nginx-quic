@@ -26,6 +26,9 @@ ARG NNTLM_VER=master
 #ARG MODSECNGX_VER=v1.0.4
 ARG NHG2M_VER=3.4
 
+ARG LRC_VER=v0.1.32
+ARG LRL_VER=v0.15
+
 #ARG OT_VER=v1.24.0
 
 # -fPIE -pie / -fPIC -shared
@@ -133,7 +136,13 @@ RUN cd /src/nginx && \
     --with-ld-opt="-fuse-ld=lld -m64 -Wl,-s -Wl,-O1 -Wl,--gc-sections -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries -Wl,--sort-common -Wl,-z,pack-relative-relocs" && \
 # Build nginx
     make -j "$(nproc)" install && \
-    ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
+    ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && \
+    git clone --depth 1 https://github.com/openresty/lua-resty-core --branch "$LRC_VER" /src/lua-resty-core && \
+    cd /src/lua-resty-core && \
+    make -j "$(nproc)" install LUA_LIB_DIR=/usr/local/share/lua/5.1 && \
+    git clone --depth 1 https://github.com/openresty/lua-resty-lrucache --branch "$LRL_VER" /src/lua-resty-lrucache && \
+    cd /src/lua-resty-lrucache && \
+    make -j "$(nproc)" install LUA_LIB_DIR=/usr/local/share/lua/5.1
 
 # openappsec attachment
 RUN git clone --depth 1 https://github.com/openappsec/attachment /src/attachment && \
@@ -180,6 +189,7 @@ RUN strip -s /usr/local/nginx/sbin/nginx && \
 FROM alpine:3.23.0
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=build /usr/local/nginx                                                                         /usr/local/nginx
+COPY --from=build /usr/local/share/lua/5.1                                                                 /usr/local/share/lua/5.1
 #COPY --from=build /src/ModSecurity/src/.libs/libmodsecurity.so.3                                           /usr/local/lib/libmodsecurity.so.3
 #COPY --from=build /src/opentelemetry-cpp/libopentelemetry_proto.so                                         /usr/local/lib/libopentelemetry_proto.so
 COPY --from=build /src/attachment/core/shmem_ipc/libosrc_shmem_ipc.so                                      /usr/local/lib/libosrc_shmem_ipc.so
