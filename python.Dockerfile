@@ -13,7 +13,7 @@ FROM python:3.14.1-alpine3.23
 #ENV PYTHONUNBUFFERED=1
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=nginx /usr/local/nginx                                /usr/local/nginx
-COPY --from=nginx /usr/local/lib/libmodsecurity.so.3              /usr/local/lib/libmodsecurity.so.3
+#COPY --from=nginx /usr/local/lib/libmodsecurity.so.3              /usr/local/lib/libmodsecurity.so.3
 #COPY --from=nginx /usr/local/lib/libopentelemetry_proto.so        /usr/local/lib/libopentelemetry_proto.so
 COPY --from=nginx /usr/local/lib/libosrc_shmem_ipc.so             /usr/local/lib/libosrc_shmem_ipc.so
 COPY --from=nginx /usr/local/lib/libosrc_compression_utils.so     /usr/local/lib/libosrc_compression_utils.so
