@@ -179,7 +179,6 @@ RUN strip -s /usr/local/nginx/sbin/nginx && \
 FROM alpine:3.23.0
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=build /usr/local/nginx                                                                         /usr/local/nginx
-COPY --from=build /usr/local/share/lua/5.1                                                                 /usr/local/share/lua/5.1
 COPY --from=build /src/ModSecurity/src/.libs/libmodsecurity.so.3                                           /usr/local/lib/libmodsecurity.so.3
 COPY --from=build /src/ModSecurity/unicode.mapping                                                         /usr/local/nginx/conf/conf.d/include/unicode.mapping
 COPY --from=build /src/ModSecurity/modsecurity.conf-recommended                                            /usr/local/nginx/conf/conf.d/include/modsecurity.conf.example
