@@ -6,7 +6,7 @@ ARG LUAJIT_INC=/usr/include/luajit-2.1
 ARG LUAJIT_LIB=/usr/lib
 
 ARG NGINX_VER=release-1.29.3
-ARG MODSEC_VER=v3.0.14
+#ARG MODSEC_VER=v3.0.14
 
 ARG DTR_VER=1.29.2
 ARG RCP_VER=1.29.2
@@ -23,7 +23,7 @@ ARG NJS_VER=0.9.4
 ARG NAL_VER=master
 ARG VTS_VER=v0.2.4
 ARG NNTLM_VER=master
-ARG MODSECNGX_VER=v1.0.4
+#ARG MODSECNGX_VER=v1.0.4
 ARG NHG2M_VER=3.4
 
 #ARG OT_VER=v1.24.0
@@ -37,7 +37,7 @@ ARG CXXFLAGS="$FLAGS -m64 -O2 -pipe -flto=thin -funroll-loops -ffunction-section
 ARG LDFLAGS="-fuse-ld=lld -m64 -Wl,-s -Wl,-O1 -Wl,--gc-sections -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries -Wl,--sort-common -Wl,-z,pack-relative-relocs"
 
 WORKDIR /src
-COPY ModSecurity.patch /src/ModSecurity.patch
+#COPY ModSecurity.patch /src/ModSecurity.patch
 COPY ngx_brotli.patch /src/ngx_brotli.patch
 COPY ngx_unbrotli.patch /src/ngx_unbrotli.patch
 COPY attachment.patch /src/attachment.patch
@@ -45,16 +45,16 @@ RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates build-base clang lld cmake ninja git libtool autoconf automake bash \
     libatomic_ops-dev zlib-dev brotli-dev luajit-dev pcre2-dev linux-headers yajl-dev libxml2-dev libxslt-dev curl-dev lmdb-dev libfuzzy2-dev lua5.1-dev lmdb-dev geoip-dev libmaxminddb-dev gtest-dev benchmark-dev protobuf-dev openldap-dev
 
-# ModSecurity
-RUN git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/owasp-modsecurity/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
-    cd /src/ModSecurity && \
-    git apply /src/ModSecurity.patch && \
-    sed -i "s|SecRuleEngine .*|SecRuleEngine On|g" /src/ModSecurity/modsecurity.conf-recommended && \
-    sed -i "s|^SecAudit|#SecAudit|g" /src/ModSecurity/modsecurity.conf-recommended && \
-    sed -i "s|unicode.mapping|/usr/local/nginx/conf/conf.d/include/unicode.mapping|g" /src/ModSecurity/modsecurity.conf-recommended && \
-    /src/ModSecurity/build.sh && \
-    /src/ModSecurity/configure --with-pcre2 --with-lmdb && \
-    make -j "$(nproc)" install
+## ModSecurity
+#RUN git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/owasp-modsecurity/ModSecurity --branch "$MODSEC_VER" /src/ModSecurity && \
+#    cd /src/ModSecurity && \
+#    git apply /src/ModSecurity.patch && \
+#    sed -i "s|SecRuleEngine .*|SecRuleEngine On|g" /src/ModSecurity/modsecurity.conf-recommended && \
+#    sed -i "s|^SecAudit|#SecAudit|g" /src/ModSecurity/modsecurity.conf-recommended && \
+#    sed -i "s|unicode.mapping|/usr/local/nginx/conf/conf.d/include/unicode.mapping|g" /src/ModSecurity/modsecurity.conf-recommended && \
+#    /src/ModSecurity/build.sh && \
+#    /src/ModSecurity/configure --with-pcre2 --with-lmdb && \
+#    make -j "$(nproc)" install
 
 # Download nginx
 RUN git clone --depth 1 https://github.com/nginx/nginx --branch "$NGINX_VER" /src/nginx && \
@@ -84,7 +84,7 @@ RUN git clone --depth 1 https://github.com/nginx/nginx --branch "$NGINX_VER" /sr
     git clone --depth 1 https://github.com/kvspb/nginx-auth-ldap --branch "$NAL_VER" /src/nginx-auth-ldap && \
     git clone --depth 1 https://github.com/vozlt/nginx-module-vts --branch "$VTS_VER" /src/nginx-module-vts && \
     git clone --depth 1 https://github.com/gabihodoroaga/nginx-ntlm-module --branch "$NNTLM_VER" /src/nginx-ntlm-module && \
-    git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx --branch "$MODSECNGX_VER" /src/ModSecurity-nginx && \
+#    git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx --branch "$MODSECNGX_VER" /src/ModSecurity-nginx && \
     git clone --depth 1 https://github.com/leev/ngx_http_geoip2_module --branch "$NHG2M_VER" /src/ngx_http_geoip2_module
 
 # Configure nginx
@@ -127,7 +127,7 @@ RUN cd /src/nginx && \
     --add-dynamic-module=/src/nginx-auth-ldap \
     --add-dynamic-module=/src/nginx-module-vts \
     --add-dynamic-module=/src/nginx-ntlm-module \
-    --add-dynamic-module=/src/ModSecurity-nginx \
+#    --add-dynamic-module=/src/ModSecurity-nginx \
     --add-dynamic-module=/src/ngx_http_geoip2_module \
     --with-cc-opt="-Wno-sign-compare" \
     --with-ld-opt="-fuse-ld=lld -m64 -Wl,-s -Wl,-O1 -Wl,--gc-sections -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries -Wl,--sort-common -Wl,-z,pack-relative-relocs" && \
@@ -171,7 +171,7 @@ RUN git clone --depth 1 https://github.com/openappsec/attachment /src/attachment
 # strip files
 RUN strip -s /usr/local/nginx/sbin/nginx && \
     find /usr/local/nginx/modules -name "*.so" -exec strip -s {} \; && \
-    strip -s /src/ModSecurity/src/.libs/libmodsecurity.so.3 && \
+#    strip -s /src/ModSecurity/src/.libs/libmodsecurity.so.3 && \
 #    strip -s /src/opentelemetry-cpp/libopentelemetry_proto.so && \
     strip -s /src/attachment/core/shmem_ipc/libosrc_shmem_ipc.so && \
     strip -s /src/attachment/core/compression/libosrc_compression_utils.so && \
@@ -180,7 +180,7 @@ RUN strip -s /usr/local/nginx/sbin/nginx && \
 FROM alpine:3.23.0
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=build /usr/local/nginx                                                                         /usr/local/nginx
-COPY --from=build /src/ModSecurity/src/.libs/libmodsecurity.so.3                                           /usr/local/lib/libmodsecurity.so.3
+#COPY --from=build /src/ModSecurity/src/.libs/libmodsecurity.so.3                                           /usr/local/lib/libmodsecurity.so.3
 #COPY --from=build /src/opentelemetry-cpp/libopentelemetry_proto.so                                         /usr/local/lib/libopentelemetry_proto.so
 COPY --from=build /src/attachment/core/shmem_ipc/libosrc_shmem_ipc.so                                      /usr/local/lib/libosrc_shmem_ipc.so
 COPY --from=build /src/attachment/core/compression/libosrc_compression_utils.so                            /usr/local/lib/libosrc_compression_utils.so
