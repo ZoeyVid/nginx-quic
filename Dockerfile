@@ -26,9 +26,6 @@ ARG NNTLM_VER=master
 ARG MODSECNGX_VER=v1.0.4
 ARG NHG2M_VER=3.4
 
-ARG LRC_VER=v0.1.32
-ARG LRL_VER=v0.15
-
 ARG OT_VER=v1.24.0
 
 # -fPIE -pie / -fPIC -shared
@@ -135,14 +132,7 @@ RUN cd /src/nginx && \
     --with-cc-opt="-Wno-sign-compare" \
     --with-ld-opt="-fuse-ld=lld -m64 -Wl,-s -Wl,-O1 -Wl,--gc-sections -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries -Wl,--sort-common -Wl,-z,pack-relative-relocs" && \
 # Build nginx
-    make -j "$(nproc)" install && \
-    ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && \
-    git clone --depth 1 https://github.com/openresty/lua-resty-core --branch "$LRC_VER" /src/lua-resty-core && \
-    cd /src/lua-resty-core && \
-    make -j "$(nproc)" install LUA_LIB_DIR=/usr/local/share/lua/5.1 && \
-    git clone --depth 1 https://github.com/openresty/lua-resty-lrucache --branch "$LRL_VER" /src/lua-resty-lrucache && \
-    cd /src/lua-resty-lrucache && \
-    make -j "$(nproc)" install LUA_LIB_DIR=/usr/local/share/lua/5.1
+    make -j "$(nproc)" install
 
 # openappsec attachment
 RUN git clone --depth 1 https://github.com/openappsec/attachment /src/attachment && \
@@ -198,7 +188,7 @@ COPY --from=build /src/attachment/core/shmem_ipc/libosrc_shmem_ipc.so           
 COPY --from=build /src/attachment/core/compression/libosrc_compression_utils.so                            /usr/local/lib/libosrc_compression_utils.so
 COPY --from=build /src/attachment/attachments/nginx/nginx_attachment_util/libosrc_nginx_attachment_util.so /usr/local/lib/libosrc_nginx_attachment_util.so
 RUN apk upgrade --no-cache -a && \
-    apk add --no-cache ca-certificates tzdata tini zlib luajit pcre2 libstdc++ yajl libxml2 libxslt libcurl lmdb libfuzzy2 lua5.1-libs geoip libmaxminddb-libs libprotobuf openldap openssl && \
+    apk add --no-cache ca-certificates tzdata tini zlib luajit lua-resty-core lua-resty-lrucache pcre2 libstdc++ yajl libxml2 libxslt libcurl lmdb libfuzzy2 lua5.1-libs geoip libmaxminddb-libs libprotobuf openldap openssl && \
     ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 
 ENTRYPOINT ["tini", "--", "nginx"]
