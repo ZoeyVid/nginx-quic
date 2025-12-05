@@ -130,9 +130,10 @@ RUN cd /src/nginx && \
     --add-dynamic-module=/src/ModSecurity-nginx \
     --add-dynamic-module=/src/ngx_http_geoip2_module \
     --with-cc-opt="-Wno-sign-compare" \
-    --with-ld-opt="-fuse-ld=lld -m64 -Wl,-s -Wl,-O1 -Wl,--gc-sections -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries -Wl,--sort-common -Wl,-z,pack-relative-relocs"
+    --with-ld-opt="-fuse-ld=lld -m64 -Wl,-s -Wl,-O1 -Wl,--gc-sections -Wl,-z,nodlopen -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -Wl,--no-copy-dt-needed-entries -Wl,--sort-common -Wl,-z,pack-relative-relocs" && \
 # Build nginx
-RUN cd /src/nginx && make -j "$(nproc)" install
+    make -j "$(nproc)" install && \
+    ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 
 # openappsec attachment
 RUN git clone --depth 1 https://github.com/openappsec/attachment /src/attachment && \
