@@ -9,7 +9,7 @@ RUN apk upgrade --no-cache -a && \
     python3 -m venv /usr/local && \
     pip install --no-cache-dir -r /tmp/requirements.txt
 
-FROM python:3.14.1-alpine3.22
+FROM python:3.14.1-alpine3.23
 #ENV PYTHONUNBUFFERED=1
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=nginx /usr/local/nginx                                /usr/local/nginx
