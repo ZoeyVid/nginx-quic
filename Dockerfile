@@ -204,6 +204,5 @@ RUN apk upgrade --no-cache -a && \
 ENTRYPOINT ["tini", "--", "nginx"]
 CMD ["-g", "daemon off;"]
 EXPOSE 80/tcp
-EXPOSE 81/tcp
 EXPOSE 443/tcp
 EXPOSE 443/udp
