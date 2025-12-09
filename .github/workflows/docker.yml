@@ -31,7 +31,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-x86_64
+          tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-x86_64
           build-args: |
             FLAGS=-march=x86-64-v2 -mtune=generic -fcf-protection=full
       - name: Build
@@ -41,9 +41,9 @@ jobs:
           context: .
           file: ./python.Dockerfile
           push: true
-          tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-python-x86_64
+          tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python-x86_64
           build-args: |
-            IMAGE=ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-x86_64
+            IMAGE=ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-x86_64
       - name: Set PR-Number (PR)
         if: ${{ github.event_name == 'pull_request' }}
         id: pr
@@ -94,7 +94,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-aarch64
+          tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-aarch64
           build-args: |
             FLAGS=-mbranch-protection=standard
       - name: Build
@@ -104,9 +104,9 @@ jobs:
           context: .
           file: ./python.Dockerfile
           push: true
-          tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-python-aarch64
+          tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python-aarch64
           build-args: |
-            IMAGE=ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-aarch64
+            IMAGE=ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-aarch64
       - name: Set PR-Number (PR)
         if: ${{ github.event_name == 'pull_request' }}
         id: pr
@@ -154,25 +154,25 @@ jobs:
       - name: create multiarch
         if: ${{ github.event_name != 'pull_request' }}
         run: |
-          docker buildx imagetools create --tag ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }} ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-aarch64
-          docker buildx imagetools create --tag ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }} ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-aarch64
-          docker buildx imagetools create --tag ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }} ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-aarch64
-          docker buildx imagetools create --tag ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }} ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-aarch64
-          docker buildx imagetools create --tag ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-python-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-python-aarch64
-          docker buildx imagetools create --tag ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-python ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-python-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-python-aarch64
-          docker buildx imagetools create --tag ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-python-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-python-aarch64
-          docker buildx imagetools create --tag ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-python ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-python-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-python-aarch64
+          docker buildx imagetools create --tag ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }} ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-aarch64
+          docker buildx imagetools create --tag ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }} ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-aarch64
+          docker buildx imagetools create --tag ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }} ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-aarch64
+          docker buildx imagetools create --tag ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }} ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-aarch64
+          docker buildx imagetools create --tag ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python-aarch64
+          docker buildx imagetools create --tag ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-python ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python-aarch64
+          docker buildx imagetools create --tag ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python-aarch64
+          docker buildx imagetools create --tag ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python-x86_64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python-aarch64
       - name: show version
         if: ${{ github.event_name != 'pull_request' }}
         run: |
           docker run --rm ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }} -V
           docker run --rm ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }} -V
           docker run --rm ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }} -V
-          docker run --rm ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }} -V
+          docker run --rm ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }} -V
           docker run --rm ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python -V
           docker run --rm ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-python -V
           docker run --rm ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python -V
-          docker run --rm ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}-python -V
+          docker run --rm ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}-python -V
       - name: copy nginx
         if: ${{ github.event_name != 'pull_request' }}
         run: |
