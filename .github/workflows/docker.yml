@@ -1,6 +1,8 @@
 name: Build Docker Image
 on:
   push:
+    branches:
+      - latest
   pull_request:
   workflow_dispatch:
 jobs:
